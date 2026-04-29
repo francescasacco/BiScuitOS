@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=VT323&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bc-black:  #0e0e16;
+  --bc-dark:   #14141f;
+  --bc-panel:  #1a1a28;
+  --bc-border: #e82fa8;
+  --bc-green:  #39ff88;
+  --bc-green-dim: #25bb60;
+  --bc-amber:  #ffb838;
+  --bc-red:    #ff6050;
+  --bc-blue:   #6abaff;
+  --bc-violet: #ff2db8;
+  --bc-muted:  #9878b0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bc-black);
+  color: var(--bc-green);
+  font-family: 'Share Tech Mono', 'Courier New', monospace;
+  overflow: hidden;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bc-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bc-violet);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bc-border);
+}
+
+/* CRT scanline overlay */
+.crt-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* CRT moving scanline */
+.crt-overlay::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 40px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(57, 255, 136, 0.03),
+    transparent
+  );
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Terminal text glow */
+.text-glow {
+  text-shadow: 0 0 8px var(--bc-green), 0 0 20px rgba(57, 255, 136, 0.3);
+}
+
+.text-glow-amber {
+  text-shadow: 0 0 8px var(--bc-amber), 0 0 20px rgba(255, 176, 32, 0.3);
+}
+
+.text-glow-red {
+  text-shadow: 0 0 8px var(--bc-red), 0 0 20px rgba(255, 59, 59, 0.3);
+}
+
+/* Panel border glow */
+.border-glow {
+  box-shadow: 0 0 8px rgba(57, 255, 136, 0.15), inset 0 0 8px rgba(57, 255, 136, 0.05);
+}
+
+.border-glow-amber {
+  box-shadow: 0 0 8px rgba(255, 176, 32, 0.2), inset 0 0 8px rgba(255, 176, 32, 0.05);
+}
+
+.border-glow-red {
+  box-shadow: 0 0 12px rgba(255, 59, 59, 0.3), inset 0 0 8px rgba(255, 59, 59, 0.08);
+}
+
+/* BC Panel */
+.bc-panel {
+  background: var(--bc-panel);
+  border: 1px solid var(--bc-border);
+}
+
+/* Cursor blink */
+.cursor-blink::after {
+  content: '█';
+  animation: blink 1.2s step-end infinite;
+  margin-left: 2px;
+}
+
+/* Status indicator dots */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot.nominal { background: var(--bc-green); box-shadow: 0 0 6px var(--bc-green); }
+.status-dot.warning { background: var(--bc-amber); box-shadow: 0 0 6px var(--bc-amber); }
+.status-dot.critical { background: var(--bc-red); box-shadow: 0 0 6px var(--bc-red); animation: pulse 1s infinite; }
+
+/* Noise texture overlay for panels */
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+  border-radius: inherit;
+}
+
+/* BC Button */
+.bc-btn {
+  @apply font-mono text-xs border px-3 py-1.5 uppercase tracking-widest transition-all duration-150 cursor-pointer;
+  background: transparent;
+}
+.bc-btn-green {
+  @apply bc-btn border-bc-green text-bc-green;
+}
+.bc-btn-green:hover {
+  background: rgba(57, 255, 136, 0.1);
+  text-shadow: 0 0 8px var(--bc-green);
+  box-shadow: 0 0 8px rgba(57, 255, 136, 0.2);
+}
+.bc-btn-amber {
+  @apply bc-btn border-bc-amber text-bc-amber;
+}
+.bc-btn-amber:hover {
+  background: rgba(255, 176, 32, 0.1);
+}
+.bc-btn-red {
+  @apply bc-btn border-bc-red text-bc-red;
+}
+.bc-btn-red:hover {
+  background: rgba(255, 59, 59, 0.1);
+}
+
+/* BC Input */
+.bc-input {
+  @apply font-mono text-sm bg-bc-dark border border-bc-border text-bc-green px-3 py-2 w-full outline-none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.bc-input:focus {
+  border-color: var(--bc-green);
+  box-shadow: 0 0 8px rgba(57, 255, 136, 0.15);
+}
+.bc-input::placeholder {
+  color: var(--bc-muted);
+  opacity: 0.7;
+}
+
+/* BC Textarea */
+.bc-textarea {
+  @apply bc-input resize-none;
+}
+
+/* BC Select */
+.bc-select {
+  @apply bc-input appearance-none cursor-pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2339ff88'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* Section header */
+.bc-section-header {
+  @apply font-display text-xs tracking-widest uppercase border-b border-bc-border pb-1 mb-2;
+  color: var(--bc-amber);
+}
+
+/* Tag/badge */
+.bc-tag {
+  @apply font-mono text-xs px-2 py-0.5 border uppercase tracking-wider;
+}
+
+/* Animations */
+@keyframes scanline {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes flicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.8; }
+  97% { opacity: 1; }
+  98% { opacity: 0.6; }
+  99% { opacity: 1; }
+}
+
+@keyframes boot-in {
+  0% { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-boot-in {
+  animation: boot-in 0.4s ease-out forwards;
+}
+
+/* Stagger boot animations */
+.boot-delay-1 { animation-delay: 0.1s; opacity: 0; }
+.boot-delay-2 { animation-delay: 0.2s; opacity: 0; }
+.boot-delay-3 { animation-delay: 0.4s; opacity: 0; }
+.boot-delay-4 { animation-delay: 0.6s; opacity: 0; }
+.boot-delay-5 { animation-delay: 0.8s; opacity: 0; }
+
+@keyframes cookie-spin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes mech-leg-fwd {
+  0%, 100% { transform: rotate(-22deg); }
+  50%       { transform: rotate(22deg); }
+}
+@keyframes mech-leg-bwd {
+  0%, 100% { transform: rotate(22deg); }
+  50%       { transform: rotate(-22deg); }
+}
+@keyframes mech-scanner {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes mech-glow-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
