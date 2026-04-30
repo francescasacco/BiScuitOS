@@ -40,7 +40,6 @@ export function CoreSystemInterface() {
   return (
     <div className="h-full overflow-y-auto p-3">
     <div className="space-y-3 animate-boot-in">
-      {/* Warning header */}
       <div className="border border-bc-amber/40 bg-bc-amber/5 px-4 py-3">
         <div className="flex items-center gap-2">
           <span className="text-bc-amber text-glow-amber font-display text-sm font-bold tracking-widest">

@@ -58,7 +58,7 @@ export function OSMainPage() {
     crawlerSystem?.repair_status === 'DAMAGED' ? 'text-bc-amber' : 'text-bc-red'
 
   return (
-    <div className="h-full overflow-hidden flex flex-col gap-4 p-4 md:p-5 animate-boot-in">
+    <div className="h-full overflow-y-auto md:overflow-hidden flex flex-col gap-4 p-4 md:p-5 animate-boot-in">
 
       <div className="shrink-0">
         <div className="flex items-start justify-between gap-4">
@@ -81,19 +81,19 @@ export function OSMainPage() {
         </div>
 
         {/* Stat chips row */}
-        <div className="flex gap-2 mt-4 flex-wrap sm:flex-nowrap">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4">
           <StatChip label="Carburante"     value={String(crawlerSystem?.fuel  ?? '—')} sub="/100" accent="text-bc-green" />
           <StatChip label="Rottami"        value={String(crawlerSystem?.scrap ?? '—')} sub="/500" accent="text-bc-amber" />
-          <StatChip label="Ingegneri"      value={String(crawlerSystem?.engineers ?? '—')} accent="text-bc-blue" />
+          <StatChip label="Piloti"          value={String(crawlerSystem?.engineers ?? '—')} accent="text-bc-blue" />
           <StatChip label="Missioni attive" value={String(activeMissions.length)} accent="text-bc-accent" />
         </div>
       </div>
 
       <div className="shrink-0 h-px bg-bc-border" />
 
-      <div className="flex-1 min-h-0 flex gap-4 overflow-hidden">
+      <div className="flex flex-col md:flex-row gap-4 md:flex-1 md:min-h-0 md:overflow-hidden">
 
-        <div className="flex-[3] min-w-0 flex flex-col gap-3 overflow-hidden">
+        <div className="flex flex-col gap-3 md:flex-[3] md:min-w-0 md:overflow-hidden">
 
           {alerts.length > 0 && (
             <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl p-4">
@@ -114,7 +114,7 @@ export function OSMainPage() {
             </div>
           )}
 
-          <div className="flex-1 min-h-0 overflow-y-auto bg-bc-panel border border-bc-border rounded-xl p-4">
+          <div className="bg-bc-panel border border-bc-border rounded-xl p-4 md:flex-1 md:min-h-0 md:overflow-y-auto">
             <p className="bc-section-header">Archivio log recente</p>
             {recentLog.length === 0 ? (
               <p className="font-sans text-bc-muted text-sm">Nessuna voce nel log.</p>
@@ -149,7 +149,7 @@ export function OSMainPage() {
           </div>
         </div>
 
-        <div className="flex-[2] min-w-0 flex flex-col gap-3 overflow-hidden">
+        <div className="flex flex-col gap-3 md:flex-[2] md:min-w-0 md:overflow-hidden">
 
           {crawlerSystem?.system_notes && (
             <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl p-4">
@@ -160,7 +160,7 @@ export function OSMainPage() {
             </div>
           )}
 
-          <div className="flex-1 min-h-0 overflow-y-auto bg-bc-panel border border-bc-border rounded-xl p-4">
+          <div className="bg-bc-panel border border-bc-border rounded-xl p-4 md:flex-1 md:min-h-0 md:overflow-y-auto">
             <p className="bc-section-header">Missioni</p>
             {missions.length === 0 ? (
               <p className="font-sans text-bc-muted text-sm">Nessuna missione nel sistema.</p>

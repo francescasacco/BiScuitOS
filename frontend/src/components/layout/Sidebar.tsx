@@ -29,7 +29,6 @@ export function Sidebar() {
 
   const handleNav = (path: string) => {
     navigate(path)
-    if (window.innerWidth < 768) setSidebarOpen(false)
   }
 
   return (
@@ -156,7 +155,7 @@ export function Sidebar() {
           </div>
 
           <div className="flex justify-between font-sans text-xs pt-1">
-            <span className="text-bc-muted">Ingegneri</span>
+            <span className="text-bc-muted">Piloti</span>
             <span className="font-mono text-bc-blue text-xs">{crawlerSystem?.engineers ?? '—'}</span>
           </div>
         </div>

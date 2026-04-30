@@ -69,15 +69,11 @@ export function Navbar() {
       >
         <div className="flex items-center gap-3 min-w-0">
           <button
-            className="md:hidden p-1.5 rounded-md hover:bg-bc-panel transition-colors"
+            className="md:hidden font-mono text-xs uppercase tracking-widest text-bc-muted border border-bc-muted/40 px-2 py-1 hover:border-bc-accent hover:text-bc-accent transition-all"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-label="Menu"
           >
-            <div className="flex flex-col gap-1">
-              <span className="block w-4 h-px bg-bc-text/60" />
-              <span className="block w-4 h-px bg-bc-text/60" />
-              <span className="block w-3 h-px bg-bc-text/60" />
-            </div>
+            {sidebarOpen ? '→' : '←'}
           </button>
 
           <span className="font-display text-sm font-bold tracking-widest text-bc-text whitespace-nowrap">

@@ -1,13 +1,13 @@
 import type { JournalEntry, JournalEntryType } from '@/types/journal'
 
-const TYPE_STYLES: Record<JournalEntryType, { border: string; label: string; color: string }> = {
-  event: { border: 'border-bc-green', label: 'EVENTO', color: 'text-bc-green' },
-  mission: { border: 'border-bc-blue', label: 'MISSIONE', color: 'text-bc-blue' },
-  system: { border: 'border-bc-muted', label: 'SISTEMA', color: 'text-bc-muted' },
-  pilot_registration: { border: 'border-bc-green', label: 'REGISTRAZIONE', color: 'text-bc-green' },
-  override: { border: 'border-bc-amber', label: 'OVERRIDE', color: 'text-bc-amber' },
-  alert: { border: 'border-bc-red', label: 'ALERT', color: 'text-bc-red' },
-  narrative: { border: 'border-bc-blue', label: 'NARRATIVA', color: 'text-bc-blue' },
+const TYPE_STYLES: Record<JournalEntryType, { border: string; label: string; color: string; dot: string }> = {
+  event:              { border: 'border-bc-green', label: 'EVENTO',         color: 'text-bc-green', dot: 'bg-bc-accent' },
+  mission:            { border: 'border-bc-blue',  label: 'MISSIONE',       color: 'text-bc-blue',  dot: 'bg-bc-green' },
+  system:             { border: 'border-bc-muted', label: 'SISTEMA',        color: 'text-bc-muted', dot: 'bg-bc-muted' },
+  pilot_registration: { border: 'border-bc-green', label: 'REGISTRAZIONE',  color: 'text-bc-green', dot: 'bg-bc-green' },
+  override:           { border: 'border-bc-amber', label: 'OVERRIDE',       color: 'text-bc-amber', dot: 'bg-bc-amber' },
+  alert:              { border: 'border-bc-red',   label: 'ALERT',          color: 'text-bc-red',   dot: 'bg-bc-red' },
+  narrative:          { border: 'border-bc-blue',  label: 'NARRATIVA',      color: 'text-bc-blue',  dot: 'bg-bc-blue' },
 }
 
 export function LogEntry({ entry }: { entry: JournalEntry }) {
@@ -16,6 +16,7 @@ export function LogEntry({ entry }: { entry: JournalEntry }) {
   return (
     <div className={`border-l-2 pl-4 py-2 ${style.border}`}>
       <div className="flex items-center gap-3 mb-1">
+        <span className={`w-2 h-2 rounded-full shrink-0 ${style.dot}`} />
         <span className={`bc-tag ${style.border} ${style.color} text-xs`}>{style.label}</span>
         <span className="font-mono text-bc-muted text-xs">
           {new Date(entry.created_at).toLocaleString('it-IT', {

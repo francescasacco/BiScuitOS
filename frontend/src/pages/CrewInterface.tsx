@@ -11,7 +11,7 @@ export function CrewInterface() {
 
   return (
     <div className="h-full overflow-y-auto p-3"><div className="space-y-3 animate-boot-in">
-      <div className="flex items-center justify-between border-b border-bc-border pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-bc-border pb-3">
         <div>
           <h1 className="font-display text-lg font-bold text-bc-green text-glow tracking-widest">
             NODO EQUIPAGGIO // REGISTRO PILOTI
@@ -21,7 +21,7 @@ export function CrewInterface() {
           </p>
         </div>
         <button
-          className="bc-btn-green"
+          className="bc-btn-green self-start sm:self-auto"
           onClick={() => { setShowForm(true); setSelected(null) }}
         >
           + REGISTRA PILOTA

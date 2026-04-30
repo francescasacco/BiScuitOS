@@ -33,7 +33,6 @@ export function JournalInterface() {
         </p>
       </div>
 
-      {/* Filter */}
       <div className="flex flex-wrap gap-2">
         {FILTER_OPTIONS.map((opt) => (
           <button
@@ -50,7 +49,6 @@ export function JournalInterface() {
         ))}
       </div>
 
-      {/* Entries */}
       <div className="bc-panel border border-bc-border p-4 space-y-5">
         {filtered.length === 0 ? (
           <p className="font-mono text-bc-muted text-xs">NESSUNA VOCE CORRISPONDENTE AL FILTRO</p>

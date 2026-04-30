@@ -53,7 +53,7 @@ export function MissionsInterface() {
 
   return (
     <div className="h-full overflow-y-auto p-3"><div className="space-y-3 animate-boot-in">
-      <div className="flex items-center justify-between border-b border-bc-border pb-3">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-bc-border pb-3">
         <div>
           <h1 className="font-display text-lg font-bold text-bc-green text-glow tracking-widest">
             NUCLEO MISSIONI
@@ -63,13 +63,12 @@ export function MissionsInterface() {
           </p>
         </div>
         {isOperator && (
-          <button className="bc-btn-amber" onClick={() => setShowForm(!showForm)}>
+          <button className="bc-btn-amber self-start sm:self-auto" onClick={() => setShowForm(!showForm)}>
             {showForm ? 'ANNULLA' : '+ NUOVA MISSIONE'}
           </button>
         )}
       </div>
 
-      {/* Create form (operator only) */}
       {showForm && isOperator && (
         <div className="bc-panel border border-bc-amber/40 p-4">
           <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>// NUOVA VOCE MISSIONE</div>
@@ -89,7 +88,6 @@ export function MissionsInterface() {
         </div>
       )}
 
-      {/* Mission list */}
       <div className="space-y-3">
         {missions.length === 0 ? (
           <div className="bc-panel border border-bc-border p-8 text-center">
@@ -98,9 +96,9 @@ export function MissionsInterface() {
         ) : (
           missions.map((m) => (
             <div key={m.id} className={`bc-panel border p-4 ${STATUS_COLORS[m.status].split(' ')[1]}`}>
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
                     <span className={`bc-tag ${STATUS_COLORS[m.status]} text-xs`}>
                       {STATUS_LABELS[m.status]}
                     </span>
@@ -120,7 +118,7 @@ export function MissionsInterface() {
                 </div>
                 {isOperator && (
                   <select
-                    className="bc-select text-xs w-36 border-bc-muted"
+                    className="bc-select text-xs w-full sm:w-36 border-bc-muted shrink-0"
                     value={m.status}
                     onChange={(e) => handleStatusChange(m.id, e.target.value as MissionStatus)}
                   >
