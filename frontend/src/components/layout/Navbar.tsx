@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { OS_NAME } from '@/config'
+import { BiscuitLoader } from '@/components/core/BiscuitLoader'
 
 const SYSTEM_KEY = import.meta.env.VITE_SYSTEM_KEY || 'BISCUIT-OVERRIDE-7734'
 
@@ -11,10 +12,10 @@ function AccessDeniedOverlay({ onDone }: { onDone: () => void }) {
       style={{ backdropFilter: 'blur(4px)' }}
       onClick={onDone}
     >
-      {/* Red scan pulse */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(255,96,80,0.12) 0%, transparent 70%)' }} />
-
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(248,113,113,0.12) 0%, transparent 70%)' }}
+      />
       <div className="font-display text-5xl md:text-6xl font-black tracking-widest text-bc-red text-glow-red animate-pulse">
         ACCESSO NEGATO
       </div>
@@ -22,10 +23,10 @@ function AccessDeniedOverlay({ onDone }: { onDone: () => void }) {
         ERRORE: CHIAVE SISTEMA NON VALIDA
       </div>
       <div className="font-mono text-bc-muted text-xs">
-        AUTENTICAZIONE_FALLITA // CRAWLER//OS // ACCESSO RIFIUTATO
+        AUTENTICAZIONE_FALLITA // {OS_NAME} // ACCESSO RIFIUTATO
       </div>
       <div className="mt-4 font-mono text-bc-muted/50 text-xs animate-pulse">
-        [ tocca per chiudere ]
+        [ TOCCA PER CHIUDERE ]
       </div>
     </div>
   )
@@ -34,15 +35,16 @@ function AccessDeniedOverlay({ onDone }: { onDone: () => void }) {
 export function Navbar() {
   const { isOperator, setIsOperator, sidebarOpen, setSidebarOpen } = useOSStore()
   const [showKeyInput, setShowKeyInput] = useState(false)
-  const [keyInput, setKeyInput] = useState('')
-  const [showDenied, setShowDenied] = useState(false)
+  const [keyInput, setKeyInput]         = useState('')
+  const [showDenied, setShowDenied]     = useState(false)
+  const [showLoader, setShowLoader]     = useState(false)
   const now = new Date()
 
   const handleKeySubmit = () => {
     if (keyInput === SYSTEM_KEY) {
-      setIsOperator(true)
       setShowKeyInput(false)
       setKeyInput('')
+      setShowLoader(true)
     } else {
       setShowKeyInput(false)
       setKeyInput('')
@@ -51,66 +53,78 @@ export function Navbar() {
     }
   }
 
+  const handleLoaderComplete = () => {
+    setShowLoader(false)
+    setIsOperator(true)
+  }
+
   return (
     <>
       {showDenied && <AccessDeniedOverlay onDone={() => setShowDenied(false)} />}
+      {showLoader && <BiscuitLoader onComplete={handleLoaderComplete} />}
 
-      <header className="h-10 bc-panel border-b border-bc-border flex items-center justify-between px-3 md:px-4 shrink-0 gap-2">
-        {/* Left: hamburger + system name */}
-        <div className="flex items-center gap-2 md:gap-3 min-w-0">
+      <header
+        className="h-12 flex items-center justify-between px-4 md:px-5 shrink-0 gap-3 border-b border-bc-border bg-bc-black/60"
+        style={{ backdropFilter: 'blur(12px)' }}
+      >
+        <div className="flex items-center gap-3 min-w-0">
           <button
-            className="md:hidden flex flex-col gap-1 p-1 shrink-0"
+            className="md:hidden p-1.5 rounded-md hover:bg-bc-panel transition-colors"
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-label="Menu"
           >
-            <span className="block w-4 h-px bg-bc-green" />
-            <span className="block w-4 h-px bg-bc-green" />
-            <span className="block w-4 h-px bg-bc-green" />
+            <div className="flex flex-col gap-1">
+              <span className="block w-4 h-px bg-bc-text/60" />
+              <span className="block w-4 h-px bg-bc-text/60" />
+              <span className="block w-3 h-px bg-bc-text/60" />
+            </div>
           </button>
 
-          <span className="font-display text-xs font-bold text-bc-green tracking-widest text-glow whitespace-nowrap">
+          <span className="font-display text-sm font-bold tracking-widest text-bc-text whitespace-nowrap">
             {OS_NAME}
           </span>
 
           <span className="hidden sm:inline font-mono text-bc-muted text-xs whitespace-nowrap">
-            {now.toLocaleDateString('it-IT', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}
-            {' '}//&nbsp;
-            <span className="animate-pulse">{now.toLocaleTimeString('it-IT', { hour12: false })}</span>
+            {now.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' })}
+            <span className="ml-1 animate-pulse">
+              {now.toLocaleTimeString('it-IT', { hour12: false })}
+            </span>
           </span>
         </div>
 
-        {/* Right: status + operator */}
-        <div className="flex items-center gap-2 md:gap-4 shrink-0">
-          <div className="hidden sm:flex items-center gap-2 md:gap-3 font-mono text-xs text-bc-muted">
-            <span className="flex items-center gap-1"><span className="status-dot nominal" />DB</span>
-            <span className="flex items-center gap-1"><span className="status-dot nominal" />NET</span>
-            <span className="flex items-center gap-1"><span className="status-dot warning" />SCAFO</span>
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="hidden sm:flex items-center gap-2.5 font-mono text-xs text-bc-muted">
+            <span className="flex items-center gap-1.5"><span className="status-dot nominal" />DB</span>
+            <span className="flex items-center gap-1.5"><span className="status-dot nominal" />NET</span>
+            <span className="flex items-center gap-1.5"><span className="status-dot warning" />SCAFO</span>
           </div>
 
           {showKeyInput ? (
-            <div className="flex items-center gap-1 md:gap-2">
+            <div className="flex items-center gap-2">
               <input
                 type="password"
                 value={keyInput}
                 onChange={(e) => setKeyInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleKeySubmit()}
-                placeholder="CHIAVE..."
-                className="bc-input text-xs py-0.5 w-28 md:w-36"
+                placeholder="INSERISCI CHIAVE..."
+                className="bc-input font-mono text-xs py-1 w-28 md:w-40 tracking-widest"
                 autoFocus
               />
-              <button className="bc-btn-green text-xs px-2 py-0.5" onClick={handleKeySubmit}>OK</button>
+              <button className="bc-btn-green font-mono text-xs px-3 py-1 tracking-widest" onClick={handleKeySubmit}>
+                OK
+              </button>
               <button
-                className="bc-btn border-bc-muted text-bc-muted text-xs px-2 py-0.5"
+                className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all"
                 onClick={() => { setShowKeyInput(false); setKeyInput('') }}
               >✕</button>
             </div>
           ) : isOperator ? (
-            <span className="font-mono text-xs text-bc-amber text-glow-amber animate-pulse whitespace-nowrap">
+            <span className="font-mono text-xs uppercase tracking-widest text-bc-accent border border-bc-accent/40 px-3 py-1 whitespace-nowrap animate-pulse">
               [ OPERATORE ]
             </span>
           ) : (
             <button
-              className="bc-btn border-bc-muted text-bc-muted text-xs px-2 py-0.5 hover:border-bc-amber hover:text-bc-amber whitespace-nowrap"
+              className="font-mono text-xs uppercase tracking-widest text-bc-muted border border-bc-muted/40 px-3 py-1 hover:border-bc-accent hover:text-bc-accent transition-all whitespace-nowrap"
               onClick={() => setShowKeyInput(true)}
             >
               <span className="hidden sm:inline">CHIAVE SISTEMA</span>
