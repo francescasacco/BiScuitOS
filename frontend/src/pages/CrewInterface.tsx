@@ -106,7 +106,7 @@ export function CrewInterface() {
               <p className="font-mono text-bc-muted/60 text-xs mt-2">Nodo equipaggio del sistema vuoto</p>
             </div>
           ) : (
-            pilots.map((p: Pilot) => (
+            (pilots as Pilot[]).map((p) => (
               <PilotCard key={p.id} pilot={p} onSelect={(pilot) => setSelected(pilot)} selected={selected?.id === p.id} />
             ))
           )}
