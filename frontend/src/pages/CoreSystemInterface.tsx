@@ -1,14 +1,12 @@
-import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { OverrideConsole } from '@/components/core/OverrideConsole'
 import { SystemCommandInput } from '@/components/core/SystemCommandInput'
-import { BiscuitLoader } from '@/components/core/BiscuitLoader'
+import { PilotManagement } from '@/components/core/PilotManagement'
 import { useNavigate } from 'react-router-dom'
 
 export function CoreSystemInterface() {
   const { isOperator } = useOSStore()
   const navigate = useNavigate()
-  const [loaded, setLoaded] = useState(false)
 
   if (!isOperator) {
     return (
@@ -25,14 +23,6 @@ export function CoreSystemInterface() {
         <button className="bc-btn border-bc-muted text-bc-muted mt-4" onClick={() => navigate('/')}>
           ← TORNA AL FEED PRINCIPALE
         </button>
-      </div>
-    )
-  }
-
-  if (!loaded) {
-    return (
-      <div className="h-full">
-        <BiscuitLoader onComplete={() => setLoaded(true)} />
       </div>
     )
   }
@@ -61,6 +51,8 @@ export function CoreSystemInterface() {
         <OverrideConsole />
         <SystemCommandInput />
       </div>
+
+      <PilotManagement />
     </div></div>
   )
 }

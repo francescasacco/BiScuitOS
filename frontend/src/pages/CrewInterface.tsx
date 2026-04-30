@@ -5,7 +5,7 @@ import { PilotForm } from '@/components/crew/PilotForm'
 import type { Pilot } from '@/types/pilot'
 
 export function CrewInterface() {
-  const { pilots } = useOSStore()
+  const { pilots, journalEntries } = useOSStore()
   const [showForm, setShowForm] = useState(false)
   const [selected, setSelected] = useState<Pilot | null>(null)
 
@@ -97,6 +97,35 @@ export function CrewInterface() {
               )}
             </div>
           </div>
+
+          {(() => {
+            const notes = journalEntries.filter(
+              (e) => e.type === 'pilot_note' &&
+                e.title === `NOTA OPERATORE // ${(selected as Pilot).identificativo}`
+            )
+            if (notes.length === 0) return null
+            return (
+              <div className="mt-6 pt-4 border-t border-bc-border">
+                <div className="bc-section-header">// NOTE</div>
+                <div className="space-y-3">
+                  {notes.map((note) => (
+                    <div key={note.id} className="border-l-2 border-bc-amber/50 pl-3 py-1">
+                      <div className="font-mono text-xs text-bc-muted/60 mb-1">
+                        {new Date(note.created_at).toLocaleString('it-IT', {
+                          day: '2-digit', month: '2-digit', year: 'numeric',
+                          hour: '2-digit', minute: '2-digit', hour12: false,
+                        })}
+                        {note.author && <span className="ml-2">// {note.author}</span>}
+                      </div>
+                      <div className="font-mono text-xs text-bc-amber/80 leading-relaxed whitespace-pre-wrap">
+                        {note.content}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })()}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -6,6 +6,7 @@ export type JournalEntryType =
   | 'override'
   | 'alert'
   | 'narrative'
+  | 'pilot_note'
 
 export interface JournalEntry {
   id: string

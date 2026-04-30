@@ -3,7 +3,7 @@ import { useOSStore } from '@/store/useOSStore'
 import { OS_NAME } from '@/config'
 import { BiscuitLoader } from '@/components/core/BiscuitLoader'
 
-const SYSTEM_KEY = import.meta.env.VITE_SYSTEM_KEY || 'BISCUIT-OVERRIDE-7734'
+const SYSTEM_KEY = import.meta.env.VITE_SYSTEM_KEY
 
 function AccessDeniedOverlay({ onDone }: { onDone: () => void }) {
   return (
@@ -116,7 +116,7 @@ export function Navbar() {
             </div>
           ) : isOperator ? (
             <span className="font-mono text-xs uppercase tracking-widest text-bc-accent border border-bc-accent/40 px-3 py-1 whitespace-nowrap animate-pulse">
-              [ OPERATORE ]
+              [ BISCUIT ]
             </span>
           ) : (
             <button

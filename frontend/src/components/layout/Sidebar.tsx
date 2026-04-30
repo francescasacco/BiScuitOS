@@ -163,7 +163,7 @@ export function Sidebar() {
 
       {isOperator && (
         <div className="px-5 py-3 border-t border-bc-border">
-          <span className="font-sans text-xs text-bc-amber/60">Modalità operatore attiva</span>
+          <span className="font-mono text-xs text-bc-amber/60 uppercase tracking-widest">BISCUIT // OPERATORE</span>
         </div>
       )}
     </aside>

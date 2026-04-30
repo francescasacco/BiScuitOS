@@ -12,6 +12,7 @@ const FILTER_OPTIONS: Array<{ value: JournalEntryType | 'all'; label: string }> 
   { value: 'alert', label: 'ALERT' },
   { value: 'narrative', label: 'NARRATIVA' },
   { value: 'override', label: 'OVERRIDE' },
+  { value: 'pilot_note', label: 'NOTE PILOTI' },
 ]
 
 export function JournalInterface() {
