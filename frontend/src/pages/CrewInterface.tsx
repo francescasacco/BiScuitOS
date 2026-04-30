@@ -107,7 +107,7 @@ export function CrewInterface() {
             </div>
           ) : (
             (pilots as Pilot[]).map((p) => (
-              <PilotCard key={p.id} pilot={p} onSelect={(pilot) => setSelected(pilot)} selected={selected?.id === p.id} />
+              <PilotCard key={p.id} pilot={p} onSelect={(pilot) => setSelected(pilot)} selected={(selected as Pilot | null)?.id === p.id} />
             ))
           )}
         </div>
