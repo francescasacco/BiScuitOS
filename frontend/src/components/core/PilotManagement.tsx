@@ -20,10 +20,10 @@ export function PilotManagement() {
     setTimeout(() => setFlash(null), 2500)
   }
 
-  const is = (type: Action['type'], id: string) =>
+  const is = (type: NonNullable<Action>['type'], id: string) =>
     active?.type === type && active.pilotId === id
 
-  const open = (type: Action['type'], pilot: Pilot) => {
+  const open = (type: NonNullable<Action>['type'], pilot: Pilot) => {
     if (is(type, pilot.id)) { setActive(null); return }
     setActive({ type, pilotId: pilot.id })
     if (type === 'edit') setEditForm({ ...pilot })
