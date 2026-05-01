@@ -13,7 +13,7 @@ function ResourceBar({ label, value, max, color }: {
         <span className="text-bc-muted">{label}</span>
         <span style={{ color }}>{value} / {max}</span>
       </div>
-      <div className="h-2 bg-bc-border rounded-sm overflow-hidden">
+      <div className="h-2 bg-bc-track rounded-sm overflow-hidden">
         <div
           className="h-full transition-all duration-700 rounded-sm"
           style={{ width: `${pct}%`, background: color, boxShadow: `0 0 6px ${color}` }}

@@ -94,7 +94,7 @@ function CombinedBarChip({
           <span className="text-bc-muted text-xs uppercase tracking-wider">Scafo</span>
           <span className="text-bc-red font-semibold">{psCurrent ?? '—'}<span className="text-bc-muted font-normal">/{psMax ?? '—'}</span></span>
         </div>
-        <div className="h-0.5 rounded-full bg-bc-border overflow-hidden">
+        <div className="h-0.5 rounded-full bg-bc-track overflow-hidden">
           <div className="h-full rounded-full transition-all duration-700"
             style={{ width: `${psPct}%`, background: 'var(--bc-red)', boxShadow: '0 0 4px var(--bc-red)' }} />
         </div>
@@ -104,7 +104,7 @@ function CombinedBarChip({
           <span className="text-bc-muted text-xs uppercase tracking-wider">Potenziamento</span>
           <span className="text-bc-accent font-semibold">{potCurrent ?? '—'}<span className="text-bc-muted font-normal">/{potMax ?? '—'}</span></span>
         </div>
-        <div className="h-0.5 rounded-full bg-bc-border overflow-hidden">
+        <div className="h-0.5 rounded-full bg-bc-track overflow-hidden">
           <div className="h-full rounded-full transition-all duration-700"
             style={{ width: `${potPct}%`, background: 'var(--bc-accent)', boxShadow: '0 0 4px var(--bc-accent)' }} />
         </div>
@@ -178,7 +178,7 @@ export function OSMainPage() {
         <span className="text-bc-amber">{crawlerSystem?.maintenance_cost ?? '—'} rottami / downtime</span>
       </div>
 
-      <div className="shrink-0 h-px bg-bc-border" />
+      <div className="shrink-0 h-px bg-bc-track" />
 
       {/* Body: 3 columns — left (flex-1), center log (flex-2), right (flex-1) */}
       <div className="shrink-0 flex flex-col md:flex-row gap-3 md:flex-1 md:min-h-0 md:overflow-hidden">
@@ -186,9 +186,11 @@ export function OSMainPage() {
         {/* Left: Sezioni + Missioni */}
         <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0">
 
-          <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl p-4">
-            <p className="bc-section-header">Sezioni</p>
-            <div className="space-y-2 mt-1">
+          <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
+            <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
+              <p className="bc-section-header !border-0 !pb-0 !mb-0">Sezioni</p>
+            </div>
+            <div className="p-4 space-y-2">
               {sections.map((s, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${SECTION_DOT[s.status]}`} />
@@ -202,25 +204,68 @@ export function OSMainPage() {
           </div>
 
           <div
-            className="bg-bc-panel border border-bc-border rounded-xl p-4 md:flex-1 md:min-h-0 md:overflow-y-auto cursor-pointer hover:border-bc-accent/50 transition-colors"
+            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
             onClick={() => navigate('/missions')}
           >
-            <p className="bc-section-header">Missioni correnti</p>
-            {missions.length === 0 ? (
-              <p className="font-sans text-bc-muted text-sm mt-1">Nessuna missione nel sistema.</p>
-            ) : (
-              <div className="mt-1">
-                {missions.map((m) => (
-                  <div key={m.id} className="py-2.5 border-b border-bc-border last:border-0 last:pb-0">
-                    <div className="flex items-start justify-between gap-3">
-                      <span className={`font-mono text-xs font-bold leading-snug ${MISSION_TEXT[m.status]}`}>
-                        {m.title}
-                      </span>
-                      <span className={`bc-tag shrink-0 ${MISSION_STATUS_COLOR[m.status]}`}>
-                        {MISSION_STATUS_LABEL[m.status]}
-                      </span>
+            <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
+              <p className="bc-section-header !border-0 !pb-0 !mb-0">Missioni correnti</p>
+            </div>
+            <div className="p-4 md:overflow-y-auto md:flex-1 md:min-h-0">
+              {missions.length === 0 ? (
+                <p className="font-sans text-bc-muted text-sm">Nessuna missione nel sistema.</p>
+              ) : (
+                <div>
+                  {missions.map((m) => (
+                    <div key={m.id} className="py-2.5 border-b border-bc-border last:border-0 last:pb-0">
+                      <div className="flex items-start justify-between gap-3">
+                        <span className={`font-mono text-xs font-bold leading-snug ${MISSION_TEXT[m.status]}`}>
+                          {m.title}
+                        </span>
+                        <span className={`bc-tag shrink-0 ${MISSION_STATUS_COLOR[m.status]}`}>
+                          {MISSION_STATUS_LABEL[m.status]}
+                        </span>
+                      </div>
+                      {m.reward && <p className="font-mono text-xs text-bc-amber mt-1">{m.reward}</p>}
                     </div>
-                    {m.reward && <p className="font-mono text-xs text-bc-amber mt-1">{m.reward}</p>}
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Center: Log recente — wider */}
+        <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-[2] md:min-w-0 md:min-h-0">
+          <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
+            <p className="bc-section-header !border-0 !pb-0 !mb-0">Archivio log recente</p>
+          </div>
+          <div className="p-4 md:overflow-y-auto md:flex-1 md:min-h-0">
+            {recentLog.length === 0 ? (
+              <p className="font-sans text-bc-muted text-sm">Nessuna voce nel log.</p>
+            ) : (
+              <div className="space-y-0">
+                {recentLog.map((entry: JournalEntry, i) => (
+                  <div key={entry.id} className="flex gap-3">
+                    <div className="flex flex-col items-center">
+                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${LOG_COLOR[entry.type] ?? 'bg-bc-muted'}`} />
+                      {i < recentLog.length - 1 && <div className="flex-1 w-px bg-bc-track mt-1" />}
+                    </div>
+                    <div className="pb-4 min-w-0 flex-1 overflow-hidden">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="font-mono text-bc-muted text-xs shrink-0">
+                          {new Date(entry.created_at).toLocaleString('it-IT', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
+                        </span>
+                        <span className="font-sans text-xs text-bc-muted/60 uppercase tracking-wider shrink-0">{entry.type}</span>
+                      </div>
+                      {i === 0 ? (
+                        <Ticker text={entry.title} colorClass={LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'} />
+                      ) : (
+                        <div className={`font-sans text-sm font-semibold truncate ${LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'}`}>{entry.title}</div>
+                      )}
+                      {entry.content && (
+                        <div className="font-sans text-xs text-bc-muted mt-0.5 leading-relaxed line-clamp-2">{entry.content}</div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -228,48 +273,15 @@ export function OSMainPage() {
           </div>
         </div>
 
-        {/* Center: Log recente — wider */}
-        <div className="bg-bc-panel border border-bc-border rounded-xl p-4 md:flex-[2] md:min-w-0 md:min-h-0 md:overflow-y-auto">
-          <p className="bc-section-header">Archivio log recente</p>
-          {recentLog.length === 0 ? (
-            <p className="font-sans text-bc-muted text-sm">Nessuna voce nel log.</p>
-          ) : (
-            <div className="space-y-0 mt-1">
-              {recentLog.map((entry: JournalEntry, i) => (
-                <div key={entry.id} className="flex gap-3">
-                  <div className="flex flex-col items-center">
-                    <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${LOG_COLOR[entry.type] ?? 'bg-bc-muted'}`} />
-                    {i < recentLog.length - 1 && <div className="flex-1 w-px bg-bc-border mt-1" />}
-                  </div>
-                  <div className="pb-4 min-w-0 flex-1 overflow-hidden">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <span className="font-mono text-bc-muted text-xs shrink-0">
-                        {new Date(entry.created_at).toLocaleString('it-IT', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
-                      </span>
-                      <span className="font-sans text-xs text-bc-muted/60 uppercase tracking-wider shrink-0">{entry.type}</span>
-                    </div>
-                    {i === 0 ? (
-                      <Ticker text={entry.title} colorClass={LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'} />
-                    ) : (
-                      <div className={`font-sans text-sm font-semibold truncate ${LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'}`}>{entry.title}</div>
-                    )}
-                    {entry.content && (
-                      <div className="font-sans text-xs text-bc-muted mt-0.5 leading-relaxed line-clamp-2">{entry.content}</div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
         {/* Right: Ponte mercantile + Hangar */}
         <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0">
 
           {crawlerSystem?.merchant_bridge && (
-            <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl p-4">
-              <p className="bc-section-header">Ponte mercantile</p>
-              <ul className="space-y-1.5 mt-1">
+            <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
+              <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
+                <p className="bc-section-header !border-0 !pb-0 !mb-0">Ponte mercantile</p>
+              </div>
+              <ul className="p-4 space-y-1.5">
                 {crawlerSystem.merchant_bridge.split('|').map((item, i) => (
                   <li key={i} className="flex items-start gap-2">
                     <span className="mt-1.5 w-1 h-1 rounded-full bg-bc-green/60 shrink-0" />
@@ -280,9 +292,11 @@ export function OSMainPage() {
             </div>
           )}
 
-          <div className="bg-bc-panel border border-bc-border rounded-xl p-4 md:flex-1 md:min-h-0 md:overflow-y-auto">
-            <p className="bc-section-header">Hangar</p>
-            <div className="space-y-2 mt-1">
+          <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0">
+            <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
+              <p className="bc-section-header !border-0 !pb-0 !mb-0">Hangar</p>
+            </div>
+            <div className="p-4 md:overflow-y-auto md:flex-1 md:min-h-0 space-y-2">
               {inventory.map((item, i) => (
                 <div key={i} className="flex items-center gap-2 py-1.5 border-b border-bc-border last:border-0">
                   <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${INV_STATUS_DOT[item.status]}`} />

@@ -132,7 +132,7 @@ export function BootScreen() {
           <span>INIZIALIZZAZIONE</span>
           <span>{progress}%</span>
         </div>
-        <div className="h-0.5 bg-bc-border w-full overflow-hidden">
+        <div className="h-0.5 bg-bc-track w-full overflow-hidden">
           <div
             className="h-full bg-bc-green transition-all duration-150"
             style={{ width: `${progress}%`, boxShadow: '0 0 6px var(--bc-green)' }}

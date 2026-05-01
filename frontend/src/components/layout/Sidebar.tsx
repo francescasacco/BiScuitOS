@@ -68,10 +68,10 @@ export function Sidebar() {
                 transition-all duration-150 group
                 ${active
                   ? 'bg-bc-accent/15 text-bc-text'
-                  : 'text-bc-muted hover:bg-bc-panel hover:text-bc-text'}
+                  : 'text-bc-text/70 hover:bg-bc-panel hover:text-bc-text'}
               `}
             >
-              <span className={`text-sm shrink-0 ${active ? 'text-bc-accent' : 'text-bc-muted/60 group-hover:text-bc-accent/70'}`}>
+              <span className={`text-sm shrink-0 ${active ? 'text-bc-accent' : 'text-bc-accent/50 group-hover:text-bc-accent'}`}>
                 {item.icon}
               </span>
               <div className="flex-1 min-w-0">
@@ -97,7 +97,7 @@ export function Sidebar() {
         {isOperator && (
           <>
             <div className="pt-3 pb-1 px-2">
-              <div className="h-px bg-bc-border" />
+              <div className="h-px bg-bc-track" />
               <p className="font-sans text-bc-amber text-xs font-semibold uppercase tracking-widest mt-3">
                 Operatore
               </p>
@@ -137,7 +137,7 @@ export function Sidebar() {
               <span className="text-bc-muted">Rottami</span>
               <span className="font-mono text-bc-amber text-xs">{crawlerSystem?.scrap ?? '—'}</span>
             </div>
-            <div className="h-1 rounded-full bg-bc-border overflow-hidden">
+            <div className="h-1 rounded-full bg-bc-track overflow-hidden">
               <div className="h-full rounded-full transition-all duration-700"
                 style={{ width: `${scrapPct}%`, background: 'var(--bc-amber)', boxShadow: '0 0 6px var(--bc-amber)' }} />
             </div>

@@ -134,19 +134,19 @@ export function HangarInterface() {
     .filter(({ items }) => items.length > 0);
 
   return (
-    <div className="h-full overflow-y-auto flex flex-col gap-4 p-4 md:p-5 animate-boot-in">
-      <div className="shrink-0 flex items-start justify-between gap-4">
+    <div className="h-full overflow-y-auto p-3"><div className="space-y-3 animate-boot-in">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-bc-border pb-3">
         <div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold tracking-widest uppercase leading-none text-bc-text text-glow">
-            Hangar
+          <h1 className="font-display text-lg font-bold text-bc-green text-glow tracking-widest">
+            HANGAR // INVENTARIO
           </h1>
-          <p className="font-sans text-bc-muted text-sm mt-1">
-            Inventario sistemi · {inventory.length} oggetti registrati
+          <p className="font-mono text-xs text-bc-muted mt-0.5">
+            {inventory.length} oggetti registrati
           </p>
         </div>
         {isOperator && (
           <button
-            className="bc-btn-amber font-mono text-xs px-4 py-2 shrink-0"
+            className="bc-btn-amber self-start sm:self-auto"
             onClick={() => {
               setForm({ ...BLANK_ITEM });
               setEditIndex(null);
@@ -158,7 +158,7 @@ export function HangarInterface() {
         )}
       </div>
 
-      <div className="shrink-0 h-px bg-bc-border" />
+      <div className="shrink-0 h-px bg-bc-track" />
 
       {/* Operator add/edit form */}
       {showForm && isOperator && (
@@ -379,6 +379,6 @@ export function HangarInterface() {
           </div>
         ))}
       </div>
-    </div>
+    </div></div>
   );
 }

@@ -7,8 +7,8 @@
   --bc-black:     #09090e;
   --bc-dark:      #111119;
   --bc-panel:     #181826;
-  --bc-border:    #272748;
-  --bc-text:      #ede8ff;
+  --bc-border:    #5252c8;
+  --bc-text:      #f5f2ff;
   --bc-accent:    #a78bfa;
   --bc-rose:      #f472b6;
   --bc-green:     #5eead4;
@@ -104,10 +104,10 @@ body {
 .bc-section-header {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--bc-muted);
+  color: var(--bc-accent);
   border-bottom: 1px solid var(--bc-border);
   padding-bottom: 8px;
   margin-bottom: 12px;
