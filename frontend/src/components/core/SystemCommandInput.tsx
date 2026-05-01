@@ -13,6 +13,7 @@ const TYPE_LABELS: Record<JournalEntryType, string> = {
   override: 'OVERRIDE',
   mission: 'MISSIONE',
   pilot_registration: 'REGISTRAZIONE',
+  pilot_note: 'NOTA PILOTA',
 }
 
 export function SystemCommandInput() {
