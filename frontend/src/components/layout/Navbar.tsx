@@ -115,9 +115,17 @@ export function Navbar() {
               >✕</button>
             </div>
           ) : isOperator ? (
-            <span className="font-mono text-xs uppercase tracking-widest text-bc-accent border border-bc-accent/40 px-3 py-1 whitespace-nowrap animate-pulse">
-              [ BISCUIT ]
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-xs uppercase tracking-widest text-bc-accent border border-bc-accent/40 px-3 py-1 whitespace-nowrap animate-pulse">
+                [ BISCUIT ]
+              </span>
+              <button
+                className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all whitespace-nowrap"
+                onClick={() => setIsOperator(false)}
+              >
+                ESCI
+              </button>
+            </div>
           ) : (
             <button
               className="font-mono text-xs uppercase tracking-widest text-bc-muted border border-bc-muted/40 px-3 py-1 hover:border-bc-accent hover:text-bc-accent transition-all whitespace-nowrap"
