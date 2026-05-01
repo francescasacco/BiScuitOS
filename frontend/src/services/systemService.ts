@@ -46,16 +46,6 @@ export const systemService = {
         repair_status: 'NOMINALE',
         merchant_bridge: 'Modulo Scudo | Sistema Postazione di Tiro (Tec +1)',
         system_notes: '',
-        sections: [
-          { name: 'Ponte Comando',      detail: 'Princeps: Ottaviano',                status: 'active' },
-          { name: 'Ponte Mech',         detail: 'Capo Meccanico: Maurice',            status: 'active' },
-          { name: 'Officina Meccanica', detail: "Ing. Spec.: Bob l'aggiustatutto",    status: 'active' },
-          { name: 'Cabine Piloti Lv.1', detail: '',                                   status: 'active' },
-          { name: 'Armeria Lv.1',       detail: '',                                   status: 'active' },
-          { name: 'Mensa Lv.1',         detail: '',                                   status: 'active' },
-          { name: "Ponte d'Artiglieria", detail: '',                                  status: 'empty'  },
-          { name: 'Unità Medica',       detail: '',                                   status: 'empty'  },
-        ],
         inventory: [
           { name: 'Scudo Rinforzato',     category: 'Sistema', tec: 2,    quantity: 1, status: 'normale'     },
           { name: 'Bengala a Reattore',   category: 'Modulo',  tec: 1,    quantity: 1, status: 'normale'     },

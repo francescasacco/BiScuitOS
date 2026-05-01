@@ -1,9 +1,3 @@
-export interface CrawlerSection {
-  name: string
-  detail?: string
-  status: 'active' | 'empty' | 'damaged'
-}
-
 export interface HangarItem {
   name: string
   category: 'Sistema' | 'Modulo' | 'Telaio' | 'Altro'
@@ -29,7 +23,6 @@ export interface CrawlerSystem {
   repair_status?: string
   active_alerts?: string
   system_notes?: string
-  sections?: CrawlerSection[]
   inventory?: HangarItem[]
   updated_at: string
 }

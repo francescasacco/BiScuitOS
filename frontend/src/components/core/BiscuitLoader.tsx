@@ -71,10 +71,11 @@ export function BiscuitLoader({ onComplete }: { onComplete: () => void }) {
   }, [onComplete])
 
   const dashOffset = CIRC * (1 - progress / 100)
-  const msgIndex = Math.min(
-    BISCUIT_LOADER_MESSAGES.length - 1,
-    Math.floor((progress / 100) * BISCUIT_LOADER_MESSAGES.length)
-  )
+  const loadingMsgs = BISCUIT_LOADER_MESSAGES.slice(0, -1)
+  const finalMsg    = BISCUIT_LOADER_MESSAGES[BISCUIT_LOADER_MESSAGES.length - 1]
+  const activeMsg   = progress >= 100
+    ? finalMsg
+    : loadingMsgs[Math.min(loadingMsgs.length - 1, Math.floor((progress / 100) * loadingMsgs.length))]
 
   return (
     <div
@@ -156,7 +157,7 @@ export function BiscuitLoader({ onComplete }: { onComplete: () => void }) {
       </p>
 
       <p className="font-mono text-xs animate-pulse" style={{ color: 'var(--bc-green)', minHeight: '1rem' }}>
-        {'> '}{BISCUIT_LOADER_MESSAGES[msgIndex]}
+        {'> '}{activeMsg}
       </p>
     </div>
   )
