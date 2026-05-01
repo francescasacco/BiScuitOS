@@ -5,6 +5,7 @@ import { CrewInterface } from '@/pages/CrewInterface'
 import { JournalInterface } from '@/pages/JournalInterface'
 import { MissionsInterface } from '@/pages/MissionsInterface'
 import { CoreSystemInterface } from '@/pages/CoreSystemInterface'
+import { HangarInterface } from '@/pages/HangarInterface'
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
       { path: 'crew', element: <CrewInterface /> },
       { path: 'journal', element: <JournalInterface /> },
       { path: 'missions', element: <MissionsInterface /> },
+      { path: 'hangar', element: <HangarInterface /> },
       { path: 'core', element: <CoreSystemInterface /> },
     ],
   },

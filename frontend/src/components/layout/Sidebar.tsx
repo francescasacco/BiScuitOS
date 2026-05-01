@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { path: '/crew',     label: 'Equipaggio',  sub: 'registro',    icon: '◉' },
   { path: '/journal',  label: 'Archivio',    sub: 'log & dati',  icon: '◫' },
   { path: '/missions', label: 'Missioni',    sub: 'nucleo ops',  icon: '◆' },
+  { path: '/hangar',   label: 'Hangar',      sub: 'inventario',  icon: '◧' },
 ]
 
 const OPERATOR_ITEMS = [
@@ -18,7 +19,6 @@ export function Sidebar() {
   const navigate  = useNavigate()
   const location  = useLocation()
 
-  const fuelPct  = Math.min(100, ((crawlerSystem?.fuel  ?? 0) / 100) * 100)
   const scrapPct = Math.min(100, ((crawlerSystem?.scrap ?? 0) / 500) * 100)
 
   const activeMissions = Array.isArray(missions) ? missions.filter((m) => m.status === 'active').length : 0
@@ -134,17 +134,6 @@ export function Sidebar() {
         <div className="space-y-2.5">
           <div>
             <div className="flex justify-between font-sans text-xs mb-1">
-              <span className="text-bc-muted">Carburante</span>
-              <span className="font-mono text-bc-green text-xs">{crawlerSystem?.fuel ?? '—'}</span>
-            </div>
-            <div className="h-1 rounded-full bg-bc-border overflow-hidden">
-              <div className="h-full rounded-full transition-all duration-700"
-                style={{ width: `${fuelPct}%`, background: 'var(--bc-green)', boxShadow: '0 0 6px var(--bc-green)' }} />
-            </div>
-          </div>
-
-          <div>
-            <div className="flex justify-between font-sans text-xs mb-1">
               <span className="text-bc-muted">Rottami</span>
               <span className="font-mono text-bc-amber text-xs">{crawlerSystem?.scrap ?? '—'}</span>
             </div>
@@ -155,8 +144,13 @@ export function Sidebar() {
           </div>
 
           <div className="flex justify-between font-sans text-xs pt-1">
-            <span className="text-bc-muted">Piloti</span>
+            <span className="text-bc-muted">Ingegneri</span>
             <span className="font-mono text-bc-blue text-xs">{crawlerSystem?.engineers ?? '—'}</span>
+          </div>
+
+          <div className="flex justify-between font-sans text-xs pt-1">
+            <span className="text-bc-muted">Piloti</span>
+            <span className="font-mono text-bc-green text-xs">{pilots.length}</span>
           </div>
         </div>
       </div>

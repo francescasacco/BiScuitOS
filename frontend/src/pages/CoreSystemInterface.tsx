@@ -2,6 +2,7 @@ import { useOSStore } from '@/store/useOSStore'
 import { OverrideConsole } from '@/components/core/OverrideConsole'
 import { SystemCommandInput } from '@/components/core/SystemCommandInput'
 import { PilotManagement } from '@/components/core/PilotManagement'
+import { HangarManagement } from '@/components/core/HangarManagement'
 import { useNavigate } from 'react-router-dom'
 
 export function CoreSystemInterface() {
@@ -52,6 +53,7 @@ export function CoreSystemInterface() {
         <SystemCommandInput />
       </div>
 
+      <HangarManagement />
       <PilotManagement />
     </div></div>
   )

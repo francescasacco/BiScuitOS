@@ -3,16 +3,25 @@ import { Outlet } from 'react-router-dom'
 import { Navbar } from './Navbar'
 import { Sidebar } from './Sidebar'
 import { useOSStore } from '@/store/useOSStore'
+import { audioManager } from '@/lib/audioManager'
 
 export function OSFrame() {
-  const { sidebarOpen, setSidebarOpen } = useOSStore()
+  const { sidebarOpen, setSidebarOpen, isOperator } = useOSStore()
 
   useEffect(() => {
     if (window.innerWidth >= 768) setSidebarOpen(true)
   }, [setSidebarOpen])
 
+  useEffect(() => {
+    if (isOperator) audioManager.start()
+    else audioManager.stop()
+  }, [isOperator])
+
   return (
-    <div className="crt-overlay h-screen flex overflow-hidden bg-bc-black">
+    <div className="crt-overlay h-[100dvh] flex overflow-hidden bg-bc-black">
+      <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', left: -9999, pointerEvents: 'none' }}>
+        <div id="operator-yt-audio" />
+      </div>
 
       {sidebarOpen && (
         <div

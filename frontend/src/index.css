@@ -256,6 +256,19 @@ body {
 .boot-delay-4 { animation-delay: 0.6s; opacity: 0; }
 .boot-delay-5 { animation-delay: 0.8s; opacity: 0; }
 
+@keyframes bc-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.bc-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.bc-ticker-inner {
+  display: inline-block;
+  animation: bc-marquee 18s linear infinite;
+}
+
 @keyframes cookie-spin   { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 @keyframes mech-leg-fwd  { 0%, 100% { transform: rotate(-22deg); } 50% { transform: rotate(22deg); } }
 @keyframes mech-leg-bwd  { 0%, 100% { transform: rotate(22deg); } 50% { transform: rotate(-22deg); } }

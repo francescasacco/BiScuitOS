@@ -86,13 +86,13 @@ export function Navbar() {
               {now.toLocaleTimeString('it-IT', { hour12: false })}
             </span>
           </span>
+
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          <div className="hidden sm:flex items-center gap-2.5 font-mono text-xs text-bc-muted">
-            <span className="flex items-center gap-1.5"><span className="status-dot nominal" />DB</span>
-            <span className="flex items-center gap-1.5"><span className="status-dot nominal" />NET</span>
-            <span className="flex items-center gap-1.5"><span className="status-dot warning" />SCAFO</span>
+          <div className="hidden sm:flex items-center gap-2">
+            <span className="status-dot nominal" />
+            <span className="font-sans text-bc-green text-xs font-medium">Online</span>
           </div>
 
           {showKeyInput ? (

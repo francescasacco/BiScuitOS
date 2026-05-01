@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { OPERATOR_NAME, BISCUIT_LOADER_DURATION, BISCUIT_LOADER_MESSAGES } from '@/config'
+import { audioManager } from '@/lib/audioManager'
+
 
 function generateCookiePath(
   cx: number, cy: number,
@@ -48,8 +50,10 @@ const CIRC = 2 * Math.PI * RING_R
 export function BiscuitLoader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0)
   const [fading, setFading] = useState(false)
-  const rafRef = useRef<number | null>(null)
+  const rafRef   = useRef<number | null>(null)
   const startRef = useRef<number | null>(null)
+
+  useEffect(() => { audioManager.start() }, [])
 
   useEffect(() => {
     const animate = (now: number) => {

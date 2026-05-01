@@ -33,12 +33,35 @@ export const systemService = {
     const { data, error } = await supabase
       .from('crawler_system')
       .insert({
-        scrap: 0,
-        engineers: 0,
+        crawler_name: 'SANCTUARY',
+        crawler_type: "d'Ingegneria",
+        scrap: 52,
+        engineers: 3,
         fuel: 0,
-        repair_status: 'NOMINAL',
-        active_alerts: 'NONE',
-        system_notes: 'BC-OS initialized. All systems nominal.',
+        ps_current: 20,
+        ps_max: 20,
+        enhancement_current: 40,
+        enhancement_max: 120,
+        maintenance_cost: 12,
+        repair_status: 'NOMINALE',
+        merchant_bridge: 'Modulo Scudo | Sistema Postazione di Tiro (Tec +1)',
+        system_notes: '',
+        sections: [
+          { name: 'Ponte Comando',      detail: 'Princeps: Ottaviano',                status: 'active' },
+          { name: 'Ponte Mech',         detail: 'Capo Meccanico: Maurice',            status: 'active' },
+          { name: 'Officina Meccanica', detail: "Ing. Spec.: Bob l'aggiustatutto",    status: 'active' },
+          { name: 'Cabine Piloti Lv.1', detail: '',                                   status: 'active' },
+          { name: 'Armeria Lv.1',       detail: '',                                   status: 'active' },
+          { name: 'Mensa Lv.1',         detail: '',                                   status: 'active' },
+          { name: "Ponte d'Artiglieria", detail: '',                                  status: 'empty'  },
+          { name: 'Unità Medica',       detail: '',                                   status: 'empty'  },
+        ],
+        inventory: [
+          { name: 'Scudo Rinforzato',     category: 'Sistema', tec: 2,    quantity: 1, status: 'normale'     },
+          { name: 'Bengala a Reattore',   category: 'Modulo',  tec: 1,    quantity: 1, status: 'normale'     },
+          { name: 'Telaio Hussair',       category: 'Telaio',  tec: null, quantity: 1, status: 'danneggiato' },
+          { name: 'Antenna',              category: 'Sistema', tec: 2,    quantity: 4, status: 'normale'     },
+        ],
       })
       .select()
       .single()
