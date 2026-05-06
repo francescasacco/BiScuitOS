@@ -5,7 +5,7 @@ import { PilotForm } from '@/components/crew/PilotForm'
 import type { Pilot } from '@/types/pilot'
 
 export function CrewInterface() {
-  const { pilots, journalEntries } = useOSStore()
+  const { pilots, journalEntries, isOperator } = useOSStore()
   const [showForm, setShowForm] = useState(false)
   const [selected, setSelected] = useState<Pilot | null>(null)
 
@@ -98,7 +98,7 @@ export function CrewInterface() {
             </div>
           </div>
 
-          {(() => {
+          {isOperator && (() => {
             const notes = journalEntries.filter(
               (e) => e.type === 'pilot_note' &&
                 e.title === `NOTA OPERATORE // ${(selected as Pilot).identificativo}`

@@ -2,7 +2,29 @@ import { useNavigate } from 'react-router-dom'
 import { useOSStore } from '@/store/useOSStore'
 import type { MissionStatus } from '@/types/mission'
 import type { JournalEntry, JournalEntryType } from '@/types/journal'
-import type { HangarItem } from '@/types/system'
+import type { CrawlerSection, HangarItem } from '@/types/system'
+
+const DEFAULT_SECTIONS: CrawlerSection[] = [
+  { name: 'Ponte Comando',       detail: 'Princeps: Ottaviano',               status: 'active'  },
+  { name: 'Ponte Mech',          detail: 'Capo Meccanico: Maurice',           status: 'active'  },
+  { name: 'Officina Meccanica',  detail: "Ing. Spec.: Bob l'aggiustatutto",   status: 'active'  },
+  { name: 'Cabine Piloti Lv.1',  detail: '',                                  status: 'active'  },
+  { name: 'Armeria Lv.1',        detail: '',                                  status: 'active'  },
+  { name: 'Mensa Lv.1',          detail: '',                                  status: 'active'  },
+  { name: "Ponte d'Artiglieria", detail: '',                                  status: 'empty'   },
+  { name: 'Unità Medica',        detail: '',                                  status: 'empty'   },
+]
+
+const SECTION_DOT: Record<CrawlerSection['status'], string> = {
+  active:  'bg-bc-green shadow-[0_0_4px_var(--bc-green)]',
+  empty:   'bg-bc-muted/40',
+  damaged: 'bg-bc-red shadow-[0_0_4px_var(--bc-red)]',
+}
+const SECTION_NAME_COLOR: Record<CrawlerSection['status'], string> = {
+  active:  'text-bc-text',
+  empty:   'text-bc-muted/50',
+  damaged: 'text-bc-red',
+}
 
 const DEFAULT_INVENTORY: HangarItem[] = [
   { name: 'Scudo Rinforzato',   category: 'Sistema', tec: 2,    quantity: 1, status: 'normale'     },
@@ -106,6 +128,8 @@ export function OSMainPage() {
   const { journalEntries, pilots, crawlerSystem, missions } = useOSStore()
   const recentLog      = journalEntries.filter((e) => e.type !== 'pilot_note').slice(0, 12)
   const activeMissions = missions.filter((m) => m.status === 'active')
+  const sections       = (crawlerSystem?.sections && crawlerSystem.sections.length > 0)
+    ? crawlerSystem.sections : DEFAULT_SECTIONS
   const inventory      = (crawlerSystem?.inventory && crawlerSystem.inventory.length > 0)
     ? crawlerSystem.inventory : DEFAULT_INVENTORY
 
@@ -157,49 +181,34 @@ export function OSMainPage() {
 
       <div className="shrink-0 h-px bg-bc-track" />
 
-      {/* Body: 3 columns — left (flex-1), center log (flex-2), right (flex-1) */}
+      {/* Body: 3 columns — left log (flex-1), center missions (flex-2), right (flex-1) */}
       <div className="shrink-0 flex flex-col md:flex-row gap-3 md:flex-1 md:min-h-0 md:overflow-hidden">
 
-        {/* Left: Missioni */}
+        {/* Left: Sezioni crawler + Archivio log */}
         <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0">
 
-          <div
-            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
-            onClick={() => navigate('/missions')}
-          >
-            <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
-              <p className="bc-section-header !border-0 !pb-0 !mb-0">Missioni correnti</p>
+          <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
+            <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
+              <p className="bc-section-header !border-0 !pb-0 !mb-0">Sezioni crawler</p>
             </div>
-            <div className="p-4 md:overflow-y-auto md:flex-1 md:min-h-0">
-              {missions.length === 0 ? (
-                <p className="font-sans text-bc-muted text-sm">Nessuna missione nel sistema.</p>
-              ) : (
-                <div>
-                  {missions.map((m) => (
-                    <div key={m.id} className="py-2.5 border-b border-bc-border last:border-0 last:pb-0">
-                      <div className="flex items-start justify-between gap-3">
-                        <span className={`font-mono text-xs font-bold leading-snug ${MISSION_TEXT[m.status]}`}>
-                          {m.title}
-                        </span>
-                        <span className={`bc-tag shrink-0 ${MISSION_STATUS_COLOR[m.status]}`}>
-                          {MISSION_STATUS_LABEL[m.status]}
-                        </span>
-                      </div>
-                      {m.reward && <p className="font-mono text-xs text-bc-amber mt-1">{m.reward}</p>}
-                    </div>
-                  ))}
+            <div className="px-4 py-2 space-y-1">
+              {sections.map((s, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${SECTION_DOT[s.status]}`} />
+                  <div className="min-w-0 flex-1">
+                    <div className={`font-mono text-xs font-semibold leading-snug ${SECTION_NAME_COLOR[s.status]}`}>{s.name}</div>
+                    {s.detail && <div className="font-mono text-xs text-bc-muted leading-snug">{s.detail}</div>}
+                  </div>
                 </div>
-              )}
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Center: Log recente — wider */}
-        <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-[2] md:min-w-0 md:min-h-0">
+          <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0">
           <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
             <p className="bc-section-header !border-0 !pb-0 !mb-0">Archivio log recente</p>
           </div>
-          <div className="p-4 md:overflow-y-auto md:flex-1 md:min-h-0">
+          <div className="p-4 overflow-y-auto flex-1 min-h-0">
             {recentLog.length === 0 ? (
               <p className="font-sans text-bc-muted text-sm">Nessuna voce nel log.</p>
             ) : (
@@ -230,6 +239,40 @@ export function OSMainPage() {
                 ))}
               </div>
             )}
+          </div>
+        </div>
+        </div>
+
+        {/* Center: Missioni correnti — wider */}
+        <div className="flex flex-col gap-3 md:flex-[2] md:min-w-0 md:min-h-0">
+          <div
+            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
+            onClick={() => navigate('/missions')}
+          >
+            <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
+              <p className="bc-section-header !border-0 !pb-0 !mb-0">Missioni correnti</p>
+            </div>
+            <div className="p-4 md:overflow-y-auto md:flex-1 md:min-h-0">
+              {missions.length === 0 ? (
+                <p className="font-sans text-bc-muted text-sm">Nessuna missione nel sistema.</p>
+              ) : (
+                <div>
+                  {missions.map((m) => (
+                    <div key={m.id} className="py-2.5 border-b border-bc-border last:border-0 last:pb-0">
+                      <div className="flex items-start justify-between gap-3">
+                        <span className={`font-mono text-xs font-bold leading-snug ${MISSION_TEXT[m.status]}`}>
+                          {m.title}
+                        </span>
+                        <span className={`bc-tag shrink-0 ${MISSION_STATUS_COLOR[m.status]}`}>
+                          {MISSION_STATUS_LABEL[m.status]}
+                        </span>
+                      </div>
+                      {m.reward && <p className="font-mono text-xs text-bc-amber mt-1">{m.reward}</p>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
