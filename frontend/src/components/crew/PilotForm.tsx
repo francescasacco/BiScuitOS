@@ -3,24 +3,11 @@ import type { PilotFormData } from '@/types/pilot'
 import { CLASSI_PILOTA } from '@/types/pilot'
 import { pilotService } from '@/services/pilotService'
 import { useOSStore } from '@/store/useOSStore'
-
-const EMPTY_FORM: PilotFormData = {
-  identificativo: '',
-  classe: '',
-  aspetto: '',
-  background: '',
-  cimelio: '',
-  mech_nome: '',
-  mech_telaio: '',
-  mech_modello: '',
-  mech_info: '',
-  mech_sistemi: '',
-  mech_moduli: '',
-  mech_status: 'OPERATIVO',
-  motto_attivato: '',
-}
-
-const STEPS = ['IDENTITÀ', 'PROFILO', 'UNITÀ MECH', 'CONFERMA']
+import { CustomSelect } from '@/components/ui/CustomSelect'
+import { MechItemList } from '@/components/crew/MechItemList'
+import {
+  EMPTY_FORM, STEPS, STEP_FIELDS, validateField,
+} from '@/components/crew/pilotFormValidation'
 
 interface PilotFormProps {
   onClose: () => void
@@ -31,11 +18,63 @@ export function PilotForm({ onClose }: PilotFormProps) {
   const addJournalEntry = useOSStore((s) => s.addJournalEntry)
   const [step, setStep] = useState(0)
   const [form, setForm] = useState<PilotFormData>(EMPTY_FORM)
+  const [sistemi, setSistemi] = useState<string[]>([])
+  const [moduli, setModuli] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
   const [registering, setRegistering] = useState(false)
+  const [errors, setErrors] = useState<Partial<Record<keyof PilotFormData, string>>>({})
+  const [touched, setTouched] = useState<Partial<Record<keyof PilotFormData, boolean>>>({})
 
-  const update = (field: keyof PilotFormData, value: string) =>
+  const update = (field: keyof PilotFormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }))
+    if (touched[field]) setErrors((e) => ({ ...e, [field]: validateField(field, value) }))
+  }
+
+  const touch = (field: keyof PilotFormData) => {
+    setTouched((t) => ({ ...t, [field]: true }))
+    setErrors((e) => ({ ...e, [field]: validateField(field, form[field] as string ?? '') }))
+  }
+
+  const validateStep = (stepIndex: number): boolean => {
+    const fields = STEP_FIELDS[stepIndex]
+    const newTouched = { ...touched }
+    const newErrors = { ...errors }
+    let valid = true
+    for (const f of fields) {
+      newTouched[f] = true
+      const err = validateField(f, form[f] as string ?? '')
+      newErrors[f] = err
+      if (err) valid = false
+    }
+    setTouched(newTouched)
+    setErrors(newErrors)
+    return valid
+  }
+
+  const inputClass = (field: keyof PilotFormData) =>
+    `bc-input${touched[field] && errors[field] ? ' border-bc-red focus:border-bc-red' : ''}`
+
+  const textareaClass = (field: keyof PilotFormData) =>
+    `bc-textarea${touched[field] && errors[field] ? ' border-bc-red focus:border-bc-red' : ''}`
+
+  const FieldError = ({ field }: { field: keyof PilotFormData }) =>
+    touched[field] && errors[field]
+      ? <p className="font-mono text-xs text-bc-red mt-1 italic">{errors[field]}</p>
+      : null
+
+  const updateSistemi = (items: string[]) => {
+    setSistemi(items)
+    setForm((p) => ({ ...p, mech_sistemi: items.join('\n') }))
+  }
+
+  const updateModuli = (items: string[]) => {
+    setModuli(items)
+    setForm((p) => ({ ...p, mech_moduli: items.join('\n') }))
+  }
+
+  const handleNext = () => {
+    if (validateStep(step)) setStep(step + 1)
+  }
 
   const handleSubmit = async () => {
     setLoading(true)
@@ -95,33 +134,35 @@ export function PilotForm({ onClose }: PilotFormProps) {
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">IDENTIFICATIVO *</label>
             <input
-              className="bc-input"
+              className={inputClass('identificativo')}
               placeholder="es. IRON-7, Ghost, Mantis..."
               value={form.identificativo}
               onChange={(e) => update('identificativo', e.target.value)}
+              onBlur={() => touch('identificativo')}
             />
+            <FieldError field="identificativo" />
           </div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">CLASSE *</label>
-            <select
-              className="bc-select"
+            <CustomSelect
               value={form.classe}
-              onChange={(e) => update('classe', e.target.value)}
-            >
-              <option value="">SELEZIONA CLASSE...</option>
-              {CLASSI_PILOTA.map((c) => (
-                <option key={c} value={c}>{c.toUpperCase()}</option>
-              ))}
-            </select>
+              onChange={(v) => { update('classe', v); setTouched((t) => ({ ...t, classe: true })); setErrors((e) => ({ ...e, classe: '' })) }}
+              options={CLASSI_PILOTA}
+              placeholder="SELEZIONA CLASSE..."
+              hasError={!!(touched.classe && errors.classe)}
+            />
+            <FieldError field="classe" />
           </div>
           <div>
-            <label className="font-mono text-xs text-bc-muted block mb-1">MOTTO ATTIVATO</label>
+            <label className="font-mono text-xs text-bc-muted block mb-1">MOTTO</label>
             <input
-              className="bc-input"
+              className={inputClass('motto_attivato')}
               placeholder="La frase del tuo pilota..."
               value={form.motto_attivato ?? ''}
               onChange={(e) => update('motto_attivato', e.target.value)}
+              onBlur={() => touch('motto_attivato')}
             />
+            <FieldError field="motto_attivato" />
           </div>
         </div>
       )}
@@ -133,31 +174,37 @@ export function PilotForm({ onClose }: PilotFormProps) {
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">ASPETTO</label>
             <textarea
-              className="bc-textarea"
+              className={textareaClass('aspetto')}
               rows={3}
               placeholder="Descrivi l'aspetto fisico del pilota..."
               value={form.aspetto ?? ''}
               onChange={(e) => update('aspetto', e.target.value)}
+              onBlur={() => touch('aspetto')}
             />
+            <FieldError field="aspetto" />
           </div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">BACKGROUND</label>
             <textarea
-              className="bc-textarea"
+              className={textareaClass('background')}
               rows={3}
               placeholder="Storia del pilota, da dove viene..."
               value={form.background ?? ''}
               onChange={(e) => update('background', e.target.value)}
+              onBlur={() => touch('background')}
             />
+            <FieldError field="background" />
           </div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">CIMELIO</label>
             <input
-              className="bc-input"
+              className={inputClass('cimelio')}
               placeholder="Oggetto personale importante..."
               value={form.cimelio ?? ''}
               onChange={(e) => update('cimelio', e.target.value)}
+              onBlur={() => touch('cimelio')}
             />
+            <FieldError field="cimelio" />
           </div>
         </div>
       )}
@@ -168,62 +215,66 @@ export function PilotForm({ onClose }: PilotFormProps) {
           <div className="bc-section-header">// REGISTRAZIONE UNITÀ MECH</div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="font-mono text-xs text-bc-muted block mb-1">TELAIO *</label>
+              <label className="font-mono text-xs text-bc-muted block mb-1">TELAIO</label>
               <input
-                className="bc-input"
+                className={inputClass('mech_telaio')}
                 placeholder="es. Hussair, Ogre..."
                 value={form.mech_telaio ?? ''}
                 onChange={(e) => update('mech_telaio', e.target.value)}
+                onBlur={() => touch('mech_telaio')}
               />
+              <FieldError field="mech_telaio" />
             </div>
             <div>
-              <label className="font-mono text-xs text-bc-muted block mb-1">MODELLO *</label>
+              <label className="font-mono text-xs text-bc-muted block mb-1">MODELLO</label>
               <input
-                className="bc-input"
+                className={inputClass('mech_modello')}
                 placeholder="es. Mk.II, SAP, R-7..."
                 value={form.mech_modello ?? ''}
                 onChange={(e) => update('mech_modello', e.target.value)}
+                onBlur={() => touch('mech_modello')}
               />
+              <FieldError field="mech_modello" />
             </div>
           </div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">NOME MECH <span className="text-bc-muted/50">(opzionale)</span></label>
             <input
-              className="bc-input"
+              className={inputClass('mech_nome')}
               placeholder="Designazione personale dell'unità..."
               value={form.mech_nome ?? ''}
               onChange={(e) => update('mech_nome', e.target.value)}
+              onBlur={() => touch('mech_nome')}
             />
+            <FieldError field="mech_nome" />
           </div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">SISTEMI</label>
-            <textarea
-              className="bc-textarea"
-              rows={2}
-              placeholder="Sistemi installati (es: radar, scudo energetico)..."
-              value={form.mech_sistemi ?? ''}
-              onChange={(e) => update('mech_sistemi', e.target.value)}
+            <MechItemList
+              items={sistemi}
+              onChange={updateSistemi}
+              placeholder="es. Radar, Scudo energetico..."
             />
           </div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">MODULI</label>
-            <textarea
-              className="bc-textarea"
-              rows={2}
-              placeholder="Moduli aggiuntivi montati..."
-              value={form.mech_moduli ?? ''}
-              onChange={(e) => update('mech_moduli', e.target.value)}
+            <MechItemList
+              items={moduli}
+              onChange={updateModuli}
+              placeholder="es. Modulo comunicazioni..."
             />
           </div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">NOTE</label>
             <textarea
-              className="bc-textarea"
+              className={textareaClass('mech_info')}
               rows={2}
               placeholder="Descrizione, storia, particolarità del mech..."
               value={form.mech_info ?? ''}
               onChange={(e) => update('mech_info', e.target.value)}
+              onBlur={() => touch('mech_info')}
             />
+            <FieldError field="mech_info" />
           </div>
         </div>
       )}
@@ -244,7 +295,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
               </div>
             )}
             <div className="mt-3 pt-3 border-t border-bc-border text-bc-amber">
-              ⚠ CONFERMA INIEZIONE PILOTA NELLA RETE?
+              ⚠ CONFERMA INSERZIONE PILOTA NELLA RETE?
             </div>
           </div>
         </div>
@@ -260,10 +311,10 @@ export function PilotForm({ onClose }: PilotFormProps) {
         </button>
         <button
           className={step === STEPS.length - 1 ? 'bc-btn-amber' : 'bc-btn-green'}
-          onClick={step === STEPS.length - 1 ? handleSubmit : () => setStep(step + 1)}
-          disabled={loading || (step === 0 && (!form.identificativo || !form.classe))}
+          onClick={step === STEPS.length - 1 ? handleSubmit : handleNext}
+          disabled={loading}
         >
-          {step === STEPS.length - 1 ? (loading ? 'INIEZIONE...' : 'CONFERMA REGISTRAZIONE') : 'AVANTI →'}
+          {step === STEPS.length - 1 ? (loading ? 'INSERZIONE...' : 'CONFERMA REGISTRAZIONE') : 'AVANTI →'}
         </button>
       </div>
     </div>
