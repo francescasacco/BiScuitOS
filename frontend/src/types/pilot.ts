@@ -7,6 +7,8 @@ export interface Pilot {
   background?: string
   cimelio?: string
   mech_nome?: string
+  mech_telaio?: string
+  mech_modello?: string
   mech_info?: string
   mech_sistemi?: string
   mech_moduli?: string
@@ -19,10 +21,10 @@ export interface Pilot {
 export type PilotFormData = Omit<Pilot, 'id' | 'created_at' | 'updated_at' | 'role'>
 
 export const CLASSI_PILOTA = [
-  'Salvager',
-  'Outrider',
-  'Mechwright',
-  'Fixer',
+  'Ingegnere',
   'Hacker',
-  'Mercenary',
+  'Trasportatore',
+  'Esploratore',
+  'Soldato',
+  'Rovistatore',
 ] as const

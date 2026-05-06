@@ -11,14 +11,16 @@ const EMPTY_FORM: PilotFormData = {
   background: '',
   cimelio: '',
   mech_nome: '',
+  mech_telaio: '',
+  mech_modello: '',
   mech_info: '',
   mech_sistemi: '',
   mech_moduli: '',
-  mech_status: 'OPERATIONAL',
+  mech_status: 'OPERATIVO',
   motto_attivato: '',
 }
 
-const STEPS = ['IDENTITÀ', 'PROFILO', 'MECH', 'CONFERMA']
+const STEPS = ['IDENTITÀ', 'PROFILO', 'UNITÀ MECH', 'CONFERMA']
 
 interface PilotFormProps {
   onClose: () => void
@@ -86,7 +88,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
         ))}
       </div>
 
-      {/* Step 0: Identity */}
+      {/* Step 0: Identità */}
       {step === 0 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">// IDENTITÀ PILOTA</div>
@@ -124,7 +126,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
         </div>
       )}
 
-      {/* Step 1: Profile */}
+      {/* Step 1: Profilo */}
       {step === 1 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">// PROFILO PILOTA</div>
@@ -160,27 +162,37 @@ export function PilotForm({ onClose }: PilotFormProps) {
         </div>
       )}
 
-      {/* Step 2: Mech */}
+      {/* Step 2: Unità Mech */}
       {step === 2 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">// REGISTRAZIONE UNITÀ MECH</div>
-          <div>
-            <label className="font-mono text-xs text-bc-muted block mb-1">NOME MECH</label>
-            <input
-              className="bc-input"
-              placeholder="Designazione dell'unità..."
-              value={form.mech_nome ?? ''}
-              onChange={(e) => update('mech_nome', e.target.value)}
-            />
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="font-mono text-xs text-bc-muted block mb-1">TELAIO *</label>
+              <input
+                className="bc-input"
+                placeholder="es. Hussair, Ogre..."
+                value={form.mech_telaio ?? ''}
+                onChange={(e) => update('mech_telaio', e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="font-mono text-xs text-bc-muted block mb-1">MODELLO *</label>
+              <input
+                className="bc-input"
+                placeholder="es. Mk.II, SAP, R-7..."
+                value={form.mech_modello ?? ''}
+                onChange={(e) => update('mech_modello', e.target.value)}
+              />
+            </div>
           </div>
           <div>
-            <label className="font-mono text-xs text-bc-muted block mb-1">INFO MECH</label>
-            <textarea
-              className="bc-textarea"
-              rows={2}
-              placeholder="Descrizione, modello, storia..."
-              value={form.mech_info ?? ''}
-              onChange={(e) => update('mech_info', e.target.value)}
+            <label className="font-mono text-xs text-bc-muted block mb-1">NOME MECH <span className="text-bc-muted/50">(opzionale)</span></label>
+            <input
+              className="bc-input"
+              placeholder="Designazione personale dell'unità..."
+              value={form.mech_nome ?? ''}
+              onChange={(e) => update('mech_nome', e.target.value)}
             />
           </div>
           <div>
@@ -188,7 +200,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
             <textarea
               className="bc-textarea"
               rows={2}
-              placeholder="Sistemi installati (es: radar, scudo)..."
+              placeholder="Sistemi installati (es: radar, scudo energetico)..."
               value={form.mech_sistemi ?? ''}
               onChange={(e) => update('mech_sistemi', e.target.value)}
             />
@@ -203,18 +215,33 @@ export function PilotForm({ onClose }: PilotFormProps) {
               onChange={(e) => update('mech_moduli', e.target.value)}
             />
           </div>
+          <div>
+            <label className="font-mono text-xs text-bc-muted block mb-1">NOTE</label>
+            <textarea
+              className="bc-textarea"
+              rows={2}
+              placeholder="Descrizione, storia, particolarità del mech..."
+              value={form.mech_info ?? ''}
+              onChange={(e) => update('mech_info', e.target.value)}
+            />
+          </div>
         </div>
       )}
 
-      {/* Step 3: Confirm */}
+      {/* Step 3: Conferma */}
       {step === 3 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">// CONFERMA // REGISTRAZIONE PILOTA</div>
           <div className="bc-panel border border-bc-border p-4 font-mono text-xs space-y-2">
             <div className="text-bc-muted">IDENTIFICATIVO: <span className="text-bc-green">{form.identificativo}</span></div>
             <div className="text-bc-muted">CLASSE: <span className="text-bc-green">{form.classe}</span></div>
-            {form.mech_nome && (
-              <div className="text-bc-muted">MECH: <span className="text-bc-blue">{form.mech_nome}</span></div>
+            {(form.mech_telaio || form.mech_modello) && (
+              <div className="text-bc-muted">
+                MECH: <span className="text-bc-blue">
+                  {[form.mech_telaio, form.mech_modello].filter(Boolean).join(' / ')}
+                  {form.mech_nome ? ` — ${form.mech_nome}` : ''}
+                </span>
+              </div>
             )}
             <div className="mt-3 pt-3 border-t border-bc-border text-bc-amber">
               ⚠ CONFERMA INIEZIONE PILOTA NELLA RETE?
@@ -223,7 +250,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
         </div>
       )}
 
-      {/* Navigation */}
+      {/* Navigazione */}
       <div className="flex justify-between mt-6">
         <button
           className="bc-btn border-bc-muted text-bc-muted"

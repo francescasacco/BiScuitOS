@@ -77,14 +77,16 @@ export function CrewInterface() {
 
             <div className="space-y-3">
               <div className="bc-section-header">// UNITÀ MECH</div>
-              {selected.mech_nome ? (
+              {(selected.mech_telaio || selected.mech_modello || selected.mech_nome) ? (
                 <>
                   {[
+                    ['TELAIO', selected.mech_telaio],
+                    ['MODELLO', selected.mech_modello],
                     ['NOME', selected.mech_nome],
                     ['STATO', selected.mech_status],
-                    ['INFO', selected.mech_info],
                     ['SISTEMI', selected.mech_sistemi],
                     ['MODULI', selected.mech_moduli],
+                    ['NOTE', selected.mech_info],
                   ].filter(([, v]) => v).map(([label, value]) => (
                     <div key={label}>
                       <div className="font-mono text-bc-muted text-xs">{label}</div>

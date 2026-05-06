@@ -30,7 +30,7 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
             ? 'border-bc-amber text-bc-amber'
             : 'border-bc-green/40 text-bc-green/60'
         }`}>
-          {pilot.role === 'operator' ? 'OPERATORE' : pilot.role.toUpperCase()}
+          {pilot.role === 'operator' ? 'OPERATORE' : 'PILOTA'}
         </span>
       </div>
 

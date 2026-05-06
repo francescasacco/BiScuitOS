@@ -16,12 +16,13 @@ const FILTER_OPTIONS: Array<{ value: JournalEntryType | 'all'; label: string }> 
 ]
 
 export function JournalInterface() {
-  const { journalEntries } = useOSStore()
+  const { journalEntries, isOperator } = useOSStore()
   const [filter, setFilter] = useState<JournalEntryType | 'all'>('all')
 
+  const visible = isOperator ? journalEntries : journalEntries.filter((e) => e.type !== 'pilot_note')
   const filtered = filter === 'all'
-    ? journalEntries
-    : journalEntries.filter((e) => e.type === filter)
+    ? visible
+    : visible.filter((e) => e.type === filter)
 
   return (
     <div className="h-full overflow-y-auto p-3"><div className="space-y-3 animate-boot-in">
@@ -30,12 +31,12 @@ export function JournalInterface() {
           FLUSSO JOURNAL // ARCHIVIO LOG
         </h1>
         <p className="font-mono text-xs text-bc-muted mt-0.5">
-          {journalEntries.length} voci registrate in memoria
+          {visible.length} voci registrate in memoria
         </p>
       </div>
 
       <div className="flex flex-wrap gap-2">
-        {FILTER_OPTIONS.map((opt) => (
+        {FILTER_OPTIONS.filter((opt) => isOperator || opt.value !== 'pilot_note').map((opt) => (
           <button
             key={opt.value}
             className={`bc-btn text-xs px-2 py-1 ${

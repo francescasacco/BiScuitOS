@@ -175,7 +175,15 @@ export function PilotManagement() {
                       {textarea('background')}
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                      <label className="font-mono text-xs text-bc-accent/70 block mb-1">TELAIO</label>
+                      {field('mech_telaio')}
+                    </div>
+                    <div>
+                      <label className="font-mono text-xs text-bc-accent/70 block mb-1">MODELLO</label>
+                      {field('mech_modello')}
+                    </div>
                     <div>
                       <label className="font-mono text-xs text-bc-accent/70 block mb-1">NOME MECH</label>
                       {field('mech_nome')}
@@ -185,18 +193,16 @@ export function PilotManagement() {
                       {field('mech_status')}
                     </div>
                     <div>
-                      <label className="font-mono text-xs text-bc-accent/70 block mb-1">INFO MECH</label>
-                      {field('mech_info')}
+                      <label className="font-mono text-xs text-bc-accent/70 block mb-1">SISTEMI</label>
+                      {field('mech_sistemi')}
                     </div>
-                    <div className="sm:col-span-3 grid sm:grid-cols-2 gap-2">
-                      <div>
-                        <label className="font-mono text-xs text-bc-accent/70 block mb-1">SISTEMI MECH</label>
-                        {field('mech_sistemi')}
-                      </div>
-                      <div>
-                        <label className="font-mono text-xs text-bc-accent/70 block mb-1">MODULI MECH</label>
-                        {field('mech_moduli')}
-                      </div>
+                    <div>
+                      <label className="font-mono text-xs text-bc-accent/70 block mb-1">MODULI</label>
+                      {field('mech_moduli')}
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label className="font-mono text-xs text-bc-accent/70 block mb-1">NOTE</label>
+                      {field('mech_info')}
                     </div>
                   </div>
                   <div className="flex gap-2 pt-1">
