@@ -54,7 +54,7 @@ export function Sidebar() {
 
       <nav className="flex-1 px-3 py-4 overflow-y-auto space-y-0.5">
         <p className="font-sans text-bc-muted text-xs font-semibold uppercase tracking-widest px-2 mb-3">
-          Navigazione
+          Pannelli
         </p>
 
         {NAV_ITEMS.map((item) => {
@@ -144,7 +144,7 @@ export function Sidebar() {
           </div>
 
           <div className="flex justify-between font-sans text-xs pt-1">
-            <span className="text-bc-muted">Ingegneri</span>
+            <span className="text-bc-muted">Rep. Tecnico</span>
             <span className="font-mono text-bc-blue text-xs">{crawlerSystem?.engineers ?? '—'}</span>
           </div>
 

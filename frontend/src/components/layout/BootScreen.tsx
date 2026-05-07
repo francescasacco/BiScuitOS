@@ -81,10 +81,10 @@ export function BootScreen() {
         i++
       } else {
         clearInterval(interval)
-        setTimeout(() => setDone(true), 600)
-        setTimeout(() => setIsBooting(false), 1300)
+        setTimeout(() => setDone(true), 500)
+        setTimeout(() => setIsBooting(false), 1200)
       }
-    }, 150)
+    }, 100)
     return () => clearInterval(interval)
   }, [setIsBooting])
 

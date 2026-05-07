@@ -3,6 +3,7 @@ import { useOSStore } from '@/store/useOSStore'
 import { systemService } from '@/services/systemService'
 import type { HangarItem } from '@/types/system'
 import { CustomSelect } from '@/components/ui/CustomSelect'
+import { NumericStepper } from '@/components/ui/NumericStepper'
 
 const BLANK: HangarItem = { name: '', category: 'Sistema', tec: undefined, quantity: 1, status: 'normale' }
 
@@ -107,8 +108,23 @@ export function HangarManagement() {
                 options={['Sistema', 'Modulo', 'Telaio', 'Altro']}
               />
             </div>
-            {f('tec', 'TEC', 'number')}
-            {f('quantity', 'QUANTITÀ', 'number')}
+            <div>
+              <label className="font-mono text-xs text-bc-amber/70 block mb-1">TEC</label>
+              <NumericStepper
+                value={form.tec}
+                onChange={(v) => setForm((p) => ({ ...p, tec: v }))}
+                min={1}
+                nullable
+              />
+            </div>
+            <div>
+              <label className="font-mono text-xs text-bc-amber/70 block mb-1">QUANTITÀ</label>
+              <NumericStepper
+                value={form.quantity}
+                onChange={(v) => setForm((p) => ({ ...p, quantity: v ?? 1 }))}
+                min={1}
+              />
+            </div>
             <div className="col-span-2">
               <label className="font-mono text-xs text-bc-amber/70 block mb-1">STATO</label>
               <CustomSelect

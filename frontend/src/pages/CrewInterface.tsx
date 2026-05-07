@@ -92,13 +92,13 @@ export function CrewInterface() {
                 {selected.aspetto && (
                   <div>
                     <div className="font-mono text-bc-muted text-xs">ASPETTO</div>
-                    <div className="font-mono text-xs text-bc-green/80 leading-relaxed">{selected.aspetto}</div>
+                    <div className="font-mono text-sm text-bc-green/80 leading-relaxed">{selected.aspetto}</div>
                   </div>
                 )}
                 {selected.background && (
                   <div>
                     <div className="font-mono text-bc-muted text-xs">BACKGROUND</div>
-                    <div className="font-mono text-xs text-bc-green/80 leading-relaxed">{selected.background}</div>
+                    <div className="font-mono text-sm text-bc-green/80 leading-relaxed">{selected.background}</div>
                   </div>
                 )}
               </div>
@@ -116,7 +116,7 @@ export function CrewInterface() {
                     ].filter(([, v]) => v).map(([label, value]) => (
                       <div key={label}>
                         <div className="font-mono text-bc-muted text-xs">{label}</div>
-                        <div className="font-mono text-xs text-bc-blue leading-relaxed">{value}</div>
+                        <div className="font-mono text-sm text-bc-blue leading-relaxed">{value}</div>
                       </div>
                     ))}
                     {selected.mech_sistemi && (
@@ -126,7 +126,7 @@ export function CrewInterface() {
                           {splitMechItems(selected.mech_sistemi).map((item, i) => (
                             <div key={i} className="flex items-center gap-2">
                               <span className="w-1.5 h-1.5 rounded-full bg-bc-blue/50 shrink-0" />
-                              <span className="font-mono text-xs text-bc-blue">{item}</span>
+                              <span className="font-mono text-sm text-bc-blue">{item}</span>
                             </div>
                           ))}
                         </div>
@@ -139,7 +139,7 @@ export function CrewInterface() {
                           {splitMechItems(selected.mech_moduli).map((item, i) => (
                             <div key={i} className="flex items-center gap-2">
                               <span className="w-1.5 h-1.5 rounded-full bg-bc-blue/50 shrink-0" />
-                              <span className="font-mono text-xs text-bc-blue">{item}</span>
+                              <span className="font-mono text-sm text-bc-blue">{item}</span>
                             </div>
                           ))}
                         </div>

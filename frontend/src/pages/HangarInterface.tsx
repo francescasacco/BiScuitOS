@@ -3,6 +3,7 @@ import { useOSStore } from "@/store/useOSStore";
 import { systemService } from "@/services/systemService";
 import type { HangarItem } from "@/types/system";
 import { CustomSelect } from "@/components/ui/CustomSelect";
+import { NumericStepper } from "@/components/ui/NumericStepper";
 
 const DEFAULT_INVENTORY: HangarItem[] = [
   {
@@ -194,33 +195,21 @@ export function HangarInterface() {
               <label className="font-mono text-xs text-bc-muted block mb-1">
                 LIVELLO TEC
               </label>
-              <input
-                type="number"
-                className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
-                placeholder="—"
-                value={form.tec ?? ""}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    tec: e.target.value ? Number(e.target.value) : undefined,
-                  }))
-                }
+              <NumericStepper
+                value={form.tec}
+                onChange={(v) => setForm((p) => ({ ...p, tec: v }))}
+                min={1}
+                nullable
               />
             </div>
             <div>
               <label className="font-mono text-xs text-bc-muted block mb-1">
                 QUANTITÀ
               </label>
-              <input
-                type="number"
-                className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
+              <NumericStepper
                 value={form.quantity}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    quantity: Number(e.target.value) || 1,
-                  }))
-                }
+                onChange={(v) => setForm((p) => ({ ...p, quantity: v ?? 1 }))}
+                min={1}
               />
             </div>
             <div>

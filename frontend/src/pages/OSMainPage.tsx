@@ -163,7 +163,7 @@ export function OSMainPage() {
       {/* Chip row: 4 stat + 1 combined bar (spans 2 cols) */}
       <div className="shrink-0 grid grid-cols-3 sm:grid-cols-6 gap-2">
         <StatChip label="Rottami"         value={String(crawlerSystem?.scrap     ?? '—')} accent="text-bc-amber" />
-        <StatChip label="Ingegneri"       value={String(crawlerSystem?.engineers ?? '—')} accent="text-bc-blue" />
+
         <StatChip label="Piloti"          value={String(pilots.length)}                   accent="text-bc-green" />
         <StatChip label="Missioni attive" value={String(activeMissions.length)}           accent="text-bc-accent" />
         <CombinedBarChip
@@ -284,18 +284,21 @@ export function OSMainPage() {
               <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
                 <p className="bc-section-header !border-0 !pb-0 !mb-0">Ponte mercantile</p>
               </div>
-              <ul className="p-4 space-y-1.5">
+              <div className="p-4 space-y-2">
                 {crawlerSystem.merchant_bridge.split('|').map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="mt-1.5 w-1 h-1 rounded-full bg-bc-green/60 shrink-0" />
-                    <span className="font-mono text-xs text-bc-green/80 leading-relaxed">{item.trim()}</span>
-                  </li>
+                  <div key={i} className="flex items-center gap-2 py-1.5 border-b border-bc-border last:border-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-bc-green shadow-[0_0_4px_var(--bc-green)] shrink-0" />
+                    <span className="font-mono text-xs font-semibold text-bc-green/80 flex-1 min-w-0 truncate">{item.trim()}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           )}
 
-          <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0">
+          <div
+            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
+            onClick={() => navigate('/hangar')}
+          >
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
               <p className="bc-section-header !border-0 !pb-0 !mb-0">Hangar</p>
             </div>

@@ -25,13 +25,12 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
             CLASSE: {pilot.classe.toUpperCase()}
           </div>
         </div>
-        <span className={`bc-tag text-xs ${
-          pilot.role === 'operator'
-            ? 'border-bc-amber text-bc-amber'
-            : 'border-bc-green/40 text-bc-green/60'
-        }`}>
-          {pilot.role === 'operator' ? 'OPERATORE' : 'PILOTA'}
-        </span>
+        <div className="flex items-center gap-1">
+          {pilot.role === 'operator' && (
+            <span className="bc-tag text-xs border-bc-amber text-bc-amber animate-pulse">OPERATORE</span>
+          )}
+          <span className="bc-tag text-xs border-bc-green/40 text-bc-green/60">PILOTA</span>
+        </div>
       </div>
 
       {pilot.mech_nome && (
