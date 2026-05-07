@@ -4,6 +4,7 @@ import { pilotService } from '@/services/pilotService'
 import { journalService } from '@/services/journalService'
 import type { Pilot } from '@/types/pilot'
 import { CLASSI_PILOTA } from '@/types/pilot'
+import { CustomSelect } from '@/components/ui/CustomSelect'
 
 type Action = { type: 'edit' | 'note' | 'delete'; pilotId: string } | null
 
@@ -148,13 +149,11 @@ export function PilotManagement() {
                     </div>
                     <div>
                       <label className="font-mono text-xs text-bc-accent/70 block mb-1">CLASSE</label>
-                      <select
-                        className="bc-select border-bc-accent/40 text-bc-text focus:border-bc-accent text-xs"
+                      <CustomSelect
                         value={String(editForm.classe ?? '')}
-                        onChange={(e) => setEditForm((f) => ({ ...f, classe: e.target.value }))}
-                      >
-                        {CLASSI_PILOTA.map((c) => <option key={c} value={c}>{c}</option>)}
-                      </select>
+                        onChange={(v) => setEditForm((f) => ({ ...f, classe: v }))}
+                        options={CLASSI_PILOTA}
+                      />
                     </div>
                     <div>
                       <label className="font-mono text-xs text-bc-accent/70 block mb-1">MOTTO</label>

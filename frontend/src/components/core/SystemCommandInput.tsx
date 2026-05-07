@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { journalService } from '@/services/journalService'
 import { useOSStore } from '@/store/useOSStore'
 import type { JournalEntryType } from '@/types/journal'
+import { CustomSelect } from '@/components/ui/CustomSelect'
 
 const EVENT_TYPES: JournalEntryType[] = ['event', 'system', 'alert', 'narrative', 'override']
 
@@ -54,15 +55,12 @@ export function SystemCommandInput() {
 
       <div className="mb-3">
         <label className="font-mono text-xs text-bc-amber/70 block mb-1">TIPO EVENTO</label>
-        <select
-          className="bc-select border-bc-amber/40 text-bc-amber"
+        <CustomSelect
           value={type}
-          onChange={(e) => setType(e.target.value as JournalEntryType)}
-        >
-          {EVENT_TYPES.map((t) => (
-            <option key={t} value={t}>{TYPE_LABELS[t]}</option>
-          ))}
-        </select>
+          onChange={(v) => setType(v as JournalEntryType)}
+          options={EVENT_TYPES}
+          getLabel={(v) => TYPE_LABELS[v as JournalEntryType]}
+        />
       </div>
 
       <div className="mb-3">

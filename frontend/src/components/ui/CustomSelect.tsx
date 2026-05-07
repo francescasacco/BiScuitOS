@@ -6,9 +6,10 @@ interface CustomSelectProps {
   options: readonly string[]
   placeholder?: string
   hasError?: boolean
+  getLabel?: (v: string) => string
 }
 
-export function CustomSelect({ value, onChange, options, placeholder, hasError }: CustomSelectProps) {
+export function CustomSelect({ value, onChange, options, placeholder, hasError, getLabel }: CustomSelectProps) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -28,7 +29,7 @@ export function CustomSelect({ value, onChange, options, placeholder, hasError }
         onClick={() => setOpen((o) => !o)}
       >
         <span className={value ? 'text-bc-text' : 'text-bc-muted/70'}>
-          {value ? value.toUpperCase() : (placeholder ?? 'SELEZIONA...')}
+          {value ? (getLabel ? getLabel(value) : value.toUpperCase()) : (placeholder ?? 'SELEZIONA...')}
         </span>
         <span className={`text-bc-accent text-xs transition-transform duration-150 ${open ? 'rotate-180' : ''}`}>▾</span>
       </button>
@@ -45,7 +46,7 @@ export function CustomSelect({ value, onChange, options, placeholder, hasError }
               }`}
               onClick={() => { onChange(opt); setOpen(false) }}
             >
-              {opt.toUpperCase()}
+              {getLabel ? getLabel(opt) : opt.toUpperCase()}
             </button>
           ))}
         </div>

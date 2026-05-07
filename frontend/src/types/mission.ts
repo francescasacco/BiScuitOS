@@ -6,6 +6,8 @@ export interface Mission {
   status: MissionStatus
   summary?: string
   reward?: string
+  map_x?: number
+  map_y?: number
   created_at: string
 }
 

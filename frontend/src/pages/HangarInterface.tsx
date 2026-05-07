@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useOSStore } from "@/store/useOSStore";
 import { systemService } from "@/services/systemService";
 import type { HangarItem } from "@/types/system";
+import { CustomSelect } from "@/components/ui/CustomSelect";
 
 const DEFAULT_INVENTORY: HangarItem[] = [
   {
@@ -183,21 +184,11 @@ export function HangarInterface() {
               <label className="font-mono text-xs text-bc-muted block mb-1">
                 CATEGORIA
               </label>
-              <select
-                className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
+              <CustomSelect
                 value={form.category}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    category: e.target.value as HangarItem["category"],
-                  }))
-                }
-              >
-                <option value="Sistema">Sistema</option>
-                <option value="Modulo">Modulo</option>
-                <option value="Telaio">Telaio</option>
-                <option value="Altro">Altro</option>
-              </select>
+                onChange={(v) => setForm((p) => ({ ...p, category: v as HangarItem["category"] }))}
+                options={['Sistema', 'Modulo', 'Telaio', 'Altro']}
+              />
             </div>
             <div>
               <label className="font-mono text-xs text-bc-muted block mb-1">
@@ -236,20 +227,11 @@ export function HangarInterface() {
               <label className="font-mono text-xs text-bc-muted block mb-1">
                 STATO
               </label>
-              <select
-                className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
+              <CustomSelect
                 value={form.status}
-                onChange={(e) =>
-                  setForm((p) => ({
-                    ...p,
-                    status: e.target.value as HangarItem["status"],
-                  }))
-                }
-              >
-                <option value="normale">Normale</option>
-                <option value="danneggiato">Danneggiato</option>
-                <option value="distrutto">Distrutto</option>
-              </select>
+                onChange={(v) => setForm((p) => ({ ...p, status: v as HangarItem["status"] }))}
+                options={['normale', 'danneggiato', 'distrutto']}
+              />
             </div>
             <div>
               <label className="font-mono text-xs text-bc-muted block mb-1">
