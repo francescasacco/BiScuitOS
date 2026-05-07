@@ -89,7 +89,7 @@ function CombinedBarChip({
   const psPct  = psMax  ? Math.min(100, ((psCurrent  ?? 0) / psMax)  * 100) : 0
   const potPct = potMax ? Math.min(100, ((potCurrent ?? 0) / potMax) * 100) : 0
   return (
-    <div className="col-span-2 bg-bc-panel border border-bc-border rounded-xl px-3 py-2.5 flex flex-col justify-center gap-2.5">
+    <div className="col-span-3 sm:col-span-2 bg-bc-panel border border-bc-border rounded-xl px-3 py-2.5 flex flex-col justify-center gap-2.5">
       <div>
         <div className="flex justify-between font-mono text-xs mb-1">
           <span className="text-bc-muted text-xs uppercase tracking-wider">Scafo</span>
@@ -160,10 +160,9 @@ export function OSMainPage() {
         </span>
       </div>
 
-      {/* Chip row: 4 stat + 1 combined bar (spans 2 cols) */}
-      <div className="shrink-0 grid grid-cols-3 sm:grid-cols-6 gap-2">
+      {/* Chip row: 3 stat + 1 combined bar */}
+      <div className="shrink-0 grid grid-cols-3 sm:grid-cols-5 gap-2">
         <StatChip label="Rottami"         value={String(crawlerSystem?.scrap     ?? '—')} accent="text-bc-amber" />
-
         <StatChip label="Piloti"          value={String(pilots.length)}                   accent="text-bc-green" />
         <StatChip label="Missioni attive" value={String(activeMissions.length)}           accent="text-bc-accent" />
         <CombinedBarChip
