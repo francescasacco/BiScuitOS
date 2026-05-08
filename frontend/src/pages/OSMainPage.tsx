@@ -273,7 +273,7 @@ export function OSMainPage() {
                       <div className="px-3 py-2.5 space-y-2">
                         {m.report?.date && (
                           <p className="font-mono text-xs text-bc-muted/60">
-                            {[m.report.date, m.report.place ?? m.report.theater].filter(Boolean).join(' · ')}
+                            {[m.report.date, m.report.place].filter(Boolean).join(' · ')}
                           </p>
                         )}
                         {m.reward && (

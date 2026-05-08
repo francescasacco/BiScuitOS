@@ -55,7 +55,7 @@ export function MissionReport({ report }: Props) {
     <div className="mt-2 space-y-2">
       {report.date && (
         <p className="font-mono text-xs text-bc-muted tracking-wide">
-          {[report.date, report.place ?? report.theater].filter(Boolean).join(' · ')}
+          {[report.date, report.place].filter(Boolean).join(' · ')}
         </p>
       )}
 

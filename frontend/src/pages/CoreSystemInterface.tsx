@@ -5,7 +5,7 @@ import { PilotManagement } from '@/components/core/PilotManagement'
 import { HangarManagement } from '@/components/core/HangarManagement'
 import { MissionReportEditor } from '@/components/core/MissionReportEditor'
 import { useNavigate } from 'react-router-dom'
-import { AlertTriangle, ChevronLeft } from 'lucide-react'
+import { AlertTriangle } from 'lucide-react'
 import { AccessDeniedOverlay } from '@/components/ui/AccessDeniedOverlay'
 
 export function CoreSystemInterface() {

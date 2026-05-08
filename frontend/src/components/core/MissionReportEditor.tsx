@@ -3,7 +3,7 @@ import { useOSStore } from '@/store/useOSStore'
 import { missionService } from '@/services/missionService'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 import { X, ChevronLeft, ChevronRight, Check } from 'lucide-react'
-import type { Mission, MissionReport, MissionSquad, MissionCharacter, MissionContract, MissionAsset } from '@/types/mission'
+import type { MissionReport, MissionSquad, MissionCharacter, MissionContract, MissionAsset } from '@/types/mission'
 import { CoreInp, CoreTextarea, CoreSelect, CoreListEditor, CoreAddBtn, CoreRemoveBtn, CoreLabel } from './CoreField'
 
 const SQUAD_STATUSES = ['COMPLETATA', 'COMPLETATA CON DANNI', 'CONTRATTO APERTO', 'FALLITA', 'IN CORSO', 'DISPERSA']

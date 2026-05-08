@@ -33,7 +33,6 @@ export interface MissionAsset {
 export interface MissionReport {
   date?: string
   place?: string
-  theater?: string
   intel?: string[]
   squads?: MissionSquad[]
   discoveries?: { icon: string; title: string; description: string }[]

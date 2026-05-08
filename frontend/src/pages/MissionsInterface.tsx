@@ -231,7 +231,7 @@ export function MissionsInterface() {
                       <span className="font-display text-sm font-bold text-bc-text tracking-wider md:truncate break-words">{selected.title}</span>
                       {selected.report?.date && (
                         <span className="font-mono text-xs text-bc-muted/60 hidden sm:block">
-                          {[selected.report.date, selected.report.place ?? selected.report.theater].filter(Boolean).join(' · ')}
+                          {[selected.report.date, selected.report.place].filter(Boolean).join(' · ')}
                         </span>
                       )}
                     </div>

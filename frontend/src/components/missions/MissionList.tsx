@@ -70,7 +70,7 @@ export function MissionList({
               {m.report?.date && (
                 <div className="flex items-center gap-1.5">
                   <span className="font-mono text-xs text-bc-muted/70">
-                    {[m.report.date, m.report.place ?? m.report.theater].filter(Boolean).join(' · ')}
+                    {[m.report.date, m.report.place].filter(Boolean).join(' · ')}
                   </span>
                 </div>
               )}

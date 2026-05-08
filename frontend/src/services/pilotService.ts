@@ -1,6 +1,5 @@
 import { supabase } from '@/lib/supabaseClient'
 import type { Pilot, PilotFormData } from '@/types/pilot'
-import { journalService } from './journalService'
 
 export const pilotService = {
   async getAll(): Promise<Pilot[]> {
@@ -12,16 +11,6 @@ export const pilotService = {
     return data ?? []
   },
 
-  async getById(id: string): Promise<Pilot | null> {
-    const { data, error } = await supabase
-      .from('pilots')
-      .select('*')
-      .eq('id', id)
-      .single()
-    if (error) throw error
-    return data
-  },
-
   async create(formData: PilotFormData): Promise<Pilot> {
     const { data, error } = await supabase
       .from('pilots')
@@ -29,15 +18,6 @@ export const pilotService = {
       .select()
       .single()
     if (error) throw error
-
-    // Auto-generate journal event on pilot creation
-    await journalService.create({
-      title: `PILOT_REGISTRATION // ${formData.identificativo}`,
-      content: `New pilot node injected into BC-OS network.\nIdentificativo: ${formData.identificativo}\nClasse: ${formData.classe}\nMech: ${formData.mech_nome || 'UNASSIGNED'}\nSystem synchronization complete. Node assigned.`,
-      type: 'pilot_registration',
-      author: 'BISCUIT//CORE',
-    })
-
     return data
   },
 
