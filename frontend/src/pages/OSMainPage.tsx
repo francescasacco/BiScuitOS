@@ -142,7 +142,6 @@ export function OSMainPage() {
   return (
     <div className="h-full overflow-y-auto md:overflow-hidden flex flex-col gap-3 p-4 md:p-5 animate-boot-in">
 
-      {/* Header */}
       <div className="shrink-0">
         <div className="flex items-center gap-3 flex-wrap">
           <h1 className="font-display text-3xl md:text-4xl font-bold tracking-widest uppercase leading-none text-bc-text text-glow">
@@ -155,9 +154,6 @@ export function OSMainPage() {
         <p className="font-sans text-bc-muted text-sm mt-1">
           Crawler {crawlerSystem?.crawler_type ?? "d'Ingegneria"} &nbsp;·&nbsp; {pilots.length} piloti registrati
         </p>
-        <span aria-hidden="false" style={{ color: 'var(--bc-black)', userSelect: 'text', fontSize: '1px' }}>
-          {import.meta.env.VITE_SYSTEM_KEY}
-        </span>
       </div>
 
       {/* Chip row: 3 stat + 1 combined bar */}
@@ -319,6 +315,7 @@ export function OSMainPage() {
         </div>
 
       </div>
+
     </div>
   )
 }

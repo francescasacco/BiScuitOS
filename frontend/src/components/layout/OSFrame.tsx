@@ -34,9 +34,12 @@ export function OSFrame() {
 
       <div className="flex flex-col flex-1 overflow-hidden min-w-0">
         <Navbar />
-        <main className="flex-1 overflow-hidden min-h-0">
+        <main className="flex-1 overflow-hidden min-h-0 pb-6">
           <Outlet />
         </main>
+        <div className="shrink-0 flex justify-end pr-4 pb-1.5">
+          <span className="font-mono text-[10px] text-bc-accent/80 select-none">Made by @FrancescaSacco</span>
+        </div>
       </div>
 
     </div>

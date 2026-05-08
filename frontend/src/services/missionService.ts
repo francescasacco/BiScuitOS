@@ -32,6 +32,17 @@ export const missionService = {
     return data
   },
 
+  async updateCoords(id: string, map_x: number, map_y: number): Promise<Mission> {
+    const { data, error } = await supabase
+      .from('missions')
+      .update({ map_x, map_y })
+      .eq('id', id)
+      .select()
+      .single()
+    if (error) throw error
+    return data
+  },
+
   async delete(id: string): Promise<void> {
     const { error } = await supabase.from('missions').delete().eq('id', id)
     if (error) throw error
