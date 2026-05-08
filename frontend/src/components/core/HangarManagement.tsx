@@ -62,7 +62,7 @@ export function HangarManagement() {
   return (
     <div className="bc-panel border border-bc-amber/40 border-glow-amber h-full flex flex-col">
       <div className="flex items-center justify-between p-4 pb-3 shrink-0">
-        <div className="bc-section-header mb-0 pb-0 border-0" style={{ color: 'var(--bc-amber)' }}>
+        <div className="flex items-center gap-1.5 font-sans text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--bc-amber)' }}>
           <Warehouse size={12} strokeWidth={2} /> GESTIONE HANGAR
         </div>
         <button className="font-mono text-xs text-bc-amber/60 border border-bc-amber/30 px-2 py-0.5 hover:border-bc-amber hover:text-bc-amber transition-all" onClick={openNew}>

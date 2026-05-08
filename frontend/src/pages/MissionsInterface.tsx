@@ -174,10 +174,10 @@ export function MissionsInterface() {
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-4 py-3 border-b border-bc-border shrink-0">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-3 py-3 border-b border-bc-border shrink-0">
         <div>
           <h1 className="font-display text-lg font-bold text-bc-green text-glow tracking-widest">
-            NUCLEO MISSIONI
+            NUCLEO MISSIONI // ESPLORAZIONI
           </h1>
           <p className="font-mono text-xs text-bc-muted mt-0.5">
             {missions.filter(m => m.status === 'active').length} attive / {missions.length} totali

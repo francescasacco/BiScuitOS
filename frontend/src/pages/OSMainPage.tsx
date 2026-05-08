@@ -54,12 +54,13 @@ const MISSION_STATUS_COLOR: Record<MissionStatus, string> = {
 
 const LOG_COLOR: Partial<Record<JournalEntryType, string>> = {
   alert:              'bg-bc-red',
-  event:              'bg-bc-accent',
+  event:              'bg-bc-orange',
   mission:            'bg-bc-blue',
   system:             'bg-bc-muted',
   override:           'bg-bc-amber',
   pilot_registration: 'bg-bc-green',
   pilot_note:         'bg-bc-amber',
+  trade:              'bg-bc-orange',
 }
 const LOG_TYPE_LABEL: Partial<Record<JournalEntryType, string>> = {
   alert:              'ALERT',
@@ -69,13 +70,14 @@ const LOG_TYPE_LABEL: Partial<Record<JournalEntryType, string>> = {
   override:           'OVERRIDE',
   pilot_registration: 'REGISTRAZIONE',
   pilot_note:         'NOTA PILOTA',
+  trade:              'SCAMBIO',
 }
 
 
 const LOG_TITLE_COLOR: Partial<Record<JournalEntryType, string>> = {
-  alert: 'text-bc-red', event: 'text-bc-green', mission: 'text-bc-blue',
+  alert: 'text-bc-red', event: 'text-bc-orange', mission: 'text-bc-blue',
   system: 'text-bc-muted', override: 'text-bc-amber',
-  pilot_registration: 'text-bc-green',
+  pilot_registration: 'text-bc-green', trade: 'text-bc-orange',
 }
 
 const INV_STATUS_DOT: Record<HangarItem['status'], string> = {

@@ -5,6 +5,7 @@ import type { HangarItem } from "@/types/system";
 import { CustomSelect } from "@/components/ui/CustomSelect";
 import { NumericStepper } from "@/components/ui/NumericStepper";
 import { RefreshCw, Pencil, X } from 'lucide-react'
+import { TradeBoardWidget } from "@/components/ui/TradeBoardWidget";
 
 const DEFAULT_INVENTORY: HangarItem[] = [
   {
@@ -262,75 +263,43 @@ export function HangarInterface() {
         </div>
       )}
 
+      <TradeBoardWidget />
+
       {/* Inventory list grouped by category */}
-      <div className="shrink-0 flex flex-col gap-4">
+      <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${grouped.length}, minmax(0, 1fr))` }}>
         {grouped.map(({ cat, items }) => (
           <div
             key={cat}
-            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden"
+            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col min-h-[200px]"
           >
-            <div className="px-4 py-2.5 border-b border-bc-border flex items-center gap-2">
-              <span
-                className={`font-mono text-xs uppercase tracking-widest border px-2 py-0.5 ${CATEGORY_STYLE[cat]}`}
-              >
+            <div className="px-3 py-2 border-b border-bc-border flex items-center gap-2">
+              <span className={`font-mono text-xs uppercase tracking-widest border px-1.5 py-0.5 ${CATEGORY_STYLE[cat]}`}>
                 {cat}
               </span>
-              <span className="font-mono text-xs text-bc-muted">
-                {items.length} oggetti
-              </span>
+              <span className="font-mono text-xs text-bc-muted">{items.length}</span>
             </div>
-            <div className="divide-y divide-bc-border">
+            <div className="divide-y divide-bc-border flex-1">
               {items.map(({ x: item, i }) => (
-                <div
-                  key={i}
-                  className="flex items-center gap-4 px-4 py-3 group"
-                >
-                  <span
-                    className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT[item.status]}`}
-                  />
-
+                <div key={i} className="flex items-start gap-2 px-3 py-2.5 group">
+                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 mt-1 ${STATUS_DOT[item.status]}`} />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       {item.tec != null && (
-                        <span className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-1.5 py-0.5 shrink-0">
-                          TEC {item.tec}
-                        </span>
+                        <span className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-1 shrink-0">T{item.tec}</span>
                       )}
-                      <span
-                        className={`font-sans text-sm font-semibold ${item.status === "distrutto" ? "line-through text-bc-muted" : "text-bc-text"}`}
-                      >
-                        {item.name}
+                      <span className={`font-sans text-sm font-semibold leading-snug ${
+                        item.status === 'distrutto' ? 'line-through text-bc-muted' : 'text-bc-text'
+                      }`}>
+                        {item.name}{item.quantity > 1 ? ` ×${item.quantity}` : ''}
                       </span>
-                      {item.quantity > 1 && (
-                        <span className="font-mono text-xs text-bc-muted">
-                          ×{item.quantity}
-                        </span>
-                      )}
                     </div>
-                    {item.notes && (
-                      <p className="font-mono text-xs text-bc-muted mt-0.5">
-                        {item.notes}
-                      </p>
-                    )}
+                    {item.notes && <p className="font-mono text-xs text-bc-muted mt-0.5 leading-snug">{item.notes}</p>}
                   </div>
-
-                  <span
-                    className={`font-mono text-xs uppercase tracking-widest shrink-0 ${STATUS_TEXT[item.status]}`}
-                  >
-                    {item.status}
-                  </span>
-
                   {isOperator && (
-                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-                      <button className="font-mono text-xs text-bc-muted hover:text-bc-amber transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-amber/40" onClick={() => handleStatusCycle(i)} title="Cambia stato">
-                        <RefreshCw size={11} strokeWidth={2} />
-                      </button>
-                      <button className="font-mono text-xs text-bc-muted hover:text-bc-blue transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-blue/40" onClick={() => handleEdit(i)} title="Modifica">
-                        <Pencil size={11} strokeWidth={2} />
-                      </button>
-                      <button className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-red/40" onClick={() => handleDelete(i)} title="Rimuovi">
-                        <X size={11} strokeWidth={2} />
-                      </button>
+                    <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
+                      <button className="text-bc-muted hover:text-bc-amber p-0.5" onClick={() => handleStatusCycle(i)}><RefreshCw size={10} strokeWidth={2} /></button>
+                      <button className="text-bc-muted hover:text-bc-blue p-0.5" onClick={() => handleEdit(i)}><Pencil size={10} strokeWidth={2} /></button>
+                      <button className="text-bc-muted hover:text-bc-red p-0.5" onClick={() => handleDelete(i)}><X size={10} strokeWidth={2} /></button>
                     </div>
                   )}
                 </div>

@@ -4,6 +4,7 @@ import type { CrawlerSystem } from '@/types/system'
 import type { JournalEntry } from '@/types/journal'
 import type { Mission } from '@/types/mission'
 import type { TaskBoardItem } from '@/types/taskBoard'
+import type { TradeOffer } from '@/types/tradeBoard'
 
 interface OSStore {
   isOperator: boolean
@@ -32,6 +33,11 @@ interface OSStore {
   addTaskBoardItem: (item: TaskBoardItem) => void
   updateTaskBoardItem: (item: TaskBoardItem) => void
   removeTaskBoardItem: (id: string) => void
+
+  tradeOffers: TradeOffer[]
+  setTradeOffers: (offers: TradeOffer[]) => void
+  addTradeOffer: (offer: TradeOffer) => void
+  removeTradeOffer: (id: string) => void
 
   isBooting: boolean
   setIsBooting: (value: boolean) => void
@@ -74,6 +80,11 @@ export const useOSStore = create<OSStore>((set) => ({
     set((state) => ({ taskBoardItems: state.taskBoardItems.map((t) => (t.id === item.id ? item : t)) })),
   removeTaskBoardItem: (id) =>
     set((state) => ({ taskBoardItems: state.taskBoardItems.filter((t) => t.id !== id) })),
+
+  tradeOffers: [],
+  setTradeOffers: (offers) => set({ tradeOffers: offers }),
+  addTradeOffer: (offer) => set((state) => ({ tradeOffers: [offer, ...state.tradeOffers] })),
+  removeTradeOffer: (id) => set((state) => ({ tradeOffers: state.tradeOffers.filter((o) => o.id !== id) })),
 
   isBooting: true,
   setIsBooting: (value) => set({ isBooting: value }),

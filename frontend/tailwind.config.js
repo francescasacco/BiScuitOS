@@ -19,6 +19,7 @@ export default {
         'bc-blue':      '#60a5fa',
         'bc-violet':    '#7c3aed',
         'bc-muted':     '#8888b0',
+        'bc-orange':    '#f43f5e',
       },
       fontFamily: {
         display: ['"Orbitron"', 'sans-serif'],
