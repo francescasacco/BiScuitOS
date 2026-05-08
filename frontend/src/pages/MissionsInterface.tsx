@@ -217,12 +217,12 @@ export function MissionsInterface() {
           />
 
           <div
-            className={`fixed inset-x-0 bottom-0 top-[105px] md:absolute md:inset-0 z-30 md:z-20 rounded-t-xl md:rounded-lg overflow-hidden transition-transform duration-300 ease-in-out md:p-0 ${
+            className={`fixed inset-x-0 bottom-0 top-[120px] md:absolute md:inset-0 z-30 md:z-20 rounded-t-xl md:rounded-lg overflow-hidden transition-transform duration-300 ease-in-out md:p-0 ${
               selected?.report ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
             <div className="absolute inset-0 bg-bc-black/60 backdrop-blur-sm md:block" onClick={() => setSelected(null)} />
-            <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-t-xl md:rounded-lg overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)] mx-3 mb-3 md:mx-0 md:mb-0 max-h-[80vh] md:max-h-none">
+            <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-xl overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)] mx-3 mb-4 md:mx-0 md:mb-0 max-h-[75vh] md:max-h-none">
               {selected && (
                 <>
                   <div className="shrink-0 px-4 py-2.5 border-b border-bc-border bg-gradient-to-r from-bc-border/20 to-transparent flex items-center justify-between gap-3">
