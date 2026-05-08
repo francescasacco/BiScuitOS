@@ -1,14 +1,13 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useOSStore } from '@/store/useOSStore'
 import { OS_VERSION } from '@/config'
-import { Diamond, Users, BookOpen, Crosshair, Package, Zap } from 'lucide-react'
+import { Diamond, Users, Crosshair, Package, Zap } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { path: '/',         label: 'Feed',        sub: 'principale',         lucide: Diamond    },
-  { path: '/crew',     label: 'Equipaggio',  sub: 'registro',           lucide: Users      },
-  { path: '/journal',  label: 'Archivio',    sub: 'log & dati',         lucide: BookOpen   },
-  { path: '/missions', label: 'Missioni',    sub: 'nucleo esplorazioni', lucide: Crosshair  },
-  { path: '/hangar',   label: 'Hangar',      sub: 'inventario',         lucide: Package    },
+  { path: '/',         label: 'Feed',        sub: 'principale',          lucide: Diamond   },
+  { path: '/crew',     label: 'Equipaggio',  sub: 'registro',            lucide: Users     },
+  { path: '/missions', label: 'Missioni',    sub: 'nucleo esplorazioni', lucide: Crosshair },
+  { path: '/hangar',   label: 'Hangar',      sub: 'inventario',          lucide: Package   },
 ]
 
 const OPERATOR_ITEMS = [

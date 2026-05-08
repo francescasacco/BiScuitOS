@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom'
 import { OSFrame } from '@/components/layout/OSFrame'
 import { OSMainPage } from '@/pages/OSMainPage'
 import { CrewInterface } from '@/pages/CrewInterface'
-import { JournalInterface } from '@/pages/JournalInterface'
 import { MissionsInterface } from '@/pages/MissionsInterface'
 import { CoreSystemInterface } from '@/pages/CoreSystemInterface'
 import { HangarInterface } from '@/pages/HangarInterface'
@@ -14,7 +13,6 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <OSMainPage /> },
       { path: 'crew', element: <CrewInterface /> },
-      { path: 'journal', element: <JournalInterface /> },
       { path: 'missions', element: <MissionsInterface /> },
       { path: 'hangar', element: <HangarInterface /> },
       { path: 'core', element: <CoreSystemInterface /> },

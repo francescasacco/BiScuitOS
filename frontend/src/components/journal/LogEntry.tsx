@@ -4,7 +4,7 @@ const TYPE_STYLES: Record<JournalEntryType, { border: string; label: string; col
   event:              { border: 'border-bc-green', label: 'EVENTO',         color: 'text-bc-green', dot: 'bg-bc-accent' },
   mission:            { border: 'border-bc-blue',  label: 'MISSIONE',       color: 'text-bc-blue',  dot: 'bg-bc-green' },
   system:             { border: 'border-bc-muted', label: 'SISTEMA',        color: 'text-bc-muted', dot: 'bg-bc-muted' },
-  pilot_registration: { border: 'border-bc-green', label: 'REGISTRAZIONE PILOTA', color: 'text-bc-green', dot: 'bg-bc-green' },
+  pilot_registration: { border: 'border-bc-green', label: 'REGISTRAZIONE', color: 'text-bc-green', dot: 'bg-bc-green' },
   override:           { border: 'border-bc-amber', label: 'OVERRIDE',       color: 'text-bc-amber', dot: 'bg-bc-amber' },
   alert:              { border: 'border-bc-red',   label: 'ALERT',          color: 'text-bc-red',   dot: 'bg-bc-red' },
   pilot_note:         { border: 'border-bc-amber', label: 'NOTA PILOTA',    color: 'text-bc-amber', dot: 'bg-bc-amber' },
@@ -15,10 +15,10 @@ export function LogEntry({ entry }: { entry: JournalEntry }) {
 
   return (
     <div className={`border-l-2 pl-4 py-2 ${style.border}`}>
-      <div className="flex items-center gap-3 mb-1">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-1">
         <span className={`w-2 h-2 rounded-full shrink-0 ${style.dot}`} />
-        <span className={`bc-tag ${style.border} ${style.color} text-xs`}>{style.label}</span>
-        <span className="font-mono text-bc-muted text-xs">
+        <span className={`bc-tag ${style.border} ${style.color} text-xs shrink-0`}>{style.label}</span>
+        <span className="font-mono text-bc-muted text-xs whitespace-nowrap">
           {new Date(entry.created_at).toLocaleString('it-IT', {
             year: 'numeric', month: '2-digit', day: '2-digit',
             hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -26,7 +26,7 @@ export function LogEntry({ entry }: { entry: JournalEntry }) {
           })}
         </span>
         {entry.author && (
-          <span className="font-mono text-bc-muted/60 text-xs">// {entry.author}</span>
+          <span className="font-mono text-bc-muted/60 text-xs whitespace-nowrap">// {entry.author}</span>
         )}
       </div>
       <div className={`font-mono text-sm font-bold ${style.color}`}>{entry.title}</div>

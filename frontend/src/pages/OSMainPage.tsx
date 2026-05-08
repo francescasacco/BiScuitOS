@@ -61,12 +61,22 @@ const LOG_COLOR: Partial<Record<JournalEntryType, string>> = {
   pilot_registration: 'bg-bc-green',
   pilot_note:         'bg-bc-amber',
 }
+const LOG_TYPE_LABEL: Partial<Record<JournalEntryType, string>> = {
+  alert:              'ALERT',
+  event:              'EVENTO',
+  mission:            'MISSIONE',
+  system:             'SISTEMA',
+  override:           'OVERRIDE',
+  pilot_registration: 'REGISTRAZIONE',
+  pilot_note:         'NOTA PILOTA',
+}
+
+
 const LOG_TITLE_COLOR: Partial<Record<JournalEntryType, string>> = {
   alert: 'text-bc-red', event: 'text-bc-green', mission: 'text-bc-blue',
   system: 'text-bc-muted', override: 'text-bc-amber',
   pilot_registration: 'text-bc-green',
 }
-
 
 const INV_STATUS_DOT: Record<HangarItem['status'], string> = {
   normale:     'bg-bc-green shadow-[0_0_4px_var(--bc-green)]',
@@ -236,7 +246,7 @@ export function OSMainPage() {
                         <span className="font-mono text-bc-muted text-xs shrink-0">
                           {new Date(entry.created_at).toLocaleString('it-IT', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
                         </span>
-                        <span className="font-sans text-xs text-bc-muted/60 uppercase tracking-wider shrink-0">{entry.type}</span>
+                        <span className="font-sans text-xs text-bc-muted/60 uppercase tracking-wider shrink-0">{LOG_TYPE_LABEL[entry.type] ?? entry.type}</span>
                       </div>
                       {i === 0 ? (
                         <Ticker text={entry.title} colorClass={LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'} />

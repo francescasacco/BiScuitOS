@@ -3,6 +3,7 @@ import { useOSStore } from '@/store/useOSStore'
 import { OS_NAME } from '@/config'
 import { BiscuitLoader } from '@/components/core/BiscuitLoader'
 import { AccessDeniedOverlay } from '@/components/ui/AccessDeniedOverlay'
+import { JournalPanel } from '@/components/journal/JournalPanel'
 import { Menu, X, Key, ChevronLeft } from 'lucide-react'
 
 const SYSTEM_KEY = import.meta.env.VITE_SYSTEM_KEY
@@ -30,8 +31,6 @@ export function Navbar() {
       {showLoader && <BiscuitLoader onComplete={() => { setShowLoader(false); setIsOperator(true) }} />}
 
       <header className="shrink-0 border-b border-bc-border bg-bc-black/60" style={{ backdropFilter: 'blur(12px)' }}>
-
-        {/* Riga principale */}
         <div className="h-12 flex items-center justify-between px-4 md:px-5 gap-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <button
@@ -56,6 +55,10 @@ export function Navbar() {
             <div className="hidden sm:flex items-center gap-2">
               <span className="status-dot nominal" />
               <span className="font-sans text-bc-green text-xs font-medium">Online</span>
+            </div>
+
+            <div className="hidden sm:block">
+              <JournalPanel />
             </div>
 
             {isOperator ? (
@@ -99,7 +102,6 @@ export function Navbar() {
           </div>
         </div>
 
-        {/* Riga input chiave — appare sotto su mobile, non sovrapposta */}
         {showKeyInput && !isOperator && (
           <div className="flex items-center gap-2 px-4 md:px-5 pb-2 md:hidden">
             <input
