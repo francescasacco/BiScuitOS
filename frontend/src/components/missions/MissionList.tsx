@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import type { Mission, MissionStatus } from '@/types/mission'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 import { STATUS_COLORS, STATUS_LABELS } from './missionConstants'
-import { MapPin, X } from 'lucide-react'
+import { MapPin, X, FileText } from 'lucide-react'
+import { MissionReport } from './MissionReport'
 
 interface MissionListProps {
   missions: Mission[]
@@ -22,6 +24,8 @@ export function MissionList({
   onRepositionToggle,
   onStatusChange,
 }: MissionListProps) {
+  const [reportOpen, setReportOpen] = useState<string | null>(null)
+
   if (missions.length === 0) {
     return (
       <div className="bc-panel border border-bc-border p-6 text-center">
@@ -34,6 +38,9 @@ export function MissionList({
     <>
       {missions.map(m => {
         const isSel = m.id === selected?.id
+        const hasReport = !!m.report
+        const isReportOpen = reportOpen === m.id
+
         return (
           <div
             key={m.id}
@@ -49,16 +56,48 @@ export function MissionList({
               {m.map_x != null && (
                 <span className="font-mono text-bc-muted/40 text-xs">📍</span>
               )}
+              {hasReport && (
+                <span className="font-mono text-bc-accent/50 text-[10px] tracking-wider">◈ RESOCONTO</span>
+              )}
             </div>
+
             <p className={`font-mono text-xs font-bold ${STATUS_COLORS[m.status].split(' ')[0]}`}>
               {m.title}
             </p>
+
+            {m.report?.theater && (
+              <p className="font-mono text-[10px] text-bc-muted/50 mt-0.5">
+                {[m.report.theater, m.report.date].filter(Boolean).join(' · ')}
+              </p>
+            )}
+
             {m.summary && (
               <p className="font-mono text-xs text-bc-muted mt-1 line-clamp-2">{m.summary}</p>
             )}
             {m.reward && (
               <p className="font-mono text-xs text-bc-amber mt-1">↳ {m.reward}</p>
             )}
+
+            {hasReport && (
+              <button
+                className={`mt-2 w-full flex items-center justify-center gap-1.5 font-mono text-[10px] px-2 py-1 border rounded transition-all ${
+                  isReportOpen
+                    ? 'border-bc-accent/60 text-bc-accent bg-bc-accent/5'
+                    : 'border-bc-border text-bc-muted/60 hover:border-bc-accent/40 hover:text-bc-accent/70'
+                }`}
+                onClick={(e) => { e.stopPropagation(); setReportOpen(isReportOpen ? null : m.id) }}
+              >
+                <FileText size={10} strokeWidth={2} />
+                {isReportOpen ? 'CHIUDI RESOCONTO' : 'APRI RESOCONTO'}
+              </button>
+            )}
+
+            {isReportOpen && m.report && (
+              <div onClick={e => e.stopPropagation()}>
+                <MissionReport report={m.report} />
+              </div>
+            )}
+
             {isOperator && (
               <div className="mt-2 space-y-2" onClick={e => e.stopPropagation()}>
                 <CustomSelect

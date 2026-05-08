@@ -1,3 +1,4 @@
+import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useOSStore } from '@/store/useOSStore'
 import type { MissionStatus } from '@/types/mission'
@@ -139,6 +140,21 @@ export function OSMainPage() {
     repairStatus === 'DANNEGGIATO' ? 'text-bc-amber border-bc-amber/40 bg-bc-amber/10' :
                                      'text-bc-red border-bc-red/40 bg-bc-red/10'
 
+  const pinnedId = useMemo(() =>
+    [...missions]
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .find(m => m.report)?.id ?? null,
+    [missions]
+  )
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
+  useEffect(() => {
+    if (pinnedId) setExpanded(prev => new Set([...prev, pinnedId]))
+  }, [pinnedId])
+  const toggleExpanded = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setExpanded(prev => { const s = new Set(prev); s.has(id) ? s.delete(id) : s.add(id); return s })
+  }
+
   return (
     <div className="h-full overflow-y-auto md:overflow-hidden flex flex-col gap-3 p-4 md:p-5 animate-boot-in">
 
@@ -238,7 +254,7 @@ export function OSMainPage() {
         </div>
         </div>
 
-        {/* Center: Missioni correnti — wider */}
+        {/* Center: Missioni correnti */}
         <div className="flex flex-col gap-3 md:flex-[2] md:min-w-0 md:min-h-0">
           <div
             className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
@@ -252,19 +268,76 @@ export function OSMainPage() {
                 <p className="font-sans text-bc-muted text-sm">Nessuna missione nel sistema.</p>
               ) : (
                 <div>
-                  {missions.map((m) => (
-                    <div key={m.id} className="py-2.5 border-b border-bc-border last:border-0 last:pb-0">
-                      <div className="flex items-start justify-between gap-3">
-                        <span className={`font-mono text-xs font-bold leading-snug ${MISSION_TEXT[m.status]}`}>
-                          {m.title}
-                        </span>
-                        <span className={`bc-tag shrink-0 ${MISSION_STATUS_COLOR[m.status]}`}>
-                          {MISSION_STATUS_LABEL[m.status]}
-                        </span>
+                  {missions.map((m) => {
+                    const isExpanded = expanded.has(m.id)
+                    const isPinned = m.id === pinnedId
+                    return (
+                      <div key={m.id} className="py-2.5 border-b border-bc-border last:border-0 last:pb-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            {isPinned && <span className="font-mono text-[9px] text-bc-accent/60 shrink-0">◈</span>}
+                            <span className={`font-mono text-xs font-bold leading-snug truncate ${MISSION_TEXT[m.status]}`}>
+                              {m.title}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <span className={`bc-tag ${MISSION_STATUS_COLOR[m.status]}`}>
+                              {MISSION_STATUS_LABEL[m.status]}
+                            </span>
+                            {m.report && (
+                              <button
+                                className="font-mono text-[10px] text-bc-muted/50 hover:text-bc-accent transition-colors w-4 text-center"
+                                onClick={e => toggleExpanded(m.id, e)}
+                              >
+                                {isExpanded ? '▲' : '▼'}
+                              </button>
+                            )}
+                          </div>
+                        </div>
+
+                        {m.reward && <p className="font-mono text-xs text-bc-amber mt-1">{m.reward}</p>}
+
+                        {isExpanded && m.report && (
+                          <div className="mt-2 pt-2 border-t border-bc-border/30 space-y-3" onClick={e => e.stopPropagation()}>
+
+                            {m.report.discoveries && m.report.discoveries.length > 0 && (
+                              <div>
+                                <p className="font-mono text-[10px] text-bc-muted/50 uppercase tracking-widest mb-1.5">◈ Scoperte principali</p>
+                                <div className="space-y-1">
+                                  {m.report.discoveries.map((d, i) => (
+                                    <div key={i} className="flex items-center gap-2">
+                                      <span className="text-sm leading-none shrink-0">{d.icon}</span>
+                                      <span className="font-sans text-xs text-bc-text/85 leading-snug">{d.title}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {m.report.contracts && m.report.contracts.length > 0 && (
+                              <div>
+                                <div className="flex items-center gap-2 mb-1.5">
+                                  <p className="font-mono text-[10px] text-bc-muted/50 uppercase tracking-widest">◈ Contratti aperti</p>
+                                  {m.report.contractsIncompatible && (
+                                    <span className="font-mono text-[9px] text-bc-red border border-bc-red/40 px-1 rounded leading-none py-0.5">INCOMPATIBILI</span>
+                                  )}
+                                </div>
+                                <div className="space-y-1.5">
+                                  {m.report.contracts.map((c, i) => (
+                                    <div key={i} className="flex items-start justify-between gap-2 py-1 border-b border-bc-border/20 last:border-0">
+                                      <span className="font-mono text-[11px] text-bc-text font-semibold leading-snug">{c.name}</span>
+                                      <span className="font-mono text-[11px] text-bc-amber shrink-0 text-right leading-snug">{c.reward}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                          </div>
+                        )}
                       </div>
-                      {m.reward && <p className="font-mono text-xs text-bc-amber mt-1">{m.reward}</p>}
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               )}
             </div>

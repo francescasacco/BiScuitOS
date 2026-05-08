@@ -7,6 +7,7 @@ import { pilotService } from './services/pilotService'
 import { systemService } from './services/systemService'
 import { journalService } from './services/journalService'
 import { missionService } from './services/missionService'
+import { taskBoardService } from './services/taskBoardService'
 
 export function App() {
   const {
@@ -15,27 +16,30 @@ export function App() {
     setCrawlerSystem,
     setJournalEntries,
     setMissions,
+    setTaskBoardItems,
   } = useOSStore()
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [pilots, system, journal, missions] = await Promise.all([
+        const [pilots, system, journal, missions, taskBoard] = await Promise.all([
           pilotService.getAll().catch(() => []),
           systemService.initialize().catch(() => null),
           journalService.getAll().catch(() => []),
           missionService.getAll().catch(() => []),
+          taskBoardService.getAll().catch(() => []),
         ])
         setPilots(pilots)
         setCrawlerSystem(system)
         setJournalEntries(journal)
         setMissions(missions)
+        setTaskBoardItems(taskBoard)
       } catch (err) {
         console.warn('[BC-OS] Data load failed — offline mode active', err)
       }
     }
     loadData()
-  }, [setPilots, setCrawlerSystem, setJournalEntries, setMissions])
+  }, [setPilots, setCrawlerSystem, setJournalEntries, setMissions, setTaskBoardItems])
 
   return (
     <>
