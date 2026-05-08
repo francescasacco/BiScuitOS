@@ -65,10 +65,10 @@ export function Navbar() {
       {showLoader && <BiscuitLoader onComplete={handleLoaderComplete} />}
 
       <header
-        className="h-12 flex items-center justify-between px-4 md:px-5 shrink-0 gap-3 border-b border-bc-border bg-bc-black/60"
+        className="h-auto min-h-12 flex flex-wrap items-center justify-between px-4 md:px-5 shrink-0 gap-2 py-2 border-b border-bc-border bg-bc-black/60"
         style={{ backdropFilter: 'blur(12px)' }}
       >
-        <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
           <button
             className="md:hidden inline-flex items-center justify-center text-bc-accent border border-bc-border w-8 h-8 hover:border-bc-accent hover:text-bc-accent transition-all"
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -90,7 +90,7 @@ export function Navbar() {
 
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 flex-wrap justify-end">
           <div className="hidden sm:flex items-center gap-2">
             <span className="status-dot nominal" />
             <span className="font-sans text-bc-green text-xs font-medium">Online</span>

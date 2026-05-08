@@ -201,7 +201,7 @@ export function OSMainPage() {
       <div className="shrink-0 flex flex-col md:flex-row gap-3 md:flex-1 md:min-h-0 md:overflow-hidden">
 
         {/* Left: Sezioni crawler + Archivio log */}
-        <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0">
+        <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0 order-2 md:order-1">
 
           <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
@@ -260,9 +260,9 @@ export function OSMainPage() {
         </div>
 
         {/* Center: Missioni correnti */}
-        <div className="flex flex-col gap-3 md:flex-[2] md:min-w-0 md:min-h-0">
+        <div className="flex flex-col gap-3 md:flex-[2] md:min-w-0 md:min-h-0 order-1 md:order-2">
           <div
-            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0"
+            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col min-h-[400px] md:min-h-0 md:flex-1 md:min-h-0"
           >
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0 flex items-center justify-between">
               <p className="bc-section-header !border-0 !pb-0 !mb-0">Missioni correnti</p>
@@ -299,7 +299,7 @@ export function OSMainPage() {
                             m.status === 'failed' ? 'bg-bc-red shadow-[0_0_4px_var(--bc-red)]' :
                             'bg-bc-muted/40'
                           }`} />
-                          <span className={`font-mono text-sm font-bold truncate ${MISSION_TEXT[m.status]}`}>
+                          <span className={`font-mono text-sm font-bold md:truncate ${MISSION_TEXT[m.status]}`}>
                             {m.title}
                           </span>
                           {isPinned && <Diamond size={10} strokeWidth={1.5} className="text-bc-accent/60 shrink-0" />}
@@ -391,7 +391,7 @@ export function OSMainPage() {
         </div>
 
         {/* Right: Ponte mercantile + Hangar */}
-        <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0">
+        <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0 order-3 md:order-3">
 
           {crawlerSystem?.merchant_bridge && (
             <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
