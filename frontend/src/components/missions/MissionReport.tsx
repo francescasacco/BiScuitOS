@@ -81,8 +81,8 @@ export function MissionReport({ report }: Props) {
                   <span className="font-mono text-xs text-bc-muted">SQ.{sq.number}</span>
                   <div className="flex gap-1 flex-wrap justify-end">
                     {(Array.isArray(sq.status) ? sq.status : [sq.status]).map((s, si) => (
-                      <span key={si} className={`font-mono text-[10px] border px-1 py-0.5 rounded ${SQUAD_STATUS_COLOR[s] ?? 'text-bc-muted border-bc-muted/20'}`}>
-                        {s}
+                      <span key={si} className={`font-mono text-[10px] border px-1 py-0.5 rounded text-center ${SQUAD_STATUS_COLOR[s] ?? 'text-bc-muted border-bc-muted/20'}`}>
+                        {s === 'COMPLETATA CON DANNI' ? <>COMPLETATA<br />CON DANNI</> : s}
                       </span>
                     ))}
                   </div>
