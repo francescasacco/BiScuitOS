@@ -83,6 +83,7 @@ export function TradeBoardWidget() {
 
   const archivedRichieste = archived.filter(o => o.type === 'richiesta')
   const archivedOfferte   = archived.filter(o => o.type === 'offerta')
+  const pilotOptions = pilots.map(p => p.identificativo)
   const getMechItems = (name: string) => {
     const pilot = pilots.find(p => p.identificativo === name)
     if (!pilot) return []
