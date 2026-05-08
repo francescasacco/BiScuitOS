@@ -13,6 +13,8 @@ export interface Pilot {
   mech_sistemi?: string
   mech_moduli?: string
   mech_status?: string
+  sesso?: 'M' | 'F'
+  abilita?: string
   role: 'pilot' | 'operator'
   created_at: string
   updated_at: string

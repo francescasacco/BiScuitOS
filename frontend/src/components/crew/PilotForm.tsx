@@ -19,6 +19,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
   const [form, setForm] = useState<PilotFormData>(EMPTY_FORM)
   const [sistemi, setSistemi] = useState<string[]>([])
   const [moduli, setModuli] = useState<string[]>([])
+  const [abilita, setAbilita] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
   const [registering, setRegistering] = useState(false)
   const [errors, setErrors] = useState<Partial<Record<keyof PilotFormData, string>>>({})
@@ -69,6 +70,11 @@ export function PilotForm({ onClose }: PilotFormProps) {
   const updateModuli = (items: string[]) => {
     setModuli(items)
     setForm((p) => ({ ...p, mech_moduli: items.join('\n') }))
+  }
+
+  const updateAbilita = (items: string[]) => {
+    setAbilita(items)
+    setForm((p) => ({ ...p, abilita: items.join('\n') }))
   }
 
   const handleNext = () => {
@@ -153,6 +159,16 @@ export function PilotForm({ onClose }: PilotFormProps) {
             <FieldError field="classe" />
           </div>
           <div>
+            <label className="font-mono text-xs text-bc-muted block mb-1">SESSO</label>
+            <CustomSelect
+              value={form.sesso ?? ''}
+              onChange={(v) => update('sesso' as keyof PilotFormData, v)}
+              options={['M', 'F'] as const}
+              placeholder="SELEZIONA..."
+              getLabel={(v) => v === 'M' ? 'Maschio' : 'Femmina'}
+            />
+          </div>
+          <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">MOTTO</label>
             <input
               className={inputClass('motto_attivato')}
@@ -204,6 +220,10 @@ export function PilotForm({ onClose }: PilotFormProps) {
               onBlur={() => touch('cimelio')}
             />
             <FieldError field="cimelio" />
+          </div>
+          <div>
+            <label className="font-mono text-xs text-bc-muted block mb-1">ABILITÀ <span className="text-bc-muted/50">(opzionale)</span></label>
+            <MechItemList items={abilita} onChange={updateAbilita} placeholder="es. Hacking, Primo soccorso..." />
           </div>
         </div>
       )}

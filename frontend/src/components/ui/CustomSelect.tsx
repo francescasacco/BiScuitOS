@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 interface CustomSelectProps {
   value: string
@@ -26,13 +27,13 @@ export function CustomSelect({ value, onChange, options, placeholder, hasError, 
     <div ref={ref} className="relative">
       <button
         type="button"
-        className={`bc-input flex items-center justify-between gap-2 cursor-pointer text-left${hasError ? ' border-bc-red focus:border-bc-red' : ''}`}
+        className={`bc-input flex items-center justify-between gap-2 cursor-pointer text-left leading-none${hasError ? ' border-bc-red focus:border-bc-red' : ''}`}
         onClick={() => setOpen((o) => !o)}
       >
         <span className={value ? 'text-bc-text' : 'text-bc-muted/70'}>
           {value ? (getLabel ? getLabel(value) : value.toUpperCase()) : (placeholder ?? 'SELEZIONA...')}
         </span>
-        <span className={`text-bc-accent text-xs transition-transform duration-150 ${open ? 'rotate-180' : ''}`}>▾</span>
+        <ChevronDown size={14} className={`text-bc-accent transition-transform duration-150 ${open ? 'rotate-180' : ''}`} />
       </button>
       {open && (
         <div className={`absolute z-50 left-0 right-0 bg-bc-dark border border-bc-border rounded-md overflow-hidden shadow-xl ${

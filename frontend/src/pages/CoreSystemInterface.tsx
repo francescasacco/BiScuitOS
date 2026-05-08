@@ -5,6 +5,7 @@ import { PilotManagement } from '@/components/core/PilotManagement'
 import { HangarManagement } from '@/components/core/HangarManagement'
 import { MissionReportEditor } from '@/components/core/MissionReportEditor'
 import { useNavigate } from 'react-router-dom'
+import { AlertTriangle, ChevronLeft } from 'lucide-react'
 
 export function CoreSystemInterface() {
   const { isOperator } = useOSStore()
@@ -12,18 +13,18 @@ export function CoreSystemInterface() {
 
   if (!isOperator) {
     return (
-      <div className="h-full flex flex-col items-center justify-center space-y-4">
-        <div className="text-bc-red text-glow-red font-display text-2xl tracking-widest animate-pulse">
+      <div className="h-full flex flex-col items-center justify-center space-y-4 px-6 text-center">
+        <div className="text-bc-red text-glow-red font-display text-xl sm:text-2xl tracking-widest animate-pulse">
           ACCESSO NEGATO
         </div>
-        <div className="font-mono text-bc-muted text-sm">
+        <div className="font-mono text-bc-muted text-sm max-w-sm">
           SISTEMA CORE richiede autenticazione con CHIAVE SISTEMA valida.
         </div>
-        <div className="font-mono text-xs text-bc-red/60">
+        <div className="font-mono text-xs text-bc-red/60 max-w-xs break-words">
           ERRORE: AUTENTICAZIONE_OPERATORE_FALLITA // CRAWLER//OS // NODO RISTRETTO
         </div>
-        <button className="bc-btn border-bc-muted text-bc-muted mt-4" onClick={() => navigate('/')}>
-          ← TORNA AL FEED PRINCIPALE
+        <button className="bc-btn border-bc-muted text-bc-muted mt-4 flex items-center gap-1" onClick={() => navigate('/')}>
+          <ChevronLeft size={13} /> TORNA AL FEED PRINCIPALE
         </button>
       </div>
     )
@@ -37,8 +38,8 @@ export function CoreSystemInterface() {
           SISTEMA CORE // CONSOLE OPERATORE
         </h1>
         <div className="border border-bc-amber/40 bg-bc-amber/5 px-3 py-2 text-right">
-          <span className="text-bc-amber font-display text-xs font-bold tracking-widest">
-            ⚠ INTERFACCIA SISTEMA CORE — ACCESSO OPERATORE ATTIVO
+          <span className="text-bc-amber font-display text-xs font-bold tracking-widest flex items-center gap-1.5">
+            <AlertTriangle size={12} strokeWidth={2} /> INTERFACCIA SISTEMA CORE — ACCESSO OPERATORE ATTIVO
           </span>
           <p className="font-mono text-xs text-bc-amber/60 mt-0.5">
             Tutte le azioni sono registrate nell'Archivio Log. Procedere con cautela.

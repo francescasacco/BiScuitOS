@@ -60,9 +60,13 @@ export function CrewInterface() {
         </div>
 
         {selected ? (
-          <div className="bc-panel border border-bc-green/40 p-6 border-glow">
+          <div className={`bc-panel border p-6 ${
+            selected.sesso === 'F' ? 'border-bc-rose/40 border-glow-rose' : 'border-bc-green/40 border-glow'
+          }`}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-sm font-bold text-bc-green text-glow">
+              <h2 className={`font-display text-sm font-bold ${
+                selected.sesso === 'F' ? 'text-bc-rose text-glow-rose' : 'text-bc-green text-glow'
+              }`}>
                 {selected.identificativo}
               </h2>
               <button
@@ -79,24 +83,48 @@ export function CrewInterface() {
                 {[
                   ['IDENTIFICATIVO', selected.identificativo],
                   ['CLASSE', selected.classe],
+                  ['SESSO', selected.sesso === 'M' ? 'Maschio' : selected.sesso === 'F' ? 'Femmina' : undefined],
                   ['MOTTO', selected.motto_attivato],
                   ['CIMELIO', selected.cimelio],
                 ].filter(([, v]) => v).map(([label, value]) => (
                   <div key={label}>
                     <div className="font-mono text-bc-muted text-xs">{label}</div>
-                    <div className="font-mono text-sm text-bc-green">{value}</div>
+                    <div className={`font-mono text-sm ${
+                      selected.sesso === 'F' ? 'text-bc-rose' : 'text-bc-green'
+                    }`}>{value}</div>
                   </div>
                 ))}
                 {selected.aspetto && (
                   <div>
                     <div className="font-mono text-bc-muted text-xs">ASPETTO</div>
-                    <div className="font-mono text-sm text-bc-green/80 leading-relaxed">{selected.aspetto}</div>
+                    <div className={`font-mono text-sm leading-relaxed ${
+                      selected.sesso === 'F' ? 'text-bc-rose/80' : 'text-bc-green/80'
+                    }`}>{selected.aspetto}</div>
                   </div>
                 )}
                 {selected.background && (
                   <div>
                     <div className="font-mono text-bc-muted text-xs">BACKGROUND</div>
-                    <div className="font-mono text-sm text-bc-green/80 leading-relaxed">{selected.background}</div>
+                    <div className={`font-mono text-sm leading-relaxed ${
+                      selected.sesso === 'F' ? 'text-bc-rose/80' : 'text-bc-green/80'
+                    }`}>{selected.background}</div>
+                  </div>
+                )}
+                {selected.abilita && (
+                  <div>
+                    <div className="font-mono text-bc-muted text-xs mb-1">ABILITÀ</div>
+                    <div className="space-y-1">
+                      {splitMechItems(selected.abilita).map((item, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
+                            selected.sesso === 'F' ? 'bg-bc-rose/50' : 'bg-bc-green/50'
+                          }`} />
+                          <span className={`font-mono text-sm ${
+                            selected.sesso === 'F' ? 'text-bc-rose' : 'text-bc-green'
+                          }`}>{item}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
@@ -114,7 +142,7 @@ export function CrewInterface() {
                     ].filter(([, v]) => v).map(([label, value]) => (
                       <div key={label}>
                         <div className="font-mono text-bc-muted text-xs">{label}</div>
-                        <div className="font-mono text-sm text-bc-blue leading-relaxed">{value}</div>
+                        <div className="font-mono text-sm text-bc-blue leading-relaxed capitalize">{value}</div>
                       </div>
                     ))}
                     {selected.mech_sistemi && (

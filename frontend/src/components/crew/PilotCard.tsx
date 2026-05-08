@@ -7,18 +7,22 @@ interface PilotCardProps {
 }
 
 export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
+  const isFemale = pilot.sesso === 'F'
+  const borderSelected = isFemale ? 'border-bc-rose border-glow-rose' : 'border-bc-green border-glow'
+  const borderIdle = isFemale
+    ? 'border-bc-border hover:border-bc-rose/50 hover:bg-bc-rose/5'
+    : 'border-bc-border hover:border-bc-green/50 hover:bg-bc-green/5'
+  const nameColor = isFemale ? 'text-bc-rose text-glow-rose' : 'text-bc-green text-glow'
   return (
     <div
       className={`bc-panel border p-4 cursor-pointer transition-all duration-150 ${
-        selected
-          ? 'border-bc-green border-glow'
-          : 'border-bc-border hover:border-bc-green/50 hover:bg-bc-green/5'
+        selected ? borderSelected : borderIdle
       }`}
       onClick={() => onSelect?.(pilot)}
     >
       <div className="flex items-start justify-between">
         <div>
-          <div className="font-display text-sm font-bold text-bc-green text-glow">
+          <div className={`font-display text-sm font-bold ${nameColor}`}>
             {pilot.identificativo}
           </div>
           <div className="font-mono text-bc-muted text-xs mt-0.5">
@@ -29,7 +33,9 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
           {pilot.role === 'operator' && (
             <span className="bc-tag text-xs border-bc-amber text-bc-amber animate-pulse">OPERATORE</span>
           )}
-          <span className="bc-tag text-xs border-bc-green/40 text-bc-green/60">PILOTA</span>
+          <span className={`bc-tag text-xs ${
+            isFemale ? 'border-bc-rose/40 text-bc-rose/60' : 'border-bc-green/40 text-bc-green/60'
+          }`}>PILOTA</span>
         </div>
       </div>
 
@@ -38,7 +44,7 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
           <div className="font-mono text-bc-muted text-xs">UNITÀ MECH</div>
           <div className="font-mono text-xs text-bc-blue mt-0.5">{pilot.mech_nome}</div>
           {pilot.mech_status && (
-            <div className="font-mono text-xs text-bc-amber mt-0.5">
+            <div className="font-mono text-xs text-bc-amber mt-0.5 capitalize">
               STATO: {pilot.mech_status}
             </div>
           )}

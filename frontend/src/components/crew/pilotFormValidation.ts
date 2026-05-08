@@ -36,6 +36,8 @@ export const EMPTY_FORM: PilotFormData = {
   mech_moduli: '',
   mech_status: 'OPERATIVO',
   motto_attivato: '',
+  abilita: '',
+  sesso: '',
 }
 
 export function validateField(field: keyof PilotFormData, value: string): string {

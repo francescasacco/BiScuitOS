@@ -78,12 +78,31 @@ export function Navbar() {
 
             {isOperator ? (
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs uppercase tracking-widest text-bc-accent border border-bc-accent/40 px-3 py-1 whitespace-nowrap animate-pulse">
+                <span className="font-mono text-xs uppercase tracking-widest text-bc-amber border border-bc-amber/40 px-3 py-1 whitespace-nowrap animate-pulse">
                   [ BISCUIT ]
                 </span>
                 <button className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all"
                   onClick={() => setIsOperator(false)}>
                   ESCI
+                </button>
+              </div>
+            ) : showKeyInput ? (
+              <div className="hidden md:flex items-center gap-2">
+                <input
+                  type="password"
+                  value={keyInput}
+                  onChange={e => setKeyInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && handleKeySubmit()}
+                  placeholder="INSERISCI CHIAVE..."
+                  className="bc-input font-mono text-xs py-1 w-40 tracking-widest"
+                  autoFocus
+                />
+                <button className="bc-btn-green font-mono text-xs px-3 py-1 tracking-widest shrink-0" onClick={handleKeySubmit}>
+                  OK
+                </button>
+                <button className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all flex items-center shrink-0"
+                  onClick={() => { setShowKeyInput(false); setKeyInput('') }}>
+                  <X size={11} strokeWidth={2} />
                 </button>
               </div>
             ) : (
@@ -100,7 +119,7 @@ export function Navbar() {
 
         {/* Riga input chiave — appare sotto su mobile, non sovrapposta */}
         {showKeyInput && !isOperator && (
-          <div className="flex items-center gap-2 px-4 md:px-5 pb-2">
+          <div className="flex items-center gap-2 px-4 md:px-5 pb-2 md:hidden">
             <input
               type="password"
               value={keyInput}

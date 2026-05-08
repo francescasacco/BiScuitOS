@@ -6,7 +6,8 @@ import type { Pilot } from '@/types/pilot'
 import { CLASSI_PILOTA } from '@/types/pilot'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 import { CoreLabel, CoreCancelBtn } from './CoreField'
-import { Check } from 'lucide-react'
+import { Check, Users } from 'lucide-react'
+import { MechItemList } from '@/components/crew/MechItemList'
 
 type ActionType = 'edit' | 'note' | 'delete'
 type Action = { type: ActionType; pilotId: string } | null
@@ -85,7 +86,7 @@ export function PilotManagement() {
 
   return (
     <div className="bc-panel border border-bc-accent/30 h-full flex flex-col">
-      <div className="bc-section-header px-4 pt-4 shrink-0">◉ // GESTIONE REGISTRO PILOTI</div>
+      <div className="bc-section-header px-4 pt-4 shrink-0 flex items-center gap-1.5"><Users size={12} strokeWidth={2} /> GESTIONE REGISTRO PILOTI</div>
 
       {flash && (
         <div className="mx-4 mb-2 font-mono text-xs text-bc-green border border-bc-green/30 px-3 py-2 shrink-0 flex items-center gap-1.5">
@@ -99,10 +100,14 @@ export function PilotManagement() {
         ) : (
           <div className="space-y-2">
             {(pilots as Pilot[]).map((pilot) => (
-              <div key={pilot.id} className="border border-bc-border rounded-lg overflow-hidden">
+              <div key={pilot.id} className={`border rounded-lg overflow-hidden ${
+                pilot.sesso === 'F' ? 'border-bc-rose/50' : 'border-bc-border'
+              }`}>
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-3 py-2.5 bg-bc-dark">
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="font-mono text-sm font-bold text-bc-green truncate">{pilot.identificativo}</span>
+                    <span className={`font-mono text-sm font-bold truncate ${
+                      pilot.sesso === 'F' ? 'text-bc-rose' : 'text-bc-green'
+                    }`}>{pilot.identificativo}</span>
                     <span className="font-mono text-xs text-bc-muted shrink-0">{pilot.classe}</span>
                   </div>
                   <div className="flex gap-1.5 shrink-0">
@@ -128,9 +133,19 @@ export function PilotManagement() {
                         <CustomSelect value={String(editForm.classe ?? '')} onChange={v => setEditForm(f => ({ ...f, classe: v }))} options={CLASSI_PILOTA} />
                       </div>
                       <PilotField label="MOTTO"   value={String(editForm.motto_attivato ?? '')} onChange={ef('motto_attivato')} />
+                      <div>
+                        <CoreLabel>SESSO</CoreLabel>
+                        <CustomSelect
+                          value={String(editForm.sesso ?? '')}
+                          onChange={v => setEditForm(f => ({ ...f, sesso: v as 'M' | 'F' }))}
+                          options={['M', 'F'] as const}
+                          placeholder="SELEZIONA..."
+                          getLabel={(v) => v === 'M' ? 'Maschio' : 'Femmina'}
+                        />
+                      </div>
                       <PilotField label="CIMELIO" value={String(editForm.cimelio ?? '')}        onChange={ef('cimelio')} />
-                      <PilotField label="ASPETTO"     value={String(editForm.aspetto ?? '')}    onChange={ef('aspetto')}    rows={2} />
-                      <PilotField label="BACKGROUND"  value={String(editForm.background ?? '')} onChange={ef('background')} rows={2} />
+                      <PilotField label="ASPETTO"     value={String(editForm.aspetto ?? '')}    onChange={ef('aspetto')} />
+                      <PilotField label="BACKGROUND"  value={String(editForm.background ?? '')} onChange={ef('background')} />
                       <PilotField label="TELAIO"  value={String(editForm.mech_telaio ?? '')}  onChange={ef('mech_telaio')} />
                       <PilotField label="MODELLO" value={String(editForm.mech_modello ?? '')} onChange={ef('mech_modello')} />
                       <PilotField label="NOME MECH"   value={String(editForm.mech_nome ?? '')}   onChange={ef('mech_nome')} />
@@ -139,6 +154,14 @@ export function PilotManagement() {
                       <PilotField label="MODULI"  value={String(editForm.mech_moduli ?? '')}  onChange={ef('mech_moduli')} />
                       <div className="sm:col-span-2">
                         <PilotField label="NOTE" value={String(editForm.mech_info ?? '')} onChange={ef('mech_info')} />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <CoreLabel>ABILITÀ</CoreLabel>
+                        <MechItemList
+                          items={(editForm.abilita ?? '').split('\n').filter(Boolean)}
+                          onChange={items => setEditForm(f => ({ ...f, abilita: items.join('\n') }))}
+                          placeholder="es. Hacking, Primo soccorso..."
+                        />
                       </div>
                     </div>
                     <div className="flex gap-2 pt-1">
