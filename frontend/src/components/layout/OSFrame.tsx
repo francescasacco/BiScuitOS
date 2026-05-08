@@ -28,7 +28,7 @@ export function OSFrame() {
 
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-20 bg-black/60 md:hidden"
+          className="fixed inset-0 z-[25] bg-black/60 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
