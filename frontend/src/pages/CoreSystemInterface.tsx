@@ -48,13 +48,16 @@ export function CoreSystemInterface() {
         </h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-[450px_1fr] xl:grid-cols-[520px_1fr] gap-4 items-start">
         <OverrideConsole />
-        <SystemCommandInput />
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:h-[230px]">
+            <div className="overflow-y-auto"><PilotManagement /></div>
+            <div className="overflow-y-auto"><HangarManagement /></div>
+          </div>
+          <div className="h-[204px]"><SystemCommandInput /></div>
+        </div>
       </div>
-
-      <HangarManagement />
-      <PilotManagement />
     </div></div>
   )
 }

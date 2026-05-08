@@ -6,7 +6,7 @@ const NAV_ITEMS = [
   { path: '/',         label: 'Feed',        sub: 'principale',  icon: '◈' },
   { path: '/crew',     label: 'Equipaggio',  sub: 'registro',    icon: '◉' },
   { path: '/journal',  label: 'Archivio',    sub: 'log & dati',  icon: '◫' },
-  { path: '/missions', label: 'Missioni',    sub: 'nucleo ops',  icon: '◆' },
+  { path: '/missions', label: 'Missioni',    sub: 'nucleo esplorazioni',  icon: '◆' },
   { path: '/hangar',   label: 'Hangar',      sub: 'inventario',  icon: '◧' },
 ]
 
@@ -78,7 +78,7 @@ export function Sidebar() {
                 <div className={`font-sans text-sm font-medium ${active ? 'text-bc-text' : ''}`}>
                   {item.label}
                 </div>
-                <div className="font-sans text-xs text-bc-muted/60">{item.sub}</div>
+                <div className="font-sans text-xs text-bc-muted/90">{item.sub}</div>
               </div>
               {item.path === '/missions' && activeMissions > 0 && (
                 <span className="font-mono text-xs text-bc-accent bg-bc-accent/15 px-1.5 py-0.5 rounded-full shrink-0">
@@ -119,7 +119,7 @@ export function Sidebar() {
                   <span className="text-sm shrink-0">{item.icon}</span>
                   <div className="flex-1 min-w-0">
                     <div className="font-sans text-sm font-medium">{item.label}</div>
-                    <div className="font-sans text-xs text-bc-muted/60">{item.sub}</div>
+                    <div className="font-sans text-xs text-bc-muted/90">{item.sub}</div>
                   </div>
                 </button>
               )

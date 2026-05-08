@@ -98,14 +98,16 @@ export function PilotManagement() {
   )
 
   return (
-    <div className="bc-panel border border-bc-accent/30 p-4">
-      <div className="bc-section-header">◉ // GESTIONE REGISTRO PILOTI</div>
+    <div className="bc-panel border border-bc-accent/30 h-full flex flex-col">
+      <div className="bc-section-header px-4 pt-4 shrink-0">◉ // GESTIONE REGISTRO PILOTI</div>
 
       {flash && (
-        <div className="mb-3 font-mono text-xs text-bc-green border border-bc-green/30 px-3 py-2">
+        <div className="mx-4 mb-2 font-mono text-xs text-bc-green border border-bc-green/30 px-3 py-2 shrink-0">
           ✓ {flash}
         </div>
       )}
+
+      <div className="flex-1 overflow-y-auto px-4 pb-4">
 
       {pilots.length === 0 ? (
         <p className="font-mono text-xs text-bc-muted">NESSUN PILOTA NEL REGISTRO</p>
@@ -278,6 +280,7 @@ export function PilotManagement() {
           ))}
         </div>
       )}
+      </div>
     </div>
   )
 }

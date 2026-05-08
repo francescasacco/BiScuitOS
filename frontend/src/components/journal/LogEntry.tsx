@@ -7,7 +7,6 @@ const TYPE_STYLES: Record<JournalEntryType, { border: string; label: string; col
   pilot_registration: { border: 'border-bc-green', label: 'REGISTRAZIONE',  color: 'text-bc-green', dot: 'bg-bc-green' },
   override:           { border: 'border-bc-amber', label: 'OVERRIDE',       color: 'text-bc-amber', dot: 'bg-bc-amber' },
   alert:              { border: 'border-bc-red',   label: 'ALERT',          color: 'text-bc-red',   dot: 'bg-bc-red' },
-  narrative:          { border: 'border-bc-blue',  label: 'NARRATIVA',      color: 'text-bc-blue',  dot: 'bg-bc-blue' },
   pilot_note:         { border: 'border-bc-amber', label: 'NOTA PILOTA',    color: 'text-bc-amber', dot: 'bg-bc-amber' },
 }
 

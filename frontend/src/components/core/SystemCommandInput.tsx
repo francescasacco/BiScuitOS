@@ -4,13 +4,12 @@ import { useOSStore } from '@/store/useOSStore'
 import type { JournalEntryType } from '@/types/journal'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 
-const EVENT_TYPES: JournalEntryType[] = ['event', 'system', 'alert', 'narrative', 'override']
+const EVENT_TYPES: JournalEntryType[] = ['event', 'system', 'override']
 
 const TYPE_LABELS: Record<JournalEntryType, string> = {
   event: 'EVENTO',
   system: 'SISTEMA',
   alert: 'ALERT',
-  narrative: 'NARRATIVA',
   override: 'OVERRIDE',
   mission: 'MISSIONE',
   pilot_registration: 'REGISTRAZIONE',
@@ -53,7 +52,7 @@ export function SystemCommandInput() {
         // CONSOLE INIEZIONE EVENTI
       </div>
 
-      <div className="mb-3">
+      <div className="mb-2">
         <label className="font-mono text-xs text-bc-amber/70 block mb-1">TIPO EVENTO</label>
         <CustomSelect
           value={type}
@@ -63,7 +62,7 @@ export function SystemCommandInput() {
         />
       </div>
 
-      <div className="mb-3">
+      <div className="mb-2">
         <label className="font-mono text-xs text-bc-amber/70 block mb-1">TITOLO</label>
         <input
           className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
@@ -73,11 +72,11 @@ export function SystemCommandInput() {
         />
       </div>
 
-      <div className="mb-4">
+      <div className="mb-2">
         <label className="font-mono text-xs text-bc-amber/70 block mb-1">CONTENUTO</label>
         <textarea
           className="bc-textarea border-bc-amber/40 text-bc-amber focus:border-bc-amber"
-          rows={4}
+          rows={2}
           placeholder="Descrizione evento, log narrativo..."
           value={content}
           onChange={(e) => setContent(e.target.value)}

@@ -5,7 +5,6 @@ export type JournalEntryType =
   | 'pilot_registration'
   | 'override'
   | 'alert'
-  | 'narrative'
   | 'pilot_note'
 
 export interface JournalEntry {

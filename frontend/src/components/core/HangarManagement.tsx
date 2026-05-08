@@ -79,8 +79,8 @@ export function HangarManagement() {
   )
 
   return (
-    <div className="bc-panel border border-bc-amber/40 p-4 border-glow-amber">
-      <div className="flex items-center justify-between mb-3">
+    <div className="bc-panel border border-bc-amber/40 border-glow-amber h-full flex flex-col">
+      <div className="flex items-center justify-between p-4 pb-3 shrink-0">
         <div className="bc-section-header mb-0 pb-0 border-0" style={{ color: 'var(--bc-amber)' }}>
           ◧ // GESTIONE HANGAR
         </div>
@@ -92,7 +92,7 @@ export function HangarManagement() {
         </button>
       </div>
 
-      {/* Inline form */}
+      <div className="flex-1 overflow-y-auto px-4 pb-4">
       {editIndex !== null && (
         <div className="mb-4 p-3 border border-bc-amber/20 rounded-lg bg-bc-dark space-y-3">
           <p className="font-mono text-xs text-bc-amber/60 uppercase tracking-widest">
@@ -180,6 +180,7 @@ export function HangarManagement() {
           ))}
         </div>
       )}
+      </div>
     </div>
   )
 }

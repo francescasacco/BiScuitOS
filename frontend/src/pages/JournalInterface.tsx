@@ -9,9 +9,6 @@ const FILTER_OPTIONS: Array<{ value: JournalEntryType | 'all'; label: string }> 
   { value: 'system', label: 'SISTEMA' },
   { value: 'pilot_registration', label: 'REGISTRAZIONE' },
   { value: 'mission', label: 'MISSIONE' },
-  { value: 'alert', label: 'ALERT' },
-  { value: 'narrative', label: 'NARRATIVA' },
-  { value: 'override', label: 'OVERRIDE' },
   { value: 'pilot_note', label: 'NOTE PILOTI' },
 ]
 
@@ -28,7 +25,7 @@ export function JournalInterface() {
     <div className="h-full overflow-y-auto p-3"><div className="space-y-3 animate-boot-in">
       <div className="border-b border-bc-border pb-3">
         <h1 className="font-display text-lg font-bold text-bc-green text-glow tracking-widest">
-          FLUSSO JOURNAL // ARCHIVIO LOG
+          ARCHIVIO LOG
         </h1>
         <p className="font-mono text-xs text-bc-muted mt-0.5">
           {visible.length} voci registrate in memoria
