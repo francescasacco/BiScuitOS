@@ -439,6 +439,9 @@ export function OSMainPage() {
 
       </div>
 
+      <div style={{ position: 'fixed', bottom: '-1px', right: '24px', color: '#64748b', fontSize: '0.72rem', textAlign: 'right', lineHeight: '1.8', pointerEvents: 'none' }}>
+        <div>2026@FrancescaSacco</div>
+      </div>
     </div>
   )
 }

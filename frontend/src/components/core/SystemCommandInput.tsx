@@ -15,6 +15,7 @@ const TYPE_LABELS: Record<JournalEntryType, string> = {
   mission: 'MISSIONE',
   pilot_registration: 'REGISTRAZIONE',
   pilot_note: 'NOTA PILOTA',
+  trade: 'SCAMBIO',
 }
 
 export function SystemCommandInput() {

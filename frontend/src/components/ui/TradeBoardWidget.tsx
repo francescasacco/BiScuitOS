@@ -33,7 +33,7 @@ const CAT_COLOR: Record<string, string> = {
 const FOURTEEN_DAYS = 14 * 24 * 60 * 60 * 1000
 
 function OfferRow({ offer, isOperator, onDelete }: {
-  offer: ReturnType<typeof useOSStore>['tradeOffers'][0]
+  offer: import('@/types/tradeBoard').TradeOffer
   isOperator: boolean
   onDelete: (id: string) => void
 }) {
