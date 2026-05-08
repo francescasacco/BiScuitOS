@@ -7,6 +7,9 @@ import { computeClamp } from '@/components/missions/missionMapUtils'
 import { MissionMapOverlay } from '@/components/missions/MissionMapOverlay'
 import { MissionList } from '@/components/missions/MissionList'
 import { MissionForm } from '@/components/missions/MissionForm'
+import { MissionReport } from '@/components/missions/MissionReport'
+import { STATUS_COLORS, STATUS_LABELS } from '@/components/missions/missionConstants'
+import { X } from 'lucide-react'
 
 export function MissionsInterface() {
   const { missions, addMission, updateMission, isOperator } = useOSStore()
@@ -187,25 +190,70 @@ export function MissionsInterface() {
       </div>
 
       <div className="flex-1 flex flex-col md:flex-row min-h-0 p-4 gap-4 overflow-hidden md:overflow-hidden overflow-y-auto">
-        <MissionMapOverlay
-          mapContainerRef={mapContainerRef}
-          zoomStyle={zoomStyle}
-          zoomLevel={zoomLevel}
-          zoomStep={zoomStep}
-          setZoomStep={setZoomStep}
-          missions={missions}
-          selected={selected}
-          tooltip={tooltip}
-          setTooltip={setTooltip}
-          showForm={showForm}
-          form={form}
-          repositioning={repositioning}
-          isOperator={isOperator}
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={handlePointerUp}
-        />
 
+        {/* Left: map with sliding report overlay */}
+        <div className="relative flex flex-col md:max-w-[65%] md:w-[65%] w-full shrink-0 min-h-0 overflow-hidden">
+          <MissionMapOverlay
+            mapContainerRef={mapContainerRef}
+            zoomStyle={zoomStyle}
+            zoomLevel={zoomLevel}
+            zoomStep={zoomStep}
+            setZoomStep={setZoomStep}
+            missions={missions}
+            selected={selected}
+            tooltip={tooltip}
+            setTooltip={setTooltip}
+            showForm={showForm}
+            form={form}
+            repositioning={repositioning}
+            isOperator={isOperator}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+          />
+
+          {/* Horizontal collapsible report — overlays the map, slides in from the right */}
+          <div
+            className={`absolute inset-0 z-20 rounded-lg overflow-hidden transition-transform duration-300 ease-in-out ${
+              selected?.report ? 'translate-x-0' : 'translate-x-full'
+            }`}
+          >
+            <div className="absolute inset-0 bg-bc-black/60 backdrop-blur-sm" />
+            <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)]">
+              {selected && (
+                <>
+                  <div className="shrink-0 px-4 py-2.5 border-b border-bc-border bg-gradient-to-r from-bc-border/20 to-transparent flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <span className={`bc-tag ${STATUS_COLORS[selected.status]}`}>{STATUS_LABELS[selected.status]}</span>
+                      <span className="font-display text-sm font-bold text-bc-text tracking-wider truncate">{selected.title}</span>
+                      {selected.report?.theater && (
+                        <span className="font-mono text-xs text-bc-muted/60 hidden sm:block">
+                          {[selected.report.theater, selected.report.date].filter(Boolean).join(' · ')}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      className="shrink-0 p-1 text-bc-muted/40 hover:text-bc-text transition-colors"
+                      onClick={() => setSelected(null)}
+                    >
+                      <X size={14} strokeWidth={2} />
+                    </button>
+                  </div>
+                  <div className="overflow-y-auto flex-1 px-4 py-3">
+                    {selected.summary && (
+                      <p className="font-sans text-sm text-bc-muted leading-relaxed mb-3 pb-3 border-b border-bc-border/30">
+                        {selected.summary}
+                      </p>
+                    )}
+                    {selected.report && <MissionReport report={selected.report} />}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right: list */}
         <div className="flex-1 flex flex-col overflow-hidden min-w-0 min-h-0">
           {showForm && isOperator && (
             <MissionForm
@@ -215,7 +263,7 @@ export function MissionsInterface() {
               loading={loading}
             />
           )}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
+          <div className="flex-1 overflow-y-auto p-1 space-y-2">
             <MissionList
               missions={missions}
               selected={selected}

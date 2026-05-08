@@ -260,85 +260,121 @@ export function OSMainPage() {
             className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
             onClick={() => navigate('/missions')}
           >
-            <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
+            <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0 flex items-center justify-between">
               <p className="bc-section-header !border-0 !pb-0 !mb-0">Missioni correnti</p>
+              <span className="font-mono text-[10px] text-bc-muted/50">
+                {missions.filter(m => m.status === 'active').length} attive
+              </span>
             </div>
-            <div className="p-4 md:overflow-y-auto md:flex-1 md:min-h-0">
+            <div className="p-3 md:overflow-y-auto md:flex-1 md:min-h-0 space-y-2">
               {missions.length === 0 ? (
                 <p className="font-sans text-bc-muted text-sm">Nessuna missione nel sistema.</p>
               ) : (
-                <div>
-                  {missions.map((m) => {
-                    const isExpanded = expanded.has(m.id)
-                    const isPinned = m.id === pinnedId
-                    return (
-                      <div key={m.id} className="py-2.5 border-b border-bc-border last:border-0 last:pb-0">
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            {isPinned && <span className="font-mono text-[9px] text-bc-accent/60 shrink-0">◈</span>}
-                            <span className={`font-mono text-xs font-bold leading-snug truncate ${MISSION_TEXT[m.status]}`}>
-                              {m.title}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <span className={`bc-tag ${MISSION_STATUS_COLOR[m.status]}`}>
-                              {MISSION_STATUS_LABEL[m.status]}
-                            </span>
-                            {m.report && (
-                              <button
-                                className="font-mono text-[10px] text-bc-muted/50 hover:text-bc-accent transition-colors w-4 text-center"
-                                onClick={e => toggleExpanded(m.id, e)}
-                              >
-                                {isExpanded ? '▲' : '▼'}
-                              </button>
-                            )}
-                          </div>
+                missions.map((m) => {
+                  const isExpanded = expanded.has(m.id)
+                  const isPinned = m.id === pinnedId
+                  const statusColor = MISSION_STATUS_COLOR[m.status]
+                  return (
+                    <div
+                      key={m.id}
+                      className={`rounded-lg border bg-bc-dark/40 overflow-hidden transition-all ${
+                        isPinned ? 'border-bc-accent/40' : 'border-bc-border/60'
+                      }`}
+                    >
+                      {/* Card header */}
+                      <div className={`px-3 py-2.5 flex items-center justify-between gap-2 border-b border-bc-border/30 bg-gradient-to-r ${
+                        m.status === 'active' ? 'from-bc-green/8 to-transparent' :
+                        m.status === 'pending' ? 'from-bc-amber/8 to-transparent' :
+                        m.status === 'failed' ? 'from-bc-red/8 to-transparent' :
+                        'from-bc-muted/5 to-transparent'
+                      }`}>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className={`w-2 h-2 rounded-full shrink-0 ${
+                            m.status === 'active' ? 'bg-bc-green shadow-[0_0_4px_var(--bc-green)]' :
+                            m.status === 'pending' ? 'bg-bc-amber shadow-[0_0_4px_var(--bc-amber)]' :
+                            m.status === 'failed' ? 'bg-bc-red shadow-[0_0_4px_var(--bc-red)]' :
+                            'bg-bc-muted/40'
+                          }`} />
+                          <span className={`font-mono text-sm font-bold truncate ${MISSION_TEXT[m.status]}`}>
+                            {m.title}
+                          </span>
+                          {isPinned && <span className="font-mono text-xs text-bc-accent/60 shrink-0">◈</span>}
                         </div>
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          <span className={`bc-tag text-xs ${statusColor}`}>{MISSION_STATUS_LABEL[m.status]}</span>
+                          {m.report && (
+                            <button
+                              className="font-mono text-xs text-bc-muted/40 hover:text-bc-accent transition-colors"
+                              onClick={e => toggleExpanded(m.id, e)}
+                            >
+                              {isExpanded ? '▲' : '▼'}
+                            </button>
+                          )}
+                        </div>
+                      </div>
 
-                        {m.reward && <p className="font-mono text-xs text-bc-amber mt-1">{m.reward}</p>}
-
-                        {isExpanded && m.report && (
-                          <div className="mt-2 pt-2 border-t border-bc-border/30 space-y-3" onClick={e => e.stopPropagation()}>
-
-                            {m.report.discoveries && m.report.discoveries.length > 0 && (
-                              <div>
-                                <p className="font-mono text-[10px] text-bc-muted/50 uppercase tracking-widest mb-1.5">◈ Scoperte principali</p>
-                                <div className="space-y-1">
-                                  {m.report.discoveries.map((d, i) => (
-                                    <div key={i} className="flex items-center gap-2">
-                                      <span className="text-sm leading-none shrink-0">{d.icon}</span>
-                                      <span className="font-sans text-xs text-bc-text/85 leading-snug">{d.title}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-
-                            {m.report.contracts && m.report.contracts.length > 0 && (
-                              <div>
-                                <div className="flex items-center gap-2 mb-1.5">
-                                  <p className="font-mono text-[10px] text-bc-muted/50 uppercase tracking-widest">◈ Contratti aperti</p>
-                                  {m.report.contractsIncompatible && (
-                                    <span className="font-mono text-[9px] text-bc-red border border-bc-red/40 px-1 rounded leading-none py-0.5">INCOMPATIBILI</span>
-                                  )}
-                                </div>
-                                <div className="space-y-1.5">
-                                  {m.report.contracts.map((c, i) => (
-                                    <div key={i} className="flex items-start justify-between gap-2 py-1 border-b border-bc-border/20 last:border-0">
-                                      <span className="font-mono text-[11px] text-bc-text font-semibold leading-snug">{c.name}</span>
-                                      <span className="font-mono text-[11px] text-bc-amber shrink-0 text-right leading-snug">{c.reward}</span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-
+                      {/* Card body */}
+                      <div className="px-3 py-2.5 space-y-2">
+                        {m.report?.theater && (
+                          <p className="font-mono text-xs text-bc-muted/60">
+                            {[m.report.theater, m.report.date].filter(Boolean).join(' · ')}
+                          </p>
+                        )}
+                        {m.reward && (
+                          <div className="flex items-center gap-1.5">
+                            <span className="font-mono text-xs text-bc-muted/40">↳</span>
+                            <span className="font-mono text-sm text-bc-amber">{m.reward}</span>
+                          </div>
+                        )}
+                        {m.report?.priorities && m.report.priorities.length > 0 && (
+                          <div className="flex items-start gap-1.5">
+                            <span className="font-mono text-xs text-bc-red/60 mt-0.5">!</span>
+                            <span className="font-sans text-xs text-bc-text/70 leading-snug line-clamp-2">
+                              {m.report.priorities[0]}
+                            </span>
                           </div>
                         )}
                       </div>
-                    )
-                  })}
-                </div>
+
+                      {/* Expanded: discoveries + contracts */}
+                      {isExpanded && m.report && (
+                        <div className="px-3 pb-3 pt-1 border-t border-bc-border/20 space-y-2" onClick={e => e.stopPropagation()}>
+                          {m.report.discoveries && m.report.discoveries.length > 0 && (
+                            <div>
+                              <p className="font-mono text-[10px] text-bc-muted/40 uppercase tracking-widest mb-1">Scoperte</p>
+                              <div className="grid grid-cols-2 gap-1">
+                                {m.report.discoveries.map((d, i) => (
+                                  <div key={i} className="flex items-center gap-1.5 bg-bc-panel/60 rounded px-2 py-1">
+                                    <span className="text-xs leading-none shrink-0">{d.icon}</span>
+                                    <span className="font-sans text-xs text-bc-text/80 leading-snug line-clamp-2">{d.title}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                          {m.report.contracts && m.report.contracts.length > 0 && (
+                            <div>
+                              <div className="flex items-center gap-2 mb-1">
+                                <p className="font-mono text-[10px] text-bc-muted/40 uppercase tracking-widest">Contratti</p>
+                                {m.report.contractsIncompatible && (
+                                  <span className="font-mono text-[10px] text-bc-red border border-bc-red/40 px-1 rounded py-0.5">INCOMPATIBILI</span>
+                                )}
+                              </div>
+                              <div className="space-y-1">
+                                {m.report.contracts.map((c, i) => (
+                                  <div key={i} className="flex items-center justify-between gap-2 bg-bc-panel/60 rounded px-2 py-1">
+                                    <span className="font-mono text-xs text-bc-text font-semibold truncate">{c.name}</span>
+                                    <span className="font-mono text-xs text-bc-amber shrink-0">{c.reward}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })
               )}
             </div>
           </div>

@@ -69,8 +69,7 @@ export function MissionMapOverlay({
         )
       })()}
 
-      <div className="flex flex-col md:max-w-[65%] md:w-[65%] w-full shrink-0">
-        <div
+      <div
           ref={mapContainerRef}
           className={`relative aspect-[4/3] md:aspect-auto overflow-hidden rounded-lg md:flex-1 md:min-h-0${cursorClass}`}
           style={{ touchAction: 'none' }}
@@ -195,7 +194,6 @@ export function MissionMapOverlay({
               −
             </button>
           </div>
-        </div>
       </div>
     </>
   )
