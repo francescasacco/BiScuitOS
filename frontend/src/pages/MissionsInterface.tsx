@@ -46,6 +46,8 @@ export function MissionsInterface() {
   useEffect(() => { setPan({ x: 0, y: 0 }) }, [zoomCenter.x, zoomCenter.y])
   useEffect(() => { if (zoomStep === 0) setPan({ x: 0, y: 0 }) }, [zoomStep])
 
+  const isPanning = useRef(false)
+
   const zoomStyle = isZoomed
     ? {
         transformOrigin: '0 0' as const,
@@ -147,6 +149,7 @@ export function MissionsInterface() {
     const dy = e.clientY - dragStart.current.clientY
     if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
       hasDragged.current = true
+      isPanning.current = true
       setPan(clampPan(dragStart.current.panX + dx, dragStart.current.panY + dy))
     }
   }
@@ -166,6 +169,7 @@ export function MissionsInterface() {
     activePointers.current.delete(e.pointerId)
     if (activePointers.current.size < 2) pinchRef.current = null
     dragStart.current = null
+    isPanning.current = false
   }
 
   return (
@@ -196,6 +200,7 @@ export function MissionsInterface() {
           <MissionMapOverlay
             mapContainerRef={mapContainerRef}
             zoomStyle={zoomStyle}
+            isPanning={isPanning.current}
             zoomLevel={zoomLevel}
             zoomStep={zoomStep}
             setZoomStep={setZoomStep}
@@ -214,18 +219,18 @@ export function MissionsInterface() {
 
           {/* Horizontal collapsible report — overlays the map, slides in from the right */}
           <div
-            className={`absolute inset-0 z-20 rounded-lg overflow-hidden transition-transform duration-300 ease-in-out ${
+            className={`fixed inset-x-0 bottom-0 top-[105px] md:absolute md:inset-0 z-30 md:z-20 rounded-t-xl md:rounded-lg overflow-hidden transition-transform duration-300 ease-in-out md:p-0 ${
               selected?.report ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
-            <div className="absolute inset-0 bg-bc-black/60 backdrop-blur-sm" />
-            <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-lg overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)]">
+            <div className="absolute inset-0 bg-bc-black/60 backdrop-blur-sm md:block" onClick={() => setSelected(null)} />
+            <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-t-xl md:rounded-lg overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)] mx-3 mb-3 md:mx-0 md:mb-0 max-h-[80vh] md:max-h-none">
               {selected && (
                 <>
                   <div className="shrink-0 px-4 py-2.5 border-b border-bc-border bg-gradient-to-r from-bc-border/20 to-transparent flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                       <span className={`bc-tag ${STATUS_COLORS[selected.status]}`}>{STATUS_LABELS[selected.status]}</span>
-                      <span className="font-display text-sm font-bold text-bc-text tracking-wider truncate">{selected.title}</span>
+                      <span className="font-display text-sm font-bold text-bc-text tracking-wider md:truncate break-words">{selected.title}</span>
                       {selected.report?.date && (
                         <span className="font-mono text-xs text-bc-muted/60 hidden sm:block">
                           {[selected.report.date, selected.report.place ?? selected.report.theater].filter(Boolean).join(' · ')}

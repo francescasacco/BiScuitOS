@@ -161,7 +161,7 @@ export function OSMainPage() {
   }
 
   return (
-    <div className="h-full overflow-y-auto md:overflow-hidden flex flex-col gap-3 p-4 md:p-5 animate-boot-in">
+    <div className="h-full overflow-y-auto lg:overflow-hidden flex flex-col gap-3 p-4 md:p-5 animate-boot-in">
 
       <div className="shrink-0">
         <div className="flex items-center gap-3 flex-wrap">
@@ -177,7 +177,6 @@ export function OSMainPage() {
         </p>
       </div>
 
-      {/* Chip row: 3 stat + 1 combined bar */}
       <div className="shrink-0 grid grid-cols-3 sm:grid-cols-5 gap-2">
         <StatChip label="Rottami"         value={String(crawlerSystem?.scrap     ?? '—')} accent="text-bc-amber" />
         <StatChip label="Piloti"          value={String(pilots.length)}                   accent="text-bc-green" />
@@ -188,7 +187,6 @@ export function OSMainPage() {
         />
       </div>
 
-      {/* Manutenzione */}
       <div className="shrink-0 flex items-center gap-1.5 font-mono text-xs">
         <span className="text-bc-muted">Manutenzione</span>
         <span className="text-bc-border">·</span>
@@ -197,11 +195,9 @@ export function OSMainPage() {
 
       <div className="shrink-0 h-px bg-bc-track" />
 
-      {/* Body: 3 columns — left log (flex-1), center missions (flex-2), right (flex-1) */}
-      <div className="shrink-0 flex flex-col md:flex-row gap-3 md:flex-1 md:min-h-0 md:overflow-hidden">
+      <div className="shrink-0 flex flex-col lg:flex-row gap-3 lg:flex-1 lg:min-h-0 lg:overflow-hidden">
 
-        {/* Left: Sezioni crawler + Archivio log */}
-        <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0 order-2 md:order-1">
+        <div className="flex flex-col gap-3 lg:flex-1 lg:min-w-0 lg:min-h-0 order-2 lg:order-1">
 
           <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
@@ -220,7 +216,7 @@ export function OSMainPage() {
             </div>
           </div>
 
-          <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0">
+          <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col lg:flex-1 lg:min-h-0">
           <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
             <p className="bc-section-header !border-0 !pb-0 !mb-0">Archivio log recente</p>
           </div>
@@ -259,10 +255,9 @@ export function OSMainPage() {
         </div>
         </div>
 
-        {/* Center: Missioni correnti */}
-        <div className="flex flex-col gap-3 md:flex-[2] md:min-w-0 md:min-h-0 order-1 md:order-2">
+        <div className="flex flex-col gap-3 lg:flex-[2] lg:min-w-0 lg:min-h-0 order-1 lg:order-2">
           <div
-            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col min-h-[400px] md:min-h-0 md:flex-1 md:min-h-0"
+            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col min-h-[500px] lg:min-h-0 lg:flex-1"
           >
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0 flex items-center justify-between">
               <p className="bc-section-header !border-0 !pb-0 !mb-0">Missioni correnti</p>
@@ -270,7 +265,7 @@ export function OSMainPage() {
                 {missions.filter(m => m.status === 'active').length} attive
               </span>
             </div>
-            <div className="p-3 md:overflow-y-auto md:flex-1 md:min-h-0 space-y-2">
+            <div className="p-3 lg:overflow-y-auto lg:flex-1 lg:min-h-0 space-y-2">
               {missions.length === 0 ? (
                 <p className="font-sans text-bc-muted text-sm">Nessuna missione nel sistema.</p>
               ) : (
@@ -285,8 +280,8 @@ export function OSMainPage() {
                         isPinned ? 'border-bc-accent/40' : 'border-bc-border/60'
                       }`}
                     >
-                      {/* Card header */}
-                      <div className={`px-3 py-2.5 flex items-center gap-2 border-b border-bc-border/30 bg-gradient-to-r ${
+                    <div
+                      className={`px-3 py-2.5 flex items-center gap-2 border-b border-bc-border/30 bg-gradient-to-r ${
                         m.status === 'active' ? 'from-bc-green/8 to-transparent' :
                         m.status === 'pending' ? 'from-bc-amber/8 to-transparent' :
                         m.status === 'failed' ? 'from-bc-red/8 to-transparent' :
@@ -299,7 +294,7 @@ export function OSMainPage() {
                             m.status === 'failed' ? 'bg-bc-red shadow-[0_0_4px_var(--bc-red)]' :
                             'bg-bc-muted/40'
                           }`} />
-                          <span className={`font-mono text-sm font-bold md:truncate ${MISSION_TEXT[m.status]}`}>
+                          <span className={`font-mono text-sm font-bold md:truncate break-words ${MISSION_TEXT[m.status]}`}>
                             {m.title}
                           </span>
                           {isPinned && <Diamond size={10} strokeWidth={1.5} className="text-bc-accent/60 shrink-0" />}
@@ -315,7 +310,6 @@ export function OSMainPage() {
                         )}
                       </div>
 
-                      {/* Card body */}
                       <div className="px-3 py-2.5 space-y-2">
                         {m.report?.date && (
                           <p className="font-mono text-xs text-bc-muted/60">
@@ -338,7 +332,6 @@ export function OSMainPage() {
                         )}
                       </div>
 
-                      {/* Expanded: discoveries + contracts */}
                       {isExpanded && m.report && (
                         <div className="px-3 pb-3 pt-1 border-t border-bc-border/20 space-y-2" onClick={e => e.stopPropagation()}>
                           <div className="grid grid-cols-2 gap-2">
@@ -350,7 +343,7 @@ export function OSMainPage() {
                                 <div className="space-y-1">
                                   {m.report.discoveries.map((d, i) => (
                                     <div key={i} className="flex items-center gap-1.5">
-                                      <span className="font-mono text-bc-accent/50 text-xs shrink-0">◈</span>
+                                      <Diamond size={9} strokeWidth={1.5} className="text-bc-accent/50 shrink-0" />
                                       <span className="font-sans text-xs text-bc-text/80 leading-snug">{d.title}</span>
                                     </div>
                                   ))}
@@ -390,8 +383,7 @@ export function OSMainPage() {
           </div>
         </div>
 
-        {/* Right: Ponte mercantile + Hangar */}
-        <div className="flex flex-col gap-3 md:flex-1 md:min-w-0 md:min-h-0 order-3 md:order-3">
+        <div className="flex flex-col gap-3 lg:flex-1 lg:min-w-0 lg:min-h-0 order-3 lg:order-3">
 
           {crawlerSystem?.merchant_bridge && (
             <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
@@ -410,13 +402,13 @@ export function OSMainPage() {
           )}
 
           <div
-            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col md:flex-1 md:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
+            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col lg:flex-1 lg:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
             onClick={() => navigate('/hangar')}
           >
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
               <p className="bc-section-header !border-0 !pb-0 !mb-0">Hangar</p>
             </div>
-            <div className="p-4 md:overflow-y-auto md:flex-1 md:min-h-0 space-y-2">
+            <div className="p-4 lg:overflow-y-auto lg:flex-1 lg:min-h-0 space-y-2">
               {inventory.map((item, i) => (
                 <div key={i} className="flex items-center gap-2 py-1.5 border-b border-bc-border last:border-0">
                   <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${INV_STATUS_DOT[item.status]}`} />
