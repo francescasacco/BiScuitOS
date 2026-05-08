@@ -439,7 +439,14 @@ export function OSMainPage() {
 
       </div>
 
-      <div style={{ position: 'fixed', bottom: '-1px', right: '24px', color: '#64748b', fontSize: '0.72rem', textAlign: 'right', lineHeight: '1.8', pointerEvents: 'none' }}>
+      <div style={{ position: 'fixed', bottom: '-1px', right: '24px', color: '#64748b', fontSize: '0.72rem', textAlign: 'right', lineHeight: '1.8', pointerEvents: 'none', zIndex: 1 }}
+        className="hidden sm:block"
+      >
+        <div>2026@FrancescaSacco</div>
+      </div>
+      <div style={{ color: '#64748b', fontSize: '0.72rem', textAlign: 'right', lineHeight: '1.8', pointerEvents: 'none' }}
+        className="sm:hidden px-4 pb-1 mt-2"
+      >
         <div>2026@FrancescaSacco</div>
       </div>
     </div>

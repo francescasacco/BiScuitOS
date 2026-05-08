@@ -51,15 +51,13 @@ export function Navbar() {
             </span>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <div className="hidden sm:flex items-center gap-2">
               <span className="status-dot nominal" />
               <span className="font-sans text-bc-green text-xs font-medium">Online</span>
             </div>
 
-            <div className="hidden sm:block">
-              <JournalPanel />
-            </div>
+            <JournalPanel />
 
             {isOperator ? (
               <div className="flex items-center gap-2">

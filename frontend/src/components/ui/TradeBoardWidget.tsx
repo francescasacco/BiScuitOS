@@ -139,8 +139,8 @@ export function TradeBoardWidget() {
           <span className="font-mono text-xs text-bc-accent tracking-widest uppercase">Bacheca Scambi</span>
         </div>
         <div className="flex gap-2">
-          <button className="font-mono text-xs px-2 py-0.5 border border-bc-green/50 text-bc-green hover:bg-bc-green/10 transition-colors" onClick={() => openForm('offerta')}>+ OFFERTA</button>
-          <button className="font-mono text-xs px-2 py-0.5 border border-bc-accent/50 text-bc-accent hover:bg-bc-accent/10 transition-colors" onClick={() => openForm('richiesta')}>+ RICHIESTA</button>
+          <button className="font-mono text-xs px-1.5 py-0.5 border border-bc-green/50 text-bc-green hover:bg-bc-green/10 transition-colors" onClick={() => openForm('offerta')}>+ OFFERTA</button>
+          <button className="font-mono text-xs px-1.5 py-0.5 border border-bc-accent/50 text-bc-accent hover:bg-bc-accent/10 transition-colors" onClick={() => openForm('richiesta')}>+ RICHIESTA</button>
         </div>
       </div>
 
