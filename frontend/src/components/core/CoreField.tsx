@@ -9,13 +9,23 @@ export function CoreLabel({ children }: { children: React.ReactNode }) {
   return <label className={labelCls}>{children}</label>
 }
 
-export function CoreInp({ label, value, onChange, placeholder = '' }: {
-  label: string; value: string; onChange: (v: string) => void; placeholder?: string
+export function CoreFieldError({ msg }: { msg?: string }) {
+  if (!msg) return null
+  return <p className="font-mono text-xs text-bc-red mt-1 italic">{msg}</p>
+}
+
+export function CoreInp({ label, value, onChange, placeholder = '', error, onBlur }: {
+  label: string; value: string; onChange: (v: string) => void; placeholder?: string; error?: string; onBlur?: () => void
 }) {
   return (
     <div>
       <CoreLabel>{label}</CoreLabel>
-      <input className={`${inputCls} text-xs`} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} />
+      <input
+        className={`${inputCls} text-xs${error ? ' border-bc-red focus:border-bc-red' : ''}`}
+        value={value} onChange={e => onChange(e.target.value)}
+        placeholder={placeholder} onBlur={onBlur}
+      />
+      <CoreFieldError msg={error} />
     </div>
   )
 }

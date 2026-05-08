@@ -4,8 +4,10 @@ import { pilotService } from '@/services/pilotService'
 import { journalService } from '@/services/journalService'
 import type { Pilot } from '@/types/pilot'
 import { CLASSI_PILOTA } from '@/types/pilot'
+import { validateField } from '@/components/crew/pilotFormValidation'
+import type { PilotFormData } from '@/types/pilot'
 import { CustomSelect } from '@/components/ui/CustomSelect'
-import { CoreLabel, CoreCancelBtn } from './CoreField'
+import { CoreLabel, CoreCancelBtn, CoreFieldError } from './CoreField'
 import { Check, Users } from 'lucide-react'
 import { MechItemList } from '@/components/crew/MechItemList'
 
@@ -18,15 +20,18 @@ const PILOT_BTN = {
   delete: { active: 'border-bc-red text-bc-red bg-bc-red/10',            hover: 'hover:border-bc-red hover:text-bc-red',         label: 'ELIMINA'  },
 }
 
-function PilotField({ label, value, onChange, rows }: { label: string; value: string; onChange: (v: string) => void; rows?: number }) {
-  const cls = 'border-bc-accent/40 text-bc-text focus:border-bc-accent text-xs'
+function PilotField({ label, value, onChange, rows, error, onBlur }: {
+  label: string; value: string; onChange: (v: string) => void; rows?: number; error?: string; onBlur?: () => void
+}) {
+  const cls = `border-bc-accent/40 text-bc-text focus:border-bc-accent text-xs${error ? ' border-bc-red focus:border-bc-red' : ''}`
   return (
     <div>
       <CoreLabel>{label}</CoreLabel>
       {rows
-        ? <textarea rows={rows} className={`bc-textarea ${cls}`} value={value} onChange={e => onChange(e.target.value)} />
-        : <input className={`bc-input ${cls}`} value={value} onChange={e => onChange(e.target.value)} />
+        ? <textarea rows={rows} className={`bc-textarea ${cls}`} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} />
+        : <input className={`bc-input ${cls}`} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} />
       }
+      <CoreFieldError msg={error} />
     </div>
   )
 }
@@ -35,6 +40,8 @@ export function PilotManagement() {
   const { pilots, updatePilot, removePilot, addJournalEntry } = useOSStore()
   const [active, setActive]     = useState<Action>(null)
   const [editForm, setEditForm] = useState<Partial<Pilot>>({})
+  const [editErrors, setEditErrors] = useState<Partial<Record<keyof PilotFormData, string>>>({})
+  const [editTouched, setEditTouched] = useState<Partial<Record<keyof PilotFormData, boolean>>>({})
   const [noteText, setNoteText] = useState('')
   const [loading, setLoading]   = useState(false)
   const [flash, setFlash]       = useState<string | null>(null)
@@ -44,12 +51,37 @@ export function PilotManagement() {
   const open = (type: ActionType, pilot: Pilot) => {
     if (is(type, pilot.id)) { setActive(null); return }
     setActive({ type, pilotId: pilot.id })
-    if (type === 'edit') setEditForm({ ...pilot })
+    if (type === 'edit') { setEditForm({ ...pilot }); setEditErrors({}); setEditTouched({}) }
     if (type === 'note') setNoteText('')
   }
-  const ef = (key: keyof Pilot) => (v: string) => setEditForm(f => ({ ...f, [key]: v }))
+  const ef = (key: keyof Pilot) => (v: string) => {
+    setEditForm(f => ({ ...f, [key]: v }))
+    if (editTouched[key as keyof PilotFormData]) {
+      setEditErrors(e => ({ ...e, [key]: validateField(key as keyof PilotFormData, v) }))
+    }
+  }
+  const touchEf = (key: keyof PilotFormData) => () => {
+    setEditTouched(t => ({ ...t, [key]: true }))
+    setEditErrors(e => ({ ...e, [key]: validateField(key, String(editForm[key as keyof Pilot] ?? '')) }))
+  }
+  const validateEdit = (): boolean => {
+    const fields: (keyof PilotFormData)[] = ['identificativo', 'classe']
+    const newErrors: Partial<Record<keyof PilotFormData, string>> = {}
+    const newTouched: Partial<Record<keyof PilotFormData, boolean>> = { ...editTouched }
+    let valid = true
+    for (const f of fields) {
+      newTouched[f] = true
+      const err = validateField(f, String(editForm[f as keyof Pilot] ?? ''))
+      newErrors[f] = err
+      if (err) valid = false
+    }
+    setEditTouched(newTouched)
+    setEditErrors(e => ({ ...e, ...newErrors }))
+    return valid
+  }
 
   const handleUpdate = async (pilot: Pilot) => {
+    if (!validateEdit()) return
     setLoading(true)
     try {
       updatePilot(await pilotService.update(pilot.id, editForm))
@@ -127,12 +159,29 @@ export function PilotManagement() {
                 {is('edit', pilot.id) && (
                   <div className="px-3 py-3 border-t border-bc-border space-y-3">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <PilotField label="IDENTIFICATIVO" value={String(editForm.identificativo ?? '')} onChange={ef('identificativo')} />
+                      <div>
+                        <CoreLabel>IDENTIFICATIVO</CoreLabel>
+                        <input
+                          className={`bc-input border-bc-accent/40 text-bc-text focus:border-bc-accent text-xs${
+                            editErrors.identificativo ? ' border-bc-red focus:border-bc-red' : ''
+                          }`}
+                          value={String(editForm.identificativo ?? '')}
+                          onChange={e => ef('identificativo')(e.target.value)}
+                          onBlur={touchEf('identificativo')}
+                        />
+                        <CoreFieldError msg={editErrors.identificativo} />
+                      </div>
                       <div>
                         <CoreLabel>CLASSE</CoreLabel>
-                        <CustomSelect value={String(editForm.classe ?? '')} onChange={v => setEditForm(f => ({ ...f, classe: v }))} options={CLASSI_PILOTA} />
+                        <CustomSelect
+                          value={String(editForm.classe ?? '')}
+                          onChange={v => { ef('classe')(v); setEditTouched(t => ({ ...t, classe: true })); setEditErrors(e => ({ ...e, classe: '' })) }}
+                          options={CLASSI_PILOTA}
+                          hasError={!!(editTouched.classe && editErrors.classe)}
+                        />
+                        <CoreFieldError msg={editTouched.classe ? editErrors.classe : undefined} />
                       </div>
-                      <PilotField label="MOTTO"   value={String(editForm.motto_attivato ?? '')} onChange={ef('motto_attivato')} />
+                      <PilotField label="MOTTO"   value={String(editForm.motto_attivato ?? '')} onChange={ef('motto_attivato')} error={editTouched.motto_attivato ? editErrors.motto_attivato : undefined} onBlur={touchEf('motto_attivato')} />
                       <div>
                         <CoreLabel>SESSO</CoreLabel>
                         <CustomSelect
@@ -143,17 +192,17 @@ export function PilotManagement() {
                           getLabel={(v) => v === 'M' ? 'Maschio' : 'Femmina'}
                         />
                       </div>
-                      <PilotField label="CIMELIO" value={String(editForm.cimelio ?? '')}        onChange={ef('cimelio')} />
-                      <PilotField label="ASPETTO"     value={String(editForm.aspetto ?? '')}    onChange={ef('aspetto')} />
-                      <PilotField label="BACKGROUND"  value={String(editForm.background ?? '')} onChange={ef('background')} />
-                      <PilotField label="TELAIO"  value={String(editForm.mech_telaio ?? '')}  onChange={ef('mech_telaio')} />
-                      <PilotField label="MODELLO" value={String(editForm.mech_modello ?? '')} onChange={ef('mech_modello')} />
-                      <PilotField label="NOME MECH"   value={String(editForm.mech_nome ?? '')}   onChange={ef('mech_nome')} />
-                      <PilotField label="STATO MECH"  value={String(editForm.mech_status ?? '')} onChange={ef('mech_status')} />
-                      <PilotField label="SISTEMI" value={String(editForm.mech_sistemi ?? '')} onChange={ef('mech_sistemi')} />
-                      <PilotField label="MODULI"  value={String(editForm.mech_moduli ?? '')}  onChange={ef('mech_moduli')} />
+                      <PilotField label="CIMELIO"    value={String(editForm.cimelio ?? '')}        onChange={ef('cimelio')}        error={editTouched.cimelio ? editErrors.cimelio : undefined}               onBlur={touchEf('cimelio')} />
+                      <PilotField label="ASPETTO"    value={String(editForm.aspetto ?? '')}         onChange={ef('aspetto')}        error={editTouched.aspetto ? editErrors.aspetto : undefined}               onBlur={touchEf('aspetto')} />
+                      <PilotField label="BACKGROUND" value={String(editForm.background ?? '')}      onChange={ef('background')}     error={editTouched.background ? editErrors.background : undefined}         onBlur={touchEf('background')} />
+                      <PilotField label="TELAIO"     value={String(editForm.mech_telaio ?? '')}     onChange={ef('mech_telaio')}    error={editTouched.mech_telaio ? editErrors.mech_telaio : undefined}       onBlur={touchEf('mech_telaio')} />
+                      <PilotField label="MODELLO"    value={String(editForm.mech_modello ?? '')}    onChange={ef('mech_modello')}   error={editTouched.mech_modello ? editErrors.mech_modello : undefined}     onBlur={touchEf('mech_modello')} />
+                      <PilotField label="NOME MECH"  value={String(editForm.mech_nome ?? '')}       onChange={ef('mech_nome')}      error={editTouched.mech_nome ? editErrors.mech_nome : undefined}           onBlur={touchEf('mech_nome')} />
+                      <PilotField label="STATO MECH" value={String(editForm.mech_status ?? '')}     onChange={ef('mech_status')} />
+                      <PilotField label="SISTEMI"    value={String(editForm.mech_sistemi ?? '')}    onChange={ef('mech_sistemi')} />
+                      <PilotField label="MODULI"     value={String(editForm.mech_moduli ?? '')}     onChange={ef('mech_moduli')} />
                       <div className="sm:col-span-2">
-                        <PilotField label="NOTE" value={String(editForm.mech_info ?? '')} onChange={ef('mech_info')} />
+                        <PilotField label="NOTE" value={String(editForm.mech_info ?? '')} onChange={ef('mech_info')} error={editTouched.mech_info ? editErrors.mech_info : undefined} onBlur={touchEf('mech_info')} />
                       </div>
                       <div className="sm:col-span-2">
                         <CoreLabel>ABILITÀ</CoreLabel>
