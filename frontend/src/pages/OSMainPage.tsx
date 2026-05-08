@@ -52,9 +52,13 @@ const MISSION_STATUS_COLOR: Record<MissionStatus, string> = {
 }
 
 const LOG_COLOR: Partial<Record<JournalEntryType, string>> = {
-  alert: 'bg-bc-red', event: 'bg-bc-accent', mission: 'bg-bc-green',
-  system: 'bg-bc-muted', override: 'bg-bc-amber',
+  alert:              'bg-bc-red',
+  event:              'bg-bc-accent',
+  mission:            'bg-bc-blue',
+  system:             'bg-bc-muted',
+  override:           'bg-bc-amber',
   pilot_registration: 'bg-bc-green',
+  pilot_note:         'bg-bc-amber',
 }
 const LOG_TITLE_COLOR: Partial<Record<JournalEntryType, string>> = {
   alert: 'text-bc-red', event: 'text-bc-green', mission: 'text-bc-blue',
@@ -276,19 +280,18 @@ export function OSMainPage() {
                   return (
                     <div
                       key={m.id}
-                      className={`rounded-lg border bg-bc-dark/40 overflow-hidden transition-all cursor-pointer hover:border-bc-accent/50 ${
+                      className={`rounded-lg border bg-bc-dark/40 overflow-hidden transition-all ${
                         isPinned ? 'border-bc-accent/40' : 'border-bc-border/60'
                       }`}
-                      onClick={() => navigate('/missions')}
                     >
                       {/* Card header */}
-                      <div className={`px-3 py-2.5 flex items-center justify-between gap-2 border-b border-bc-border/30 bg-gradient-to-r ${
+                      <div className={`px-3 py-2.5 flex items-center gap-2 border-b border-bc-border/30 bg-gradient-to-r ${
                         m.status === 'active' ? 'from-bc-green/8 to-transparent' :
                         m.status === 'pending' ? 'from-bc-amber/8 to-transparent' :
                         m.status === 'failed' ? 'from-bc-red/8 to-transparent' :
                         'from-bc-muted/5 to-transparent'
                       }`}>
-                        <div className="flex items-center gap-2 min-w-0">
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
                           <span className={`w-2 h-2 rounded-full shrink-0 ${
                             m.status === 'active' ? 'bg-bc-green shadow-[0_0_4px_var(--bc-green)]' :
                             m.status === 'pending' ? 'bg-bc-amber shadow-[0_0_4px_var(--bc-amber)]' :
@@ -300,17 +303,15 @@ export function OSMainPage() {
                           </span>
                           {isPinned && <span className="font-mono text-xs text-bc-accent/60 shrink-0">◈</span>}
                         </div>
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          <span className={`bc-tag text-xs ${statusColor}`}>{MISSION_STATUS_LABEL[m.status]}</span>
-                          {m.report && (
-                            <button
-                              className="font-mono text-xs text-bc-muted/40 hover:text-bc-accent transition-colors"
-                              onClick={e => toggleExpanded(m.id, e)}
-                            >
-                              {isExpanded ? '▲' : '▼'}
-                            </button>
-                          )}
-                        </div>
+                        <span className={`bc-tag text-xs shrink-0 ${statusColor}`}>{MISSION_STATUS_LABEL[m.status]}</span>
+                        {m.report && (
+                          <button
+                            className="shrink-0 w-8 h-8 flex items-center justify-center font-mono text-sm text-bc-muted hover:text-bc-accent border border-bc-border/40 hover:border-bc-accent/50 rounded transition-colors"
+                            onClick={e => toggleExpanded(m.id, e)}
+                          >
+                            {isExpanded ? '▲' : '▼'}
+                          </button>
+                        )}
                       </div>
 
                       {/* Card body */}

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { systemService } from '@/services/systemService'
 import { journalService } from '@/services/journalService'
 import { useOSStore } from '@/store/useOSStore'
-import { NumericStepper } from '@/components/ui/NumericStepper'
+import { CoreInp, CoreNumInp, CoreLabel, CoreAddBtn, CoreRemoveBtn } from './CoreField'
 
 export function OverrideConsole() {
   const { crawlerSystem, setCrawlerSystem, addJournalEntry } = useOSStore()
@@ -11,7 +11,6 @@ export function OverrideConsole() {
       ? crawlerSystem.merchant_bridge.split('|').map(s => s.trim()).filter(Boolean)
       : []
   )
-
   const [form, setForm] = useState({
     crawler_name:         crawlerSystem?.crawler_name        ?? 'SANCTUARY',
     crawler_type:         crawlerSystem?.crawler_type        ?? "d'Ingegneria",
@@ -27,24 +26,15 @@ export function OverrideConsole() {
   const [saving, setSaving] = useState(false)
   const [saved,  setSaved]  = useState(false)
 
-  const setNum = (key: string) => (v: number | undefined) =>
-    setForm(p => ({ ...p, [key]: v ?? 0 }))
+  const setNum = (key: string) => (v: number | undefined) => setForm(p => ({ ...p, [key]: v ?? 0 }))
+  const setTxt = (key: string) => (v: string) => setForm(p => ({ ...p, [key]: v }))
 
   const handleSave = async () => {
     setSaving(true)
     try {
       const updated = await systemService.update({
-        crawler_name:        form.crawler_name,
-        crawler_type:        form.crawler_type,
-        scrap:               form.scrap,
-        engineers:           form.engineers,
-        ps_current:          form.ps_current,
-        ps_max:              form.ps_max,
-        enhancement_current: form.enhancement_current,
-        enhancement_max:     form.enhancement_max,
-        maintenance_cost:    form.maintenance_cost,
-        repair_status:       form.repair_status,
-        merchant_bridge:     bridgeItems.filter(Boolean).join(' | '),
+        ...form,
+        merchant_bridge: bridgeItems.filter(Boolean).join(' | '),
       })
       setCrawlerSystem(updated)
       const entry = await journalService.create({
@@ -63,77 +53,46 @@ export function OverrideConsole() {
     }
   }
 
-  const textInp = (key: string, label: string) => (
-    <div>
-      <label className="font-mono text-xs text-bc-amber/70 block mb-1">{label}</label>
-      <input
-        type="text"
-        className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
-        value={form[key as keyof typeof form] as string}
-        onChange={(e) => setForm(p => ({ ...p, [key]: e.target.value }))}
-      />
-    </div>
-  )
-
-  const numInp = (key: string, label: string) => (
-    <div>
-      <label className="font-mono text-xs text-bc-amber/70 block mb-1">{label}</label>
-      <NumericStepper
-        value={form[key as keyof typeof form] as number}
-        onChange={setNum(key)}
-        min={0}
-      />
-    </div>
-  )
-
   return (
-    <div className="bc-panel border border-bc-amber/40 p-4 border-glow-amber overflow-hidden">
+    <div className="bc-panel border border-bc-amber/40 p-3 border-glow-amber overflow-hidden h-full flex flex-col">
       <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>
         ⚠ // CONSOLE OVERRIDE — STATO CRAWLER
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-        {textInp('crawler_name', 'NOME CRAWLER')}
-        {textInp('crawler_type', 'TIPOLOGIA')}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+        <CoreInp label="NOME CRAWLER" value={form.crawler_name} onChange={setTxt('crawler_name')} />
+        <CoreInp label="TIPOLOGIA" value={form.crawler_type} onChange={setTxt('crawler_type')} />
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-        {numInp('scrap',            'ROTTAMI')}
-        {numInp('engineers',        'INGEGNERI')}
-        {numInp('maintenance_cost', 'MANUTENZIONE')}
-        {textInp('repair_status',   'STATO')}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+        <CoreNumInp label="ROTTAMI"      value={form.scrap}            onChange={setNum('scrap')} />
+        <CoreNumInp label="INGEGNERI"    value={form.engineers}        onChange={setNum('engineers')} />
+        <CoreNumInp label="MANUTENZIONE" value={form.maintenance_cost} onChange={setNum('maintenance_cost')} />
+        <CoreInp    label="STATO"        value={form.repair_status}    onChange={setTxt('repair_status')} />
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mb-5">
-        {numInp('ps_current',          'PS CORRENTI')}
-        {numInp('ps_max',              'PS MAX')}
-        {numInp('enhancement_current', 'POTENZIAMENTO')}
-        {numInp('enhancement_max',     'POT. MAX')}
+      <div className="grid grid-cols-2 gap-2 mb-3">
+        <CoreNumInp label="PS CORRENTI"   value={form.ps_current}          onChange={setNum('ps_current')} />
+        <CoreNumInp label="PS MAX"        value={form.ps_max}              onChange={setNum('ps_max')} />
+        <CoreNumInp label="POTENZIAMENTO" value={form.enhancement_current} onChange={setNum('enhancement_current')} />
+        <CoreNumInp label="POT. MAX"      value={form.enhancement_max}     onChange={setNum('enhancement_max')} />
       </div>
 
-      <div className="mb-5">
-        <label className="font-mono text-xs text-bc-amber/70 block mb-2">PONTE MERCANTILE</label>
-        <div className="space-y-2">
+      <div className="mb-3">
+        <CoreLabel>PONTE MERCANTILE</CoreLabel>
+        <div className="space-y-1.5">
           {bridgeItems.map((item, i) => (
             <div key={i} className="flex items-center gap-2">
               <input
                 className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber flex-1"
                 value={item}
-                onChange={(e) => setBridgeItems(p => p.map((v, j) => j === i ? e.target.value : v))}
+                onChange={e => setBridgeItems(p => p.map((v, j) => j === i ? e.target.value : v))}
                 placeholder="Voce ponte mercantile..."
               />
-              <button
-                type="button"
-                className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-2 py-1 border border-bc-muted/30 hover:border-bc-red/40"
-                onClick={() => setBridgeItems(p => p.filter((_, j) => j !== i))}
-              >✕</button>
+              <CoreRemoveBtn onClick={() => setBridgeItems(p => p.filter((_, j) => j !== i))} />
             </div>
           ))}
-          <button
-            type="button"
-            className="font-mono text-xs text-bc-amber/60 hover:text-bc-amber transition-colors border border-bc-amber/20 hover:border-bc-amber/40 px-3 py-1.5 w-full"
-            onClick={() => setBridgeItems(p => [...p, ''])}
-          >+ AGGIUNGI VOCE</button>
+          <CoreAddBtn label="AGGIUNGI VOCE" onClick={() => setBridgeItems(p => [...p, ''])} />
         </div>
       </div>
 

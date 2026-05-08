@@ -29,6 +29,7 @@ export function Sidebar() {
 
   const handleNav = (path: string) => {
     navigate(path)
+    setSidebarOpen(false)
   }
 
   return (

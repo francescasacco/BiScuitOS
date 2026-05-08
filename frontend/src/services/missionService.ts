@@ -43,6 +43,17 @@ export const missionService = {
     return data
   },
 
+  async updateReport(id: string, report: import('@/types/mission').MissionReport): Promise<Mission> {
+    const { data, error } = await supabase
+      .from('missions')
+      .update({ report })
+      .eq('id', id)
+      .select()
+      .single()
+    if (error) throw error
+    return data
+  },
+
   async delete(id: string): Promise<void> {
     const { error } = await supabase.from('missions').delete().eq('id', id)
     if (error) throw error

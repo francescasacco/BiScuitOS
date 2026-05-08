@@ -47,36 +47,36 @@ export function SystemCommandInput() {
   }
 
   return (
-    <div className="bc-panel border border-bc-amber/40 p-4">
+    <div className="bc-panel border border-bc-amber/40 p-3 h-full flex flex-col">
       <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>
         // CONSOLE INIEZIONE EVENTI
       </div>
 
-      <div className="mb-2">
-        <label className="font-mono text-xs text-bc-amber/70 block mb-1">TIPO EVENTO</label>
-        <CustomSelect
-          value={type}
-          onChange={(v) => setType(v as JournalEntryType)}
-          options={EVENT_TYPES}
-          getLabel={(v) => TYPE_LABELS[v as JournalEntryType]}
-        />
+      <div className="flex items-end gap-3 mb-2">
+        <div className="flex-1">
+          <label className="font-mono text-xs text-bc-amber/70 block mb-1">TITOLO</label>
+          <input
+            className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
+            placeholder="TITOLO EVENTO..."
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="w-36 shrink-0">
+          <label className="font-mono text-xs text-bc-amber/70 block mb-1">TIPO</label>
+          <CustomSelect
+            value={type}
+            onChange={(v) => setType(v as JournalEntryType)}
+            options={EVENT_TYPES}
+            getLabel={(v) => TYPE_LABELS[v as JournalEntryType]}
+          />
+        </div>
       </div>
 
-      <div className="mb-2">
-        <label className="font-mono text-xs text-bc-amber/70 block mb-1">TITOLO</label>
-        <input
-          className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
-          placeholder="TITOLO EVENTO..."
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-
-      <div className="mb-2">
+      <div className="mb-2 flex-1 flex flex-col">
         <label className="font-mono text-xs text-bc-amber/70 block mb-1">CONTENUTO</label>
         <textarea
-          className="bc-textarea border-bc-amber/40 text-bc-amber focus:border-bc-amber"
-          rows={2}
+          className="bc-textarea border-bc-amber/40 text-bc-amber focus:border-bc-amber flex-1 resize-none"
           placeholder="Descrizione evento, log narrativo..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
