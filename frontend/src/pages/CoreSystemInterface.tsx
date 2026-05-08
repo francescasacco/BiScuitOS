@@ -25,11 +25,11 @@ export function CoreSystemInterface() {
   return (
     <div className="h-full overflow-y-auto p-3">
     <div className="space-y-3 animate-boot-in">
-      <div className="border-b border-bc-border pb-3 flex items-center justify-between gap-4">
+      <div className="border-b border-bc-border pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <h1 className="font-display text-lg font-bold text-bc-amber text-glow-amber tracking-widest shrink-0">
           SISTEMA CORE // CONSOLE OPERATORE
         </h1>
-        <div className="border border-bc-amber/40 bg-bc-amber/5 px-3 py-2 text-right">
+        <div className="border border-bc-amber/40 bg-bc-amber/5 px-3 py-2 sm:text-right">
           <span className="text-bc-amber font-display text-xs font-bold tracking-widest flex items-center gap-1.5">
             <AlertTriangle size={12} strokeWidth={2} /> INTERFACCIA SISTEMA CORE — ACCESSO OPERATORE ATTIVO
           </span>

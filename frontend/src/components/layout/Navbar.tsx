@@ -60,7 +60,7 @@ export function Navbar() {
             <JournalPanel />
 
             {isOperator ? (
-              <div className="flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2">
                 <span className="font-mono text-xs uppercase tracking-widest text-bc-amber border border-bc-amber/40 px-3 py-1 whitespace-nowrap animate-pulse">
                   [ BISCUIT ]
                 </span>
@@ -117,6 +117,18 @@ export function Navbar() {
             <button className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all flex items-center shrink-0"
               onClick={() => { setShowKeyInput(false); setKeyInput('') }}>
               <X size={11} strokeWidth={2} />
+            </button>
+          </div>
+        )}
+
+        {isOperator && (
+          <div className="flex items-center justify-end gap-2 px-4 pb-2 md:hidden">
+            <span className="font-mono text-xs uppercase tracking-widest text-bc-amber border border-bc-amber/40 px-3 py-1 animate-pulse">
+              [ BISCUIT ]
+            </span>
+            <button className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all"
+              onClick={() => setIsOperator(false)}>
+              ESCI
             </button>
           </div>
         )}
