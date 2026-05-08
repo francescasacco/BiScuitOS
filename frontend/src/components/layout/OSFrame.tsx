@@ -4,9 +4,12 @@ import { Navbar } from './Navbar'
 import { Sidebar } from './Sidebar'
 import { useOSStore } from '@/store/useOSStore'
 import { audioManager } from '@/lib/audioManager'
+import { useVersionCheck } from '@/lib/useVersionCheck'
+import { RefreshCw } from 'lucide-react'
 
 export function OSFrame() {
   const { sidebarOpen, setSidebarOpen, isOperator } = useOSStore()
+  const updateAvailable = useVersionCheck()
 
   useEffect(() => {
     if (window.innerWidth >= 768) setSidebarOpen(true)
@@ -28,6 +31,18 @@ export function OSFrame() {
           className="fixed inset-0 z-20 bg-black/60 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
+      )}
+
+      {updateAvailable && (
+        <div className="fixed top-0 inset-x-0 z-[9999] flex items-center justify-between gap-3 px-4 py-2.5 bg-bc-amber text-bc-black font-mono text-xs font-bold md:hidden">
+          <span>Nuova versione disponibile!</span>
+          <button
+            className="flex items-center gap-1.5 border border-bc-black/30 px-2 py-1 rounded"
+            onClick={() => window.location.reload()}
+          >
+            <RefreshCw size={11} strokeWidth={2.5} /> AGGIORNA
+          </button>
+        </div>
       )}
 
       <Sidebar />
