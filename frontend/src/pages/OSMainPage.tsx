@@ -53,12 +53,12 @@ const MISSION_STATUS_COLOR: Record<MissionStatus, string> = {
 
 const LOG_COLOR: Partial<Record<JournalEntryType, string>> = {
   alert: 'bg-bc-red', event: 'bg-bc-accent', mission: 'bg-bc-green',
-  system: 'bg-bc-muted', override: 'bg-bc-amber', narrative: 'bg-bc-blue',
+  system: 'bg-bc-muted', override: 'bg-bc-amber',
   pilot_registration: 'bg-bc-green',
 }
 const LOG_TITLE_COLOR: Partial<Record<JournalEntryType, string>> = {
   alert: 'text-bc-red', event: 'text-bc-green', mission: 'text-bc-blue',
-  system: 'text-bc-muted', override: 'text-bc-amber', narrative: 'text-bc-blue',
+  system: 'text-bc-muted', override: 'text-bc-amber',
   pilot_registration: 'text-bc-green',
 }
 
