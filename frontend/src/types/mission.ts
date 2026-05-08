@@ -6,7 +6,7 @@ export interface MissionSquad {
   location: string
   type: string
   description: string
-  status: string
+  status: string | string[]
 }
 
 export interface MissionCharacter {
@@ -32,6 +32,7 @@ export interface MissionAsset {
 
 export interface MissionReport {
   date?: string
+  place?: string
   theater?: string
   intel?: string[]
   squads?: MissionSquad[]

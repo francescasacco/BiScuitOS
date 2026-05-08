@@ -226,9 +226,9 @@ export function MissionsInterface() {
                     <div className="flex items-center gap-3 min-w-0">
                       <span className={`bc-tag ${STATUS_COLORS[selected.status]}`}>{STATUS_LABELS[selected.status]}</span>
                       <span className="font-display text-sm font-bold text-bc-text tracking-wider truncate">{selected.title}</span>
-                      {selected.report?.theater && (
+                      {selected.report?.date && (
                         <span className="font-mono text-xs text-bc-muted/60 hidden sm:block">
-                          {[selected.report.theater, selected.report.date].filter(Boolean).join(' · ')}
+                          {[selected.report.date, selected.report.place ?? selected.report.theater].filter(Boolean).join(' · ')}
                         </span>
                       )}
                     </div>

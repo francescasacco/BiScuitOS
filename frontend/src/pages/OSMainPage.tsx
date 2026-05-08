@@ -316,9 +316,9 @@ export function OSMainPage() {
 
                       {/* Card body */}
                       <div className="px-3 py-2.5 space-y-2">
-                        {m.report?.theater && (
+                        {m.report?.date && (
                           <p className="font-mono text-xs text-bc-muted/60">
-                            {[m.report.theater, m.report.date].filter(Boolean).join(' · ')}
+                            {[m.report.date, m.report.place ?? m.report.theater].filter(Boolean).join(' · ')}
                           </p>
                         )}
                         {m.reward && (
@@ -340,37 +340,39 @@ export function OSMainPage() {
                       {/* Expanded: discoveries + contracts */}
                       {isExpanded && m.report && (
                         <div className="px-3 pb-3 pt-1 border-t border-bc-border/20 space-y-2" onClick={e => e.stopPropagation()}>
-                          {m.report.discoveries && m.report.discoveries.length > 0 && (
-                            <div>
-                              <p className="font-mono text-[10px] text-bc-text/50 uppercase tracking-widest mb-1">Scoperte</p>
-                              <div className="grid grid-cols-2 gap-1">
-                                {m.report.discoveries.map((d, i) => (
-                                  <div key={i} className="flex items-center gap-1.5 bg-bc-panel/60 rounded px-2 py-1">
-                                    <span className="text-xs leading-none shrink-0">{d.icon}</span>
-                                    <span className="font-sans text-xs text-bc-text/80 leading-snug line-clamp-2">{d.title}</span>
-                                  </div>
-                                ))}
+                          <div className="grid grid-cols-2 gap-2">
+                            {m.report.discoveries && m.report.discoveries.length > 0 && (
+                              <div className="bg-bc-black/30 border border-bc-border/30 rounded-lg p-2">
+                                <p className="font-mono text-[10px] text-bc-text/50 uppercase tracking-widest mb-1.5">Scoperte</p>
+                                <div className="space-y-1">
+                                  {m.report.discoveries.map((d, i) => (
+                                    <div key={i} className="flex items-center gap-1.5">
+                                      <span className="font-mono text-bc-accent/50 text-xs shrink-0">◈</span>
+                                      <span className="font-sans text-xs text-bc-text/80 leading-snug">{d.title}</span>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
-                            </div>
-                          )}
-                          {m.report.contracts && m.report.contracts.length > 0 && (
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <p className="font-mono text-[10px] text-bc-text/50 uppercase tracking-widest">Contratti</p>
-                                {m.report.contractsIncompatible && (
-                                  <span className="font-mono text-[10px] text-bc-red border border-bc-red/40 px-1 rounded py-0.5">INCOMPATIBILI</span>
-                                )}
+                            )}
+                            {m.report.contracts && m.report.contracts.length > 0 && (
+                              <div className="bg-bc-black/30 border border-bc-border/30 rounded-lg p-2">
+                                <div className="flex items-center gap-1.5 mb-1.5">
+                                  <p className="font-mono text-[10px] text-bc-text/50 uppercase tracking-widest">Contratti</p>
+                                  {m.report.contractsIncompatible && (
+                                    <span className="font-mono text-[10px] text-bc-red border border-bc-red/40 px-1 rounded py-0.5">!</span>
+                                  )}
+                                </div>
+                                <div className="space-y-1">
+                                  {m.report.contracts.map((c, i) => (
+                                    <div key={i} className="space-y-0.5">
+                                      <p className="font-mono text-xs text-bc-text font-semibold">{c.name}</p>
+                                      <p className="font-mono text-[10px] text-bc-amber">{c.reward}</p>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
-                              <div className="space-y-1">
-                                {m.report.contracts.map((c, i) => (
-                                  <div key={i} className="flex items-center justify-between gap-2 bg-bc-panel/60 rounded px-2 py-1">
-                                    <span className="font-mono text-xs text-bc-text font-semibold truncate">{c.name}</span>
-                                    <span className="font-mono text-xs text-bc-amber shrink-0">{c.reward}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </div>
                       )}
                     </div>

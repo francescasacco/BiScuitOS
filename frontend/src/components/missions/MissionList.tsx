@@ -77,11 +77,10 @@ export function MissionList({
 
             {/* Body */}
             <div className="px-3 py-3 space-y-2 bg-bc-dark/30">
-              {m.report?.theater && (
+              {m.report?.date && (
                 <div className="flex items-center gap-1.5">
-                  <span className="font-mono text-[10px] text-bc-muted/40 uppercase tracking-widest">Teatro</span>
                   <span className="font-mono text-xs text-bc-muted/70">
-                    {[m.report.theater, m.report.date].filter(Boolean).join(' · ')}
+                    {[m.report.date, m.report.place ?? m.report.theater].filter(Boolean).join(' · ')}
                   </span>
                 </div>
               )}
@@ -100,21 +99,21 @@ export function MissionList({
               {/* Intel pills */}
               {hasReport && m.report?.discoveries && m.report.discoveries.length > 0 && (
                 <div className="flex flex-wrap gap-1 pt-0.5">
-                  {m.report.discoveries.slice(0, 3).map((d, i) => (
+                  {m.report.discoveries.slice(0, 4).map((d, i) => (
                     <span key={i} className="flex items-center gap-1 bg-bc-panel border border-bc-border/50 rounded-full px-2 py-0.5">
-                      <span className="text-xs leading-none">{d.icon}</span>
+                      <span className="font-mono text-bc-accent/50 text-xs leading-none">◈</span>
                       <span className="font-sans text-[11px] text-bc-text/70 leading-none">{d.title}</span>
                     </span>
                   ))}
-                  {m.report.discoveries.length > 3 && (
-                    <span className="font-mono text-[11px] text-bc-muted/40 self-center">+{m.report.discoveries.length - 3}</span>
+                  {m.report.discoveries.length > 4 && (
+                    <span className="font-mono text-[11px] text-bc-muted/40 self-center">+{m.report.discoveries.length - 4}</span>
                   )}
                 </div>
               )}
 
               {/* Contracts warning */}
               {hasReport && m.report?.contractsIncompatible && (
-                <div className="flex items-center gap-1.5 bg-bc-red/8 border border-bc-red/30 rounded px-2 py-1.5">
+                <div className="flex items-center justify-center gap-1.5 bg-bc-red/8 border border-bc-red/30 rounded px-2 py-1.5">
                   <span className="text-bc-red text-sm">⚠</span>
                   <span className="font-mono text-xs text-bc-red tracking-wide">SCELTA CONTRATTO URGENTE</span>
                 </div>

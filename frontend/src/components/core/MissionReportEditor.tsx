@@ -6,7 +6,7 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Mission, MissionReport, MissionSquad, MissionCharacter, MissionContract, MissionAsset } from '@/types/mission'
 import { CoreInp, CoreTextarea, CoreSelect, CoreListEditor, CoreAddBtn, CoreRemoveBtn, CoreLabel } from './CoreField'
 
-const SQUAD_STATUSES = ['RIENTRATA', 'SUCCESSO', 'DANNI GRAVI', 'CONTRATTO APERTO', 'IN CORSO', 'DISPERSA']
+const SQUAD_STATUSES = ['COMPLETATA', 'COMPLETATA CON DANNI', 'CONTRATTO APERTO', 'FALLITA', 'IN CORSO', 'DISPERSA']
 const ALIGNMENTS = ['ally', 'contract', 'hostile', 'neutral']
 const ALIGNMENT_LABELS: Record<string, string> = { ally: 'ALLEATO', contract: 'CONTRATTO', hostile: 'OSTILE', neutral: 'NEUTRO' }
 const PAGES = ['METADATI', 'INTEL', 'SQUADRE', 'SCOPERTE', 'PERSONAGGI', 'CONTRATTI', 'ASSET', 'PRIORITÀ']
@@ -55,8 +55,8 @@ export function MissionReportEditor() {
 
   const pages: React.ReactNode[] = [
     <div className="grid grid-cols-2 gap-3">
-      <CoreInp label="DATA"   value={report.date    ?? ''} onChange={v => set('date', v)}    placeholder="es. 25.04.2026" />
-      <CoreInp label="TEATRO" value={report.theater ?? ''} onChange={v => set('theater', v)} placeholder="es. 03.xx EMPUSA" />
+      <CoreInp label="DATA" value={report.date ?? ''} onChange={v => set('date', v)} placeholder="es. 25.04.2026" />
+      <CoreInp label="LUOGO" value={report.place ?? ''} onChange={v => set('place', v)} placeholder="es. 03.xx EMPUSA" />
     </div>,
 
     <CoreListEditor label="INTEL LIVE" items={report.intel ?? []} onChange={v => set('intel', v)} />,

@@ -1,60 +1,56 @@
 import { useState } from 'react'
+import * as LucideIcons from 'lucide-react'
+import { AlertTriangle, Radio } from 'lucide-react'
 import type { MissionReport as MissionReportType } from '@/types/mission'
 
-interface Props {
-  report: MissionReportType
+interface Props { report: MissionReportType }
+
+const ICON_MAP: Record<string, keyof typeof LucideIcons> = {
+  biohazard:        'Biohazard',
+  zap:              'Zap',
+  diamond:          'Diamond',
+  'alert-triangle': 'AlertTriangle',
+  sword:            'Sword',
+  wrench:           'Wrench',
+  star:             'Star',
+  eye:              'Eye',
+  shield:           'Shield',
+  flame:            'Flame',
+  package:          'Package',
+}
+
+function DiscoveryIcon({ icon }: { icon: string }) {
+  const name = ICON_MAP[icon.toLowerCase()]
+  if (name) {
+    const Icon = LucideIcons[name] as React.FC<{ size?: number; strokeWidth?: number; className?: string }>
+    return <Icon size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" />
+  }
+  return <span className="text-sm leading-none shrink-0 mt-0.5">{icon}</span>
 }
 
 const SQUAD_STATUS_COLOR: Record<string, string> = {
-  'RIENTRATA':        'text-bc-green border-bc-green/40',
-  'SUCCESSO':         'text-bc-green border-bc-green/40',
-  'DANNI GRAVI':      'text-bc-red border-bc-red/40',
-  'CONTRATTO APERTO': 'text-bc-amber border-bc-amber/40',
+  'COMPLETATA':           'text-bc-green border-bc-green/40',
+  'COMPLETATA CON DANNI': 'text-bc-amber border-bc-amber/40',
+  'CONTRATTO APERTO':     'text-bc-blue border-bc-blue/40',
+  'FALLITA':              'text-bc-red border-bc-red/40',
 }
 
 const CHAR_COLOR: Record<string, string> = {
   ally:     'text-bc-green border-bc-green/30 bg-bc-green/5',
   contract: 'text-bc-amber border-bc-amber/30 bg-bc-amber/5',
   hostile:  'text-bc-red border-bc-red/30 bg-bc-red/5',
-  neutral:  'text-bc-muted border-bc-muted/20 bg-transparent',
+  neutral:  'text-bc-blue/70 border-bc-blue/20 bg-bc-blue/5',
 }
 
 const CHAR_LABEL: Record<string, string> = {
-  ally:     'ALLEATO',
-  contract: 'CONTRATTO',
-  hostile:  'OSTILE',
-  neutral:  'NEUTRO',
-}
-
-const INTEL_ICON: Record<string, string> = {
-  'sabotaggio':  '☣',
-  'hussar':      '⚔',
-  'sandival':    '◆',
-  'contratt':    '⚠',
-  'modulo':      '◈',
-  'mech':        '🔧',
-  'default':     '◈',
-}
-
-function getIntelIcon(text: string): string {
-  const t = text.toLowerCase()
-  if (t.includes('sabotaggio') || t.includes('batteri') || t.includes('biohazard')) return '☣'
-  if (t.includes('hussar') || t.includes('neutralizzat') || t.includes('pattuglie')) return '⚔'
-  if (t.includes('sandival') || t.includes('alleanza')) return '◆'
-  if (t.includes('contratt')) return '⚠'
-  if (t.includes('modulo') || t.includes('bella addormentata')) return '◈'
-  if (t.includes('mech') || t.includes('riparazione')) return '🔧'
-  return INTEL_ICON.default
+  ally: 'ALLEATO', contract: 'CONTRATTO', hostile: 'OSTILE', neutral: 'NEUTRO',
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(true)
   return (
     <div className="border-t border-bc-border/40 pt-2">
-      <button
-        className="flex items-center justify-between w-full mb-2"
-        onClick={() => setOpen(o => !o)}
-      >
+      <button className="flex items-center justify-between w-full mb-2" onClick={() => setOpen(o => !o)}>
         <span className="font-mono text-xs tracking-widest text-bc-text/50 uppercase">{title}</span>
         <span className="font-mono text-xs text-bc-text/40">{open ? '▲' : '▼'}</span>
       </button>
@@ -66,9 +62,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 export function MissionReport({ report }: Props) {
   return (
     <div className="mt-2 space-y-2">
-      {(report.date || report.theater) && (
+      {report.date && (
         <p className="font-mono text-xs text-bc-muted tracking-wide">
-          {[report.date, report.theater].filter(Boolean).join(' · ')}
+          {[report.date, report.place ?? report.theater].filter(Boolean).join(' · ')}
         </p>
       )}
 
@@ -77,7 +73,7 @@ export function MissionReport({ report }: Props) {
           <div className="flex flex-wrap gap-1.5">
             {report.intel.map((item, i) => (
               <div key={i} className="flex items-start gap-1.5 w-full bg-bc-dark/60 border border-bc-border/30 rounded px-2.5 py-1.5">
-                <span className="shrink-0 mt-0.5 text-sm leading-none">{getIntelIcon(item)}</span>
+                <Radio size={12} strokeWidth={1.5} className="text-bc-accent/50 shrink-0 mt-0.5" />
                 <span className="font-sans text-xs text-bc-text/80 leading-snug">{item}</span>
               </div>
             ))}
@@ -88,22 +84,23 @@ export function MissionReport({ report }: Props) {
       {report.squads && report.squads.length > 0 && (
         <Section title="◈ Squadre">
           <div className="grid grid-cols-2 gap-1.5">
-            {report.squads.map((sq) => {
-              const statusColor = SQUAD_STATUS_COLOR[sq.status] ?? 'text-bc-muted border-bc-muted/20'
-              return (
-                <div key={sq.number} className="border border-bc-border/40 rounded p-2 bg-bc-dark/40">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-mono text-xs text-bc-muted">SQ.{sq.number}</span>
-                    <span className={`font-mono text-[10px] border px-1 py-0.5 rounded ${statusColor}`}>
-                      {sq.status}
-                    </span>
+            {report.squads.map((sq) => (
+              <div key={sq.number} className="border border-bc-border/40 rounded p-2 bg-bc-dark/40">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="font-mono text-xs text-bc-muted">SQ.{sq.number}</span>
+                  <div className="flex gap-1 flex-wrap justify-end">
+                    {(Array.isArray(sq.status) ? sq.status : [sq.status]).map((s, si) => (
+                      <span key={si} className={`font-mono text-[10px] border px-1 py-0.5 rounded ${SQUAD_STATUS_COLOR[s] ?? 'text-bc-muted border-bc-muted/20'}`}>
+                        {s}
+                      </span>
+                    ))}
                   </div>
-                  <p className="font-mono text-xs text-bc-text font-semibold leading-tight">{sq.name}</p>
-                  <p className="font-mono text-xs text-bc-muted mt-0.5">[{sq.location}] · {sq.type}</p>
-                  <p className="font-sans text-xs text-bc-text/70 mt-1 leading-snug">{sq.description}</p>
                 </div>
-              )
-            })}
+                <p className="font-mono text-xs text-bc-text font-semibold leading-tight">{sq.name}</p>
+                <p className="font-mono text-xs text-bc-muted mt-0.5">[{sq.location}] · {sq.type}</p>
+                <p className="font-sans text-xs text-bc-text/70 mt-1 leading-snug">{sq.description}</p>
+              </div>
+            ))}
           </div>
         </Section>
       )}
@@ -113,7 +110,7 @@ export function MissionReport({ report }: Props) {
           <div className="space-y-1.5">
             {report.discoveries.map((d, i) => (
               <div key={i} className="flex items-start gap-2">
-                <span className="text-base leading-none shrink-0 mt-0.5">{d.icon}</span>
+                <DiscoveryIcon icon={d.icon} />
                 <div>
                   <p className="font-mono text-xs text-bc-text font-semibold">{d.title}</p>
                   <p className="font-sans text-xs text-bc-text/70 leading-snug mt-0.5">{d.description}</p>
@@ -145,7 +142,7 @@ export function MissionReport({ report }: Props) {
         <Section title="◈ Contratti aperti">
           {report.contractsIncompatible && (
             <div className="flex items-center gap-1.5 mb-2 px-2 py-1 border border-bc-red/40 rounded bg-bc-red/5">
-              <span className="text-bc-red text-xs">⚠</span>
+              <AlertTriangle size={12} strokeWidth={2} className="text-bc-red shrink-0" />
               <span className="font-mono text-xs text-bc-red tracking-wide">CONTRATTI INCOMPATIBILI — SCELTA OBBLIGATORIA</span>
             </div>
           )}
