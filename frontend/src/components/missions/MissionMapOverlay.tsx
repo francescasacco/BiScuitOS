@@ -1,6 +1,7 @@
 import type { Mission, MissionFormData } from '@/types/mission'
 import MappaSU from '@/assets/MappaSU.png'
 import { MARKER_BORDER, MARKER_FILL_HEX, ZOOM_STEPS, STATUS_COLORS, STATUS_LABELS } from './missionConstants'
+import { MapPin, Plus, Minus } from 'lucide-react'
 
 interface MissionMapOverlayProps {
   mapContainerRef: React.RefObject<HTMLDivElement>
@@ -167,7 +168,7 @@ export function MissionMapOverlay({
             <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none">
               <span className="font-mono text-xs text-bc-amber/80 bg-bc-dark/80 px-3 py-1.5 rounded border border-bc-amber/20">
                 {form.map_x != null
-                  ? `📍 ${form.map_x}% — ${form.map_y}%`
+                  ? `${form.map_x}% — ${form.map_y}%`
                   : 'clicca sulla mappa per posizionare la missione'}
               </span>
             </div>
@@ -177,21 +178,13 @@ export function MissionMapOverlay({
             className="absolute bottom-3 right-6 flex flex-col gap-1 z-10"
             onClick={e => e.stopPropagation()}
           >
-            <button
-              onPointerDown={e => e.stopPropagation()}
-              onClick={() => setZoomStep(s => Math.min(s + 1, ZOOM_STEPS.length - 1))}
-              disabled={zoomStep === ZOOM_STEPS.length - 1}
-              className="w-7 h-7 flex items-center justify-center font-mono text-sm bg-bc-dark/80 border border-bc-border text-bc-muted hover:border-bc-green hover:text-bc-green disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded"
-            >
-              +
+            <button onPointerDown={e => e.stopPropagation()} onClick={() => setZoomStep(s => Math.min(s + 1, ZOOM_STEPS.length - 1))} disabled={zoomStep === ZOOM_STEPS.length - 1}
+              className="w-7 h-7 flex items-center justify-center bg-bc-dark/80 border border-bc-border text-bc-muted hover:border-bc-green hover:text-bc-green disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded">
+              <Plus size={12} strokeWidth={2} />
             </button>
-            <button
-              onPointerDown={e => e.stopPropagation()}
-              onClick={() => setZoomStep(s => Math.max(s - 1, 0))}
-              disabled={zoomStep === 0}
-              className="w-7 h-7 flex items-center justify-center font-mono text-sm bg-bc-dark/80 border border-bc-border text-bc-muted hover:border-bc-green hover:text-bc-green disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded"
-            >
-              −
+            <button onPointerDown={e => e.stopPropagation()} onClick={() => setZoomStep(s => Math.max(s - 1, 0))} disabled={zoomStep === 0}
+              className="w-7 h-7 flex items-center justify-center bg-bc-dark/80 border border-bc-border text-bc-muted hover:border-bc-green hover:text-bc-green disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded">
+              <Minus size={12} strokeWidth={2} />
             </button>
           </div>
       </div>

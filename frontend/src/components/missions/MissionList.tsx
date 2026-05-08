@@ -1,7 +1,7 @@
 import type { Mission, MissionStatus } from '@/types/mission'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 import { STATUS_COLORS, STATUS_LABELS } from './missionConstants'
-import { MapPin, X } from 'lucide-react'
+import { MapPin, X, AlertTriangle, Diamond, CornerDownRight } from 'lucide-react'
 
 interface MissionListProps {
   missions: Mission[]
@@ -91,7 +91,7 @@ export function MissionList({
 
               {m.reward && (
                 <div className="flex items-center gap-1.5 pt-0.5">
-                  <span className="font-mono text-xs text-bc-muted/40">↳</span>
+                  <CornerDownRight size={11} strokeWidth={1.5} className="text-bc-muted/40 shrink-0" />
                   <span className="font-mono text-sm text-bc-amber">{m.reward}</span>
                 </div>
               )}
@@ -101,7 +101,7 @@ export function MissionList({
                 <div className="flex flex-wrap gap-1 pt-0.5">
                   {m.report.discoveries.slice(0, 4).map((d, i) => (
                     <span key={i} className="flex items-center gap-1 bg-bc-panel border border-bc-border/50 rounded-full px-2 py-0.5">
-                      <span className="font-mono text-bc-accent/50 text-xs leading-none">◈</span>
+                      <Diamond size={9} strokeWidth={1.5} className="text-bc-accent/50 shrink-0" />
                       <span className="font-sans text-[11px] text-bc-text/70 leading-none">{d.title}</span>
                     </span>
                   ))}
@@ -114,7 +114,7 @@ export function MissionList({
               {/* Contracts warning */}
               {hasReport && m.report?.contractsIncompatible && (
                 <div className="flex items-center justify-center gap-1.5 bg-bc-red/8 border border-bc-red/30 rounded px-2 py-1.5">
-                  <span className="text-bc-red text-sm">⚠</span>
+                  <AlertTriangle size={12} strokeWidth={2} className="text-bc-red shrink-0" />
                   <span className="font-mono text-xs text-bc-red tracking-wide">SCELTA CONTRATTO URGENTE</span>
                 </div>
               )}

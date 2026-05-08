@@ -5,6 +5,7 @@ import type { HangarItem } from '@/types/system'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 import { NumericStepper } from '@/components/ui/NumericStepper'
 import { CoreInp, CoreLabel, CoreCancelBtn } from './CoreField'
+import { Pencil, X as XIcon } from 'lucide-react'
 
 const BLANK: HangarItem = { name: '', category: 'Sistema', tec: undefined, quantity: 1, status: 'normale' }
 
@@ -114,8 +115,8 @@ export function HangarManagement() {
                 </span>
                 <span className={`font-mono text-xs shrink-0 ${STATUS_COLOR[item.status]}`}>{item.status}</span>
                 <div className="flex items-center gap-1 shrink-0">
-                  <button className="font-mono text-xs text-bc-muted hover:text-bc-blue transition-colors px-1" onClick={() => openEdit(i)}>✎</button>
-                  <button className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1" onClick={() => handleDelete(i)}>✕</button>
+                  <button className="text-bc-muted hover:text-bc-blue transition-colors px-1" onClick={() => openEdit(i)}><Pencil size={11} strokeWidth={2} /></button>
+                  <button className="text-bc-muted hover:text-bc-red transition-colors px-1" onClick={() => handleDelete(i)}><XIcon size={11} strokeWidth={2} /></button>
                 </div>
               </div>
             ))}

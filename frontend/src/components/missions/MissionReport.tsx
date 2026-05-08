@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import * as LucideIcons from 'lucide-react'
-import { AlertTriangle, Radio } from 'lucide-react'
+import { AlertTriangle, Radio, Diamond, ChevronUp, ChevronDown } from 'lucide-react'
 import type { MissionReport as MissionReportType } from '@/types/mission'
 
 interface Props { report: MissionReportType }
@@ -51,8 +51,10 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   return (
     <div className="border-t border-bc-border/40 pt-2">
       <button className="flex items-center justify-between w-full mb-2" onClick={() => setOpen(o => !o)}>
-        <span className="font-mono text-xs tracking-widest text-bc-text/50 uppercase">{title}</span>
-        <span className="font-mono text-xs text-bc-text/40">{open ? '▲' : '▼'}</span>
+        <span className="flex items-center gap-1.5 font-mono text-xs tracking-widest text-bc-text/50 uppercase">
+          <Diamond size={10} strokeWidth={1.5} />{title}
+        </span>
+        <span className="font-mono text-xs text-bc-text/40">{open ? <ChevronUp size={12} strokeWidth={2} /> : <ChevronDown size={12} strokeWidth={2} />}</span>
       </button>
       {open && children}
     </div>
@@ -69,7 +71,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.intel && report.intel.length > 0 && (
-        <Section title="◈ Intel live">
+        <Section title="Intel live">
           <div className="flex flex-wrap gap-1.5">
             {report.intel.map((item, i) => (
               <div key={i} className="flex items-start gap-1.5 w-full bg-bc-dark/60 border border-bc-border/30 rounded px-2.5 py-1.5">
@@ -82,7 +84,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.squads && report.squads.length > 0 && (
-        <Section title="◈ Squadre">
+        <Section title="Squadre">
           <div className="grid grid-cols-2 gap-1.5">
             {report.squads.map((sq) => (
               <div key={sq.number} className="border border-bc-border/40 rounded p-2 bg-bc-dark/40">
@@ -106,7 +108,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.discoveries && report.discoveries.length > 0 && (
-        <Section title="◈ Scoperte principali">
+        <Section title="Scoperte principali">
           <div className="space-y-1.5">
             {report.discoveries.map((d, i) => (
               <div key={i} className="flex items-start gap-2">
@@ -122,7 +124,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.characters && report.characters.length > 0 && (
-        <Section title="◈ Personaggi incontrati">
+        <Section title="Personaggi incontrati">
           <div className="space-y-1.5">
             {report.characters.map((c, i) => (
               <div key={i} className={`border rounded p-2 ${CHAR_COLOR[c.alignment]}`}>
@@ -139,7 +141,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.contracts && report.contracts.length > 0 && (
-        <Section title="◈ Contratti aperti">
+        <Section title="Contratti aperti">
           {report.contractsIncompatible && (
             <div className="flex items-center gap-1.5 mb-2 px-2 py-1 border border-bc-red/40 rounded bg-bc-red/5">
               <AlertTriangle size={12} strokeWidth={2} className="text-bc-red shrink-0" />
@@ -163,7 +165,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.assets && report.assets.length > 0 && (
-        <Section title="◈ Asset recuperati">
+        <Section title="Asset recuperati">
           <div className="space-y-1">
             {report.assets.map((a, i) => (
               <div key={i} className="flex items-center justify-between py-1 border-b border-bc-border/30 last:border-0">
@@ -176,7 +178,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.priorities && report.priorities.length > 0 && (
-        <Section title="◈ Priorità — prossima sessione">
+        <Section title="Priorità">
           <ol className="space-y-1">
             {report.priorities.map((p, i) => (
               <li key={i} className="flex items-start gap-2">

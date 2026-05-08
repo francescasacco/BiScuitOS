@@ -3,6 +3,7 @@ import { journalService } from '@/services/journalService'
 import { useOSStore } from '@/store/useOSStore'
 import type { JournalEntryType } from '@/types/journal'
 import { CustomSelect } from '@/components/ui/CustomSelect'
+import { Check } from 'lucide-react'
 
 const EVENT_TYPES: JournalEntryType[] = ['event', 'system', 'override']
 
@@ -88,7 +89,7 @@ export function SystemCommandInput() {
         onClick={handleInject}
         disabled={loading || !title.trim() || !content.trim()}
       >
-        {loading ? 'INIEZIONE...' : sent ? '✓ EVENTO INVIATO' : 'INIETTA EVENTO'}
+        {loading ? 'INIEZIONE...' : sent ? <span className="flex items-center justify-center gap-1"><Check size={12} strokeWidth={2.5} /> EVENTO INVIATO</span> : 'INIETTA EVENTO'}
       </button>
     </div>
   )

@@ -1,17 +1,18 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useOSStore } from '@/store/useOSStore'
 import { OS_VERSION } from '@/config'
+import { Diamond, Users, BookOpen, Crosshair, Package, Zap } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { path: '/',         label: 'Feed',        sub: 'principale',  icon: '◈' },
-  { path: '/crew',     label: 'Equipaggio',  sub: 'registro',    icon: '◉' },
-  { path: '/journal',  label: 'Archivio',    sub: 'log & dati',  icon: '◫' },
-  { path: '/missions', label: 'Missioni',    sub: 'nucleo esplorazioni',  icon: '◆' },
-  { path: '/hangar',   label: 'Hangar',      sub: 'inventario',  icon: '◧' },
+  { path: '/',         label: 'Feed',        sub: 'principale',         lucide: Diamond    },
+  { path: '/crew',     label: 'Equipaggio',  sub: 'registro',           lucide: Users      },
+  { path: '/journal',  label: 'Archivio',    sub: 'log & dati',         lucide: BookOpen   },
+  { path: '/missions', label: 'Missioni',    sub: 'nucleo esplorazioni', lucide: Crosshair  },
+  { path: '/hangar',   label: 'Hangar',      sub: 'inventario',         lucide: Package    },
 ]
 
 const OPERATOR_ITEMS = [
-  { path: '/core', label: 'Core System', sub: 'operatore', icon: '⚡' },
+  { path: '/core', label: 'Core System', sub: 'operatore', lucide: Zap },
 ]
 
 export function Sidebar() {
@@ -72,8 +73,8 @@ export function Sidebar() {
                   : 'text-bc-text/70 hover:bg-bc-panel hover:text-bc-text'}
               `}
             >
-              <span className={`text-sm shrink-0 ${active ? 'text-bc-accent' : 'text-bc-accent/50 group-hover:text-bc-accent'}`}>
-                {item.icon}
+              <span className={`shrink-0 flex items-center ${active ? 'text-bc-accent' : 'text-bc-accent/50 group-hover:text-bc-accent'}`}>
+                <item.lucide size={14} strokeWidth={1.5} />
               </span>
               <div className="flex-1 min-w-0">
                 <div className={`font-sans text-sm font-medium ${active ? 'text-bc-text' : ''}`}>
@@ -117,7 +118,9 @@ export function Sidebar() {
                       : 'text-bc-muted hover:bg-bc-panel hover:text-bc-amber/80'}
                   `}
                 >
-                  <span className="text-sm shrink-0">{item.icon}</span>
+                  <span className="shrink-0 flex items-center">
+                    <item.lucide size={14} strokeWidth={1.5} />
+                  </span>
                   <div className="flex-1 min-w-0">
                     <div className="font-sans text-sm font-medium">{item.label}</div>
                     <div className="font-sans text-xs text-bc-muted/90">{item.sub}</div>

@@ -6,6 +6,7 @@ import type { Pilot } from '@/types/pilot'
 import { CLASSI_PILOTA } from '@/types/pilot'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 import { CoreLabel, CoreCancelBtn } from './CoreField'
+import { Check } from 'lucide-react'
 
 type ActionType = 'edit' | 'note' | 'delete'
 type Action = { type: ActionType; pilotId: string } | null
@@ -87,8 +88,8 @@ export function PilotManagement() {
       <div className="bc-section-header px-4 pt-4 shrink-0">◉ // GESTIONE REGISTRO PILOTI</div>
 
       {flash && (
-        <div className="mx-4 mb-2 font-mono text-xs text-bc-green border border-bc-green/30 px-3 py-2 shrink-0">
-          ✓ {flash}
+        <div className="mx-4 mb-2 font-mono text-xs text-bc-green border border-bc-green/30 px-3 py-2 shrink-0 flex items-center gap-1.5">
+          <Check size={11} strokeWidth={2.5} /> {flash}
         </div>
       )}
 

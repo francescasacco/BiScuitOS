@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useOSStore } from '@/store/useOSStore'
+import { Diamond, CornerDownRight, AlertCircle, ChevronUp, ChevronDown } from 'lucide-react'
 import type { MissionStatus } from '@/types/mission'
 import type { JournalEntry, JournalEntryType } from '@/types/journal'
 import type { CrawlerSection, HangarItem } from '@/types/system'
@@ -301,15 +302,15 @@ export function OSMainPage() {
                           <span className={`font-mono text-sm font-bold truncate ${MISSION_TEXT[m.status]}`}>
                             {m.title}
                           </span>
-                          {isPinned && <span className="font-mono text-xs text-bc-accent/60 shrink-0">◈</span>}
+                          {isPinned && <Diamond size={10} strokeWidth={1.5} className="text-bc-accent/60 shrink-0" />}
                         </div>
                         <span className={`bc-tag text-xs shrink-0 ${statusColor}`}>{MISSION_STATUS_LABEL[m.status]}</span>
                         {m.report && (
                           <button
-                            className="shrink-0 w-8 h-8 flex items-center justify-center font-mono text-sm text-bc-muted hover:text-bc-accent border border-bc-border/40 hover:border-bc-accent/50 rounded transition-colors"
+                            className="shrink-0 w-8 h-8 flex items-center justify-center text-bc-muted hover:text-bc-accent border border-bc-border/40 hover:border-bc-accent/50 rounded transition-colors"
                             onClick={e => toggleExpanded(m.id, e)}
                           >
-                            {isExpanded ? '▲' : '▼'}
+                            {isExpanded ? <ChevronUp size={14} strokeWidth={2} /> : <ChevronDown size={14} strokeWidth={2} />}
                           </button>
                         )}
                       </div>
@@ -323,13 +324,13 @@ export function OSMainPage() {
                         )}
                         {m.reward && (
                           <div className="flex items-center gap-1.5">
-                            <span className="font-mono text-xs text-bc-muted/40">↳</span>
+                            <CornerDownRight size={11} strokeWidth={1.5} className="text-bc-muted/40 shrink-0" />
                             <span className="font-mono text-sm text-bc-amber">{m.reward}</span>
                           </div>
                         )}
                         {m.report?.priorities && m.report.priorities.length > 0 && (
                           <div className="flex items-start gap-1.5">
-                            <span className="font-mono text-xs text-bc-red/60 mt-0.5">!</span>
+                            <AlertCircle size={11} strokeWidth={2} className="text-bc-red/60 mt-0.5 shrink-0" />
                             <span className="font-sans text-xs text-bc-text/70 leading-snug line-clamp-2">
                               {m.report.priorities[0]}
                             </span>
@@ -343,7 +344,9 @@ export function OSMainPage() {
                           <div className="grid grid-cols-2 gap-2">
                             {m.report.discoveries && m.report.discoveries.length > 0 && (
                               <div className="bg-bc-black/30 border border-bc-border/30 rounded-lg p-2">
-                                <p className="font-mono text-[10px] text-bc-text/50 uppercase tracking-widest mb-1.5">Scoperte</p>
+                                <p className="flex items-center gap-1 font-mono text-[10px] text-bc-text/50 uppercase tracking-widest mb-1.5">
+                                  <Diamond size={9} strokeWidth={1.5} />Scoperte
+                                </p>
                                 <div className="space-y-1">
                                   {m.report.discoveries.map((d, i) => (
                                     <div key={i} className="flex items-center gap-1.5">
@@ -354,14 +357,16 @@ export function OSMainPage() {
                                 </div>
                               </div>
                             )}
-                            {m.report.contracts && m.report.contracts.length > 0 && (
-                              <div className="bg-bc-black/30 border border-bc-border/30 rounded-lg p-2">
-                                <div className="flex items-center gap-1.5 mb-1.5">
-                                  <p className="font-mono text-[10px] text-bc-text/50 uppercase tracking-widest">Contratti</p>
-                                  {m.report.contractsIncompatible && (
-                                    <span className="font-mono text-[10px] text-bc-red border border-bc-red/40 px-1 rounded py-0.5">!</span>
-                                  )}
-                                </div>
+                            <div className="bg-bc-black/30 border border-bc-border/30 rounded-lg p-2">
+                              <div className="flex items-center gap-1.5 mb-1.5">
+                                <p className="flex items-center gap-1 font-mono text-[10px] text-bc-text/50 uppercase tracking-widest">
+                                  <Diamond size={9} strokeWidth={1.5} />Contratti
+                                </p>
+                                {m.report.contractsIncompatible && (
+                                  <span className="font-mono text-[10px] text-bc-red border border-bc-red/40 px-1 rounded py-0.5">!</span>
+                                )}
+                              </div>
+                              {m.report.contracts && m.report.contracts.length > 0 ? (
                                 <div className="space-y-1">
                                   {m.report.contracts.map((c, i) => (
                                     <div key={i} className="space-y-0.5">
@@ -370,8 +375,10 @@ export function OSMainPage() {
                                     </div>
                                   ))}
                                 </div>
-                              </div>
-                            )}
+                              ) : (
+                                <p className="font-mono text-xs text-bc-muted/50">Nessun contratto disponibile.</p>
+                              )}
+                            </div>
                           </div>
                         </div>
                       )}

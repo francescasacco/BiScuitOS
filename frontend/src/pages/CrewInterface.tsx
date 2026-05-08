@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
+import { X } from 'lucide-react'
 
 const splitMechItems = (str: string): string[] => {
   if (str.includes('\n')) return str.split('\n').filter(Boolean)
@@ -29,11 +30,8 @@ export function CrewInterface() {
               <span className="font-mono text-xs text-bc-accent/70 uppercase tracking-widest">
                 // INSERZIONE NUOVO PILOTA
               </span>
-              <button
-                className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1"
-                onClick={() => setShowForm(false)}
-              >
-                ✕
+              <button className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1" onClick={() => setShowForm(false)}>
+                <X size={12} strokeWidth={2} />
               </button>
             </div>
             <div className="p-6">

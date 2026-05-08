@@ -4,6 +4,7 @@ import { systemService } from "@/services/systemService";
 import type { HangarItem } from "@/types/system";
 import { CustomSelect } from "@/components/ui/CustomSelect";
 import { NumericStepper } from "@/components/ui/NumericStepper";
+import { RefreshCw, Pencil, X } from 'lucide-react'
 
 const DEFAULT_INVENTORY: HangarItem[] = [
   {
@@ -321,26 +322,14 @@ export function HangarInterface() {
 
                   {isOperator && (
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-                      <button
-                        className="font-mono text-xs text-bc-muted hover:text-bc-amber transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-amber/40"
-                        onClick={() => handleStatusCycle(i)}
-                        title="Cambia stato"
-                      >
-                        ↻
+                      <button className="font-mono text-xs text-bc-muted hover:text-bc-amber transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-amber/40" onClick={() => handleStatusCycle(i)} title="Cambia stato">
+                        <RefreshCw size={11} strokeWidth={2} />
                       </button>
-                      <button
-                        className="font-mono text-xs text-bc-muted hover:text-bc-blue transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-blue/40"
-                        onClick={() => handleEdit(i)}
-                        title="Modifica"
-                      >
-                        ✎
+                      <button className="font-mono text-xs text-bc-muted hover:text-bc-blue transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-blue/40" onClick={() => handleEdit(i)} title="Modifica">
+                        <Pencil size={11} strokeWidth={2} />
                       </button>
-                      <button
-                        className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-red/40"
-                        onClick={() => handleDelete(i)}
-                        title="Rimuovi"
-                      >
-                        ✕
+                      <button className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1.5 py-0.5 border border-transparent hover:border-bc-red/40" onClick={() => handleDelete(i)} title="Rimuovi">
+                        <X size={11} strokeWidth={2} />
                       </button>
                     </div>
                   )}

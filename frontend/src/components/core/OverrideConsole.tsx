@@ -3,6 +3,7 @@ import { systemService } from '@/services/systemService'
 import { journalService } from '@/services/journalService'
 import { useOSStore } from '@/store/useOSStore'
 import { CoreInp, CoreNumInp, CoreLabel, CoreAddBtn, CoreRemoveBtn } from './CoreField'
+import { Check, AlertTriangle } from 'lucide-react'
 
 export function OverrideConsole() {
   const { crawlerSystem, setCrawlerSystem, addJournalEntry } = useOSStore()
@@ -55,8 +56,8 @@ export function OverrideConsole() {
 
   return (
     <div className="bc-panel border border-bc-amber/40 p-3 border-glow-amber overflow-hidden h-full flex flex-col">
-      <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>
-        ⚠ // CONSOLE OVERRIDE — STATO CRAWLER
+      <div className="bc-section-header flex items-center gap-1.5" style={{ color: 'var(--bc-amber)' }}>
+        <AlertTriangle size={12} strokeWidth={2} /> // CONSOLE OVERRIDE — STATO CRAWLER
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
@@ -97,7 +98,7 @@ export function OverrideConsole() {
       </div>
 
       <button className="bc-btn-amber w-full py-2" onClick={handleSave} disabled={saving}>
-        {saving ? 'ESECUZIONE OVERRIDE...' : saved ? '✓ OVERRIDE COMPLETATO' : 'ESEGUI OVERRIDE'}
+        {saving ? 'ESECUZIONE OVERRIDE...' : saved ? <span className="flex items-center justify-center gap-1"><Check size={12} strokeWidth={2.5} /> OVERRIDE COMPLETATO</span> : 'ESEGUI OVERRIDE'}
       </button>
     </div>
   )

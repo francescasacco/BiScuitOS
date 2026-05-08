@@ -1,5 +1,6 @@
 import { NumericStepper } from '@/components/ui/NumericStepper'
 import { CustomSelect } from '@/components/ui/CustomSelect'
+import { X } from 'lucide-react'
 
 const labelCls = 'font-mono text-xs text-bc-amber/70 block mb-1'
 const inputCls = 'bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber'
@@ -86,8 +87,8 @@ export function CoreAddBtn({ label, onClick }: { label: string; onClick: () => v
 export function CoreRemoveBtn({ onClick }: { onClick: () => void }) {
   return (
     <button type="button"
-      className="font-mono text-xs text-bc-muted hover:text-bc-red px-2 border border-bc-muted/30 hover:border-bc-red/40 transition-colors shrink-0"
-      onClick={onClick}>✕</button>
+      className="font-mono text-xs text-bc-muted hover:text-bc-red px-2 border border-bc-muted/30 hover:border-bc-red/40 transition-colors shrink-0 flex items-center"
+      onClick={onClick}><X size={11} strokeWidth={2} /></button>
   )
 }
 

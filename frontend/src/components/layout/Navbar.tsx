@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { OS_NAME } from '@/config'
 import { BiscuitLoader } from '@/components/core/BiscuitLoader'
+import { Menu, X, Key, ChevronRight, ChevronLeft } from 'lucide-react'
 
 const SYSTEM_KEY = import.meta.env.VITE_SYSTEM_KEY
 
@@ -73,7 +74,7 @@ export function Navbar() {
             onClick={() => setSidebarOpen(!sidebarOpen)}
             aria-label="Menu"
           >
-            <span className="text-2xl leading-none">{sidebarOpen ? '→' : '←'}</span>
+            {sidebarOpen ? <ChevronLeft size={16} strokeWidth={2} /> : <Menu size={16} strokeWidth={2} />}
           </button>
 
           <span className="font-display text-sm font-bold tracking-widest text-bc-text whitespace-nowrap">
@@ -109,10 +110,10 @@ export function Navbar() {
               <button className="bc-btn-green font-mono text-xs px-3 py-1 tracking-widest" onClick={handleKeySubmit}>
                 OK
               </button>
-              <button
-                className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all"
-                onClick={() => { setShowKeyInput(false); setKeyInput('') }}
-              >✕</button>
+              <button className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all flex items-center"
+                onClick={() => { setShowKeyInput(false); setKeyInput('') }}>
+                <X size={11} strokeWidth={2} />
+              </button>
             </div>
           ) : isOperator ? (
             <div className="flex items-center gap-2">
@@ -128,11 +129,11 @@ export function Navbar() {
             </div>
           ) : (
             <button
-              className="font-mono text-xs uppercase tracking-widest text-bc-muted border border-bc-muted/40 px-3 py-1 hover:border-bc-accent hover:text-bc-accent transition-all whitespace-nowrap"
+              className="font-mono text-xs uppercase tracking-widest text-bc-text/80 border border-bc-border hover:border-bc-accent hover:text-bc-accent transition-all whitespace-nowrap flex items-center gap-1.5 px-3 py-1"
               onClick={() => setShowKeyInput(true)}
             >
+              <Key size={12} strokeWidth={1.5} />
               <span className="hidden sm:inline">CHIAVE SISTEMA</span>
-              <span className="sm:hidden">🔑</span>
             </button>
           )}
         </div>

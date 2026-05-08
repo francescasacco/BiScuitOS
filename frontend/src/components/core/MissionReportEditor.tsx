@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { missionService } from '@/services/missionService'
 import { CustomSelect } from '@/components/ui/CustomSelect'
-import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import type { Mission, MissionReport, MissionSquad, MissionCharacter, MissionContract, MissionAsset } from '@/types/mission'
 import { CoreInp, CoreTextarea, CoreSelect, CoreListEditor, CoreAddBtn, CoreRemoveBtn, CoreLabel } from './CoreField'
 
@@ -91,7 +91,7 @@ export function MissionReportEditor() {
           <CoreTextarea label="DESCRIZIONE" value={d.description} onChange={v => updateDisc(i, { description: v })} />
         </div>
       ))}
-      <CoreAddBtn label="AGGIUNGI SCOPERTA" onClick={() => set('discoveries', [...(report.discoveries ?? []), { icon: '◈', title: '', description: '' }])} />
+      <CoreAddBtn label="AGGIUNGI SCOPERTA" onClick={() => set('discoveries', [...(report.discoveries ?? []), { icon: 'diamond', title: '', description: '' }])} />
     </div>,
 
     <div className="space-y-2">
@@ -146,13 +146,13 @@ export function MissionReportEditor() {
       <CoreAddBtn label="AGGIUNGI ASSET" onClick={() => set('assets', [...(report.assets ?? []), { name: '', category: '' }])} />
     </div>,
 
-    <CoreListEditor label="PRIORITÀ — PROSSIMA SESSIONE" items={report.priorities ?? []} onChange={v => set('priorities', v)} />,
+    <CoreListEditor label="PRIORITÀ" items={report.priorities ?? []} onChange={v => set('priorities', v)} />,
   ]
 
   return (
     <>
       <div className="bc-panel border border-bc-amber/40 p-4">
-        <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>◈ // EDITOR REPORT MISSIONE</div>
+        <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>// EDITOR REPORT MISSIONE</div>
         <div className="flex items-center gap-3">
           <div className="flex-1">
             <CustomSelect
@@ -206,7 +206,7 @@ export function MissionReportEditor() {
                 <ChevronLeft size={14} /> INDIETRO
               </button>
               <button className="bc-btn-amber px-4 py-2" onClick={handleSave} disabled={saving}>
-                {saving ? 'SALVATAGGIO...' : saved ? '✓ SALVATO' : 'SALVA'}
+                {saving ? 'SALVATAGGIO...' : saved ? <span className="flex items-center gap-1"><Check size={12} strokeWidth={2.5} /> SALVATO</span> : 'SALVA'}
               </button>
               <button
                 className="flex items-center gap-1 font-mono text-xs px-3 py-2 border border-bc-muted/30 text-bc-muted hover:border-bc-text hover:text-bc-text transition-all disabled:opacity-30"

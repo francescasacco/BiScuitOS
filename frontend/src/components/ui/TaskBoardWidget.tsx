@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { taskBoardService } from '@/services/taskBoardService'
-import { Check, X, Plus } from 'lucide-react'
+import { Check, X, Plus, ChevronUp, ChevronDown } from 'lucide-react'
 
 export function TaskBoardWidget() {
   const { taskBoardItems, isOperator, addTaskBoardItem, updateTaskBoardItem, removeTaskBoardItem } = useOSStore()
@@ -57,7 +57,7 @@ export function TaskBoardWidget() {
           {!open && openCount > 0 && (
             <span className="text-bc-amber">{openCount} aperti</span>
           )}
-          {open ? '▲' : '▼'}
+          {open ? <ChevronUp size={12} strokeWidth={2} /> : <ChevronDown size={12} strokeWidth={2} />}
         </span>
       </button>
 
@@ -118,11 +118,8 @@ export function TaskBoardWidget() {
                   >
                     {adding ? '...' : 'OK'}
                   </button>
-                  <button
-                    className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1"
-                    onClick={() => { setShowInput(false); setNewText('') }}
-                  >
-                    ✕
+                  <button className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1" onClick={() => { setShowInput(false); setNewText('') }}>
+                    <X size={11} strokeWidth={2} />
                   </button>
                 </div>
               ) : (
