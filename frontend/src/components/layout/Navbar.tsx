@@ -2,28 +2,10 @@ import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { OS_NAME } from '@/config'
 import { BiscuitLoader } from '@/components/core/BiscuitLoader'
+import { AccessDeniedOverlay } from '@/components/ui/AccessDeniedOverlay'
 import { Menu, X, Key, ChevronLeft } from 'lucide-react'
 
 const SYSTEM_KEY = import.meta.env.VITE_SYSTEM_KEY
-
-function AccessDeniedOverlay({ onDone }: { onDone: () => void }) {
-  return (
-    <div
-      className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-bc-black/95"
-      style={{ backdropFilter: 'blur(4px)' }}
-      onClick={onDone}
-    >
-      <div className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(248,113,113,0.12) 0%, transparent 70%)' }} />
-      <div className="font-display text-5xl md:text-6xl font-black tracking-widest text-bc-red text-glow-red animate-pulse">
-        ACCESSO NEGATO
-      </div>
-      <div className="font-mono text-bc-red/80 text-sm tracking-widest">ERRORE: CHIAVE SISTEMA NON VALIDA</div>
-      <div className="font-mono text-bc-muted text-xs">AUTENTICAZIONE_FALLITA // {OS_NAME} // ACCESSO RIFIUTATO</div>
-      <div className="mt-4 font-mono text-bc-muted/50 text-xs animate-pulse">[ TOCCA PER CHIUDERE ]</div>
-    </div>
-  )
-}
 
 export function Navbar() {
   const { isOperator, setIsOperator, sidebarOpen, setSidebarOpen } = useOSStore()

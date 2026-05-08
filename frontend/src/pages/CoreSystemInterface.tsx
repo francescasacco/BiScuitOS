@@ -6,6 +6,7 @@ import { HangarManagement } from '@/components/core/HangarManagement'
 import { MissionReportEditor } from '@/components/core/MissionReportEditor'
 import { useNavigate } from 'react-router-dom'
 import { AlertTriangle, ChevronLeft } from 'lucide-react'
+import { AccessDeniedOverlay } from '@/components/ui/AccessDeniedOverlay'
 
 export function CoreSystemInterface() {
   const { isOperator } = useOSStore()
@@ -13,20 +14,11 @@ export function CoreSystemInterface() {
 
   if (!isOperator) {
     return (
-      <div className="h-full flex flex-col items-center justify-center space-y-4 px-6 text-center">
-        <div className="text-bc-red text-glow-red font-display text-xl sm:text-2xl tracking-widest animate-pulse">
-          ACCESSO NEGATO
-        </div>
-        <div className="font-mono text-bc-muted text-sm max-w-sm">
-          SISTEMA CORE richiede autenticazione con CHIAVE SISTEMA valida.
-        </div>
-        <div className="font-mono text-xs text-bc-red/60 max-w-xs break-words">
-          ERRORE: AUTENTICAZIONE_OPERATORE_FALLITA // CRAWLER//OS // NODO RISTRETTO
-        </div>
-        <button className="bc-btn border-bc-muted text-bc-muted mt-4 flex items-center gap-1" onClick={() => navigate('/')}>
-          <ChevronLeft size={13} /> TORNA AL FEED PRINCIPALE
-        </button>
-      </div>
+      <AccessDeniedOverlay
+        subtitle="SISTEMA CORE // NODO RISTRETTO"
+        detail="SISTEMA CORE richiede autenticazione con CHIAVE SISTEMA valida."
+        onDone={() => navigate('/')}
+      />
     )
   }
 
