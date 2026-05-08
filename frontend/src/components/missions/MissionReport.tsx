@@ -2,30 +2,19 @@ import { useState } from 'react'
 import * as LucideIcons from 'lucide-react'
 import { AlertTriangle, Radio, Diamond, ChevronUp, ChevronDown } from 'lucide-react'
 import type { MissionReport as MissionReportType } from '@/types/mission'
+import { ICON_MAP } from './missionConstants'
 
 interface Props { report: MissionReportType }
 
-const ICON_MAP: Record<string, keyof typeof LucideIcons> = {
-  biohazard:        'Biohazard',
-  zap:              'Zap',
-  diamond:          'Diamond',
-  'alert-triangle': 'AlertTriangle',
-  sword:            'Sword',
-  wrench:           'Wrench',
-  star:             'Star',
-  eye:              'Eye',
-  shield:           'Shield',
-  flame:            'Flame',
-  package:          'Package',
-}
+const ICON_MAP_TYPED = ICON_MAP as Record<string, keyof typeof LucideIcons>
 
 function DiscoveryIcon({ icon }: { icon: string }) {
-  const name = ICON_MAP[icon.toLowerCase()]
+  const name = ICON_MAP_TYPED[icon.toLowerCase()]
   if (name) {
     const Icon = LucideIcons[name] as React.FC<{ size?: number; strokeWidth?: number; className?: string }>
     return <Icon size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" />
   }
-  return <span className="text-sm leading-none shrink-0 mt-0.5">{icon}</span>
+  return <Diamond size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" />
 }
 
 const SQUAD_STATUS_COLOR: Record<string, string> = {

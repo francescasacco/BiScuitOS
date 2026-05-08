@@ -109,3 +109,19 @@ export function CoreCancelBtn({ onClick }: { onClick: () => void }) {
       onClick={onClick}>ANNULLA</button>
   )
 }
+
+export function CorePilotField({ label, value, onChange, rows, error, onBlur }: {
+  label: string; value: string; onChange: (v: string) => void; rows?: number; error?: string; onBlur?: () => void
+}) {
+  const cls = `border-bc-accent/40 text-bc-text focus:border-bc-accent text-xs${error ? ' border-bc-red focus:border-bc-red' : ''}`
+  return (
+    <div>
+      <CoreLabel>{label}</CoreLabel>
+      {rows
+        ? <textarea rows={rows} className={`bc-textarea ${cls}`} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} />
+        : <input className={`bc-input ${cls}`} value={value} onChange={e => onChange(e.target.value)} onBlur={onBlur} />
+      }
+      <CoreFieldError msg={error} />
+    </div>
+  )
+}

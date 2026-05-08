@@ -1,6 +1,6 @@
 import type { Mission, MissionStatus } from '@/types/mission'
 import { CustomSelect } from '@/components/ui/CustomSelect'
-import { STATUS_COLORS, STATUS_LABELS } from './missionConstants'
+import { STATUS_COLORS, STATUS_LABELS, STATUS_DOT } from './missionConstants'
 import { MapPin, X, AlertTriangle, Diamond, CornerDownRight } from 'lucide-react'
 
 interface MissionListProps {
@@ -19,14 +19,6 @@ const STATUS_GLOW: Record<MissionStatus, string> = {
   completed:  'from-cyan-400/8 to-transparent',
   failed:     'from-bc-red/10 to-transparent',
   classified: 'from-bc-blue/10 to-transparent',
-}
-
-const STATUS_DOT: Record<MissionStatus, string> = {
-  active:     'bg-bc-green shadow-[0_0_5px_var(--bc-green)]',
-  pending:    'bg-bc-amber shadow-[0_0_5px_var(--bc-amber)]',
-  completed:  'bg-cyan-400',
-  failed:     'bg-bc-red shadow-[0_0_5px_var(--bc-red)]',
-  classified: 'bg-bc-blue shadow-[0_0_5px_var(--bc-blue)]',
 }
 
 export function MissionList({
@@ -62,8 +54,7 @@ export function MissionList({
             }`}
             onClick={() => onSelect(m)}
           >
-            {/* Colored header strip */}
-            <div className={`px-3 py-2 bg-gradient-to-r ${STATUS_GLOW[m.status]} border-b border-bc-border/40 flex items-center justify-between gap-2`}>
+          <div className={`px-3 py-2 bg-gradient-to-r ${STATUS_GLOW[m.status]} border-b border-bc-border/40 flex items-center justify-between gap-2`}>
               <div className="flex items-center gap-2 min-w-0">
                 <span className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT[m.status]}`} />
                 <span className={`font-mono text-xs font-bold truncate ${STATUS_COLORS[m.status].split(' ')[0]}`}>
@@ -75,7 +66,6 @@ export function MissionList({
               </span>
             </div>
 
-            {/* Body */}
             <div className="px-3 py-3 space-y-2 bg-bc-dark/30">
               {m.report?.date && (
                 <div className="flex items-center gap-1.5">
@@ -96,7 +86,6 @@ export function MissionList({
                 </div>
               )}
 
-              {/* Intel pills */}
               {hasReport && m.report?.discoveries && m.report.discoveries.length > 0 && (
                 <div className="flex flex-wrap gap-1 pt-0.5">
                   {m.report.discoveries.slice(0, 4).map((d, i) => (
@@ -111,7 +100,6 @@ export function MissionList({
                 </div>
               )}
 
-              {/* Contracts warning */}
               {hasReport && m.report?.contractsIncompatible && (
                 <div className="flex items-center justify-center gap-1.5 bg-bc-red/8 border border-bc-red/30 rounded px-2 py-1.5">
                   <AlertTriangle size={12} strokeWidth={2} className="text-bc-red shrink-0" />
@@ -120,7 +108,6 @@ export function MissionList({
               )}
             </div>
 
-            {/* Operator controls */}
             {isOperator && (
               <div className="border-t border-bc-border/30 px-3 py-2 space-y-2 bg-bc-dark/20" onClick={e => e.stopPropagation()}>
                 <CustomSelect

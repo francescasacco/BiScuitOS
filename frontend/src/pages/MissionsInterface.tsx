@@ -195,7 +195,6 @@ export function MissionsInterface() {
 
       <div className="flex-1 flex flex-col md:flex-row min-h-0 p-4 gap-4 overflow-hidden md:overflow-hidden overflow-y-auto">
 
-        {/* Left: map with sliding report overlay */}
         <div className="relative flex flex-col md:max-w-[65%] md:w-[65%] w-full shrink-0 min-h-0 overflow-hidden">
           <MissionMapOverlay
             mapContainerRef={mapContainerRef}
@@ -217,7 +216,6 @@ export function MissionsInterface() {
             onPointerUp={handlePointerUp}
           />
 
-          {/* Horizontal collapsible report — overlays the map, slides in from the right */}
           <div
             className={`fixed inset-x-0 bottom-0 top-[105px] md:absolute md:inset-0 z-30 md:z-20 rounded-t-xl md:rounded-lg overflow-hidden transition-transform duration-300 ease-in-out md:p-0 ${
               selected?.report ? 'translate-x-0' : 'translate-x-full'
@@ -258,7 +256,6 @@ export function MissionsInterface() {
           </div>
         </div>
 
-        {/* Right: list */}
         <div className="flex-1 flex flex-col overflow-hidden min-w-0 min-h-0">
           {showForm && isOperator && (
             <MissionForm

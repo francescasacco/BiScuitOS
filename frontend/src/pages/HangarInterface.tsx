@@ -164,7 +164,6 @@ export function HangarInterface() {
 
       <div className="shrink-0 h-px bg-bc-track" />
 
-      {/* Operator add/edit form */}
       {showForm && isOperator && (
         <div className="shrink-0 bg-bc-panel border border-bc-amber/40 rounded-xl p-4 border-glow-amber">
           <p className="font-mono text-xs text-bc-amber/70 uppercase tracking-widest mb-3">
@@ -265,7 +264,6 @@ export function HangarInterface() {
 
       <TradeBoardWidget />
 
-      {/* Inventory list grouped by category */}
       <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${grouped.length}, minmax(0, 1fr))` }}>
         {grouped.map(({ cat, items }) => (
           <div

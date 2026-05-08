@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
-import { X } from 'lucide-react'
+import { X, ChevronLeft } from 'lucide-react'
 
 const splitMechItems = (str: string): string[] => {
   if (str.includes('\n')) return str.split('\n').filter(Boolean)
@@ -18,7 +18,6 @@ export function CrewInterface() {
   return (
     <div className="h-full overflow-y-auto p-3">
 
-      {/* Modal inserzione pilota */}
       {showForm && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -70,10 +69,10 @@ export function CrewInterface() {
                 {selected.identificativo}
               </h2>
               <button
-                className="bc-btn border-bc-muted text-bc-muted text-xs"
+                className="bc-btn border-bc-muted text-bc-muted text-xs flex items-center gap-1"
                 onClick={() => setSelected(null)}
               >
-                ← INDIETRO
+                <ChevronLeft size={13} /> INDIETRO
               </button>
             </div>
 

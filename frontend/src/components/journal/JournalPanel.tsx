@@ -73,7 +73,6 @@ export function JournalPanel() {
 
       {open && createPortal(
         <>
-          {/* Caret arrow */}
           {rect && (
             <div
               className="fixed"

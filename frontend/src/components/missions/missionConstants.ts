@@ -32,6 +32,28 @@ export const MARKER_FILL_HEX: Record<MissionStatus, string> = {
   classified: '#1d4ed8',
 }
 
+export const STATUS_DOT: Record<MissionStatus, string> = {
+  active:     'bg-bc-green shadow-[0_0_5px_var(--bc-green)]',
+  pending:    'bg-bc-amber shadow-[0_0_5px_var(--bc-amber)]',
+  completed:  'bg-cyan-400',
+  failed:     'bg-bc-red shadow-[0_0_5px_var(--bc-red)]',
+  classified: 'bg-bc-blue shadow-[0_0_5px_var(--bc-blue)]',
+}
+
 export const ZOOM_STEPS = [1, 1.5, 2, 2.5]
 
 export const EMPTY_FORM: MissionFormData = { title: '', status: 'pending', summary: '', reward: '' }
+
+export const ICON_MAP: Record<string, string> = {
+  biohazard:        'Biohazard',
+  zap:              'Zap',
+  diamond:          'Diamond',
+  'alert-triangle': 'AlertTriangle',
+  sword:            'Sword',
+  wrench:           'Wrench',
+  star:             'Star',
+  eye:              'Eye',
+  shield:           'Shield',
+  flame:            'Flame',
+  package:          'Package',
+}

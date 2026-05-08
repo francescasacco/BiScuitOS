@@ -5,6 +5,8 @@ import { Diamond, CornerDownRight, AlertCircle, ChevronUp, ChevronDown } from 'l
 import type { MissionStatus } from '@/types/mission'
 import type { JournalEntry, JournalEntryType } from '@/types/journal'
 import type { CrawlerSection, HangarItem } from '@/types/system'
+import { StatChip, CombinedBarChip, Ticker } from '@/components/ui/FeedWidgets'
+import { STATUS_DOT as MISSION_STATUS_DOT } from '@/components/missions/missionConstants'
 
 const DEFAULT_SECTIONS: CrawlerSection[] = [
   { name: 'Ponte Comando',       detail: 'Princeps: Ottaviano',               status: 'active'  },
@@ -90,55 +92,6 @@ const INV_CAT_COLOR: Record<HangarItem['category'], string> = {
   Modulo:  'text-bc-blue',
   Telaio:  'text-bc-amber',
   Altro:   'text-bc-muted',
-}
-
-function StatChip({ label, value, accent }: { label: string; value: string; accent: string }) {
-  return (
-    <div className="bg-bc-panel border border-bc-border rounded-xl px-3 py-2.5">
-      <div className="font-sans text-bc-muted text-xs font-medium uppercase tracking-wider mb-1">{label}</div>
-      <div className={`font-mono text-lg font-bold ${accent}`}>{value}</div>
-    </div>
-  )
-}
-
-function CombinedBarChip({
-  psCurrent, psMax, potCurrent, potMax,
-}: { psCurrent?: number; psMax?: number; potCurrent?: number; potMax?: number }) {
-  const psPct  = psMax  ? Math.min(100, ((psCurrent  ?? 0) / psMax)  * 100) : 0
-  const potPct = potMax ? Math.min(100, ((potCurrent ?? 0) / potMax) * 100) : 0
-  return (
-    <div className="col-span-3 sm:col-span-2 bg-bc-panel border border-bc-border rounded-xl px-3 py-2.5 flex flex-col justify-center gap-2.5">
-      <div>
-        <div className="flex justify-between font-mono text-xs mb-1">
-          <span className="text-bc-muted text-xs uppercase tracking-wider">Scafo</span>
-          <span className="text-bc-red font-semibold">{psCurrent ?? '—'}<span className="text-bc-muted font-normal">/{psMax ?? '—'}</span></span>
-        </div>
-        <div className="h-0.5 rounded-full bg-bc-track overflow-hidden">
-          <div className="h-full rounded-full transition-all duration-700"
-            style={{ width: `${psPct}%`, background: 'var(--bc-red)', boxShadow: '0 0 4px var(--bc-red)' }} />
-        </div>
-      </div>
-      <div>
-        <div className="flex justify-between font-mono text-xs mb-1">
-          <span className="text-bc-muted text-xs uppercase tracking-wider">Potenziamento</span>
-          <span className="text-bc-accent font-semibold">{potCurrent ?? '—'}<span className="text-bc-muted font-normal">/{potMax ?? '—'}</span></span>
-        </div>
-        <div className="h-0.5 rounded-full bg-bc-track overflow-hidden">
-          <div className="h-full rounded-full transition-all duration-700"
-            style={{ width: `${potPct}%`, background: 'var(--bc-accent)', boxShadow: '0 0 4px var(--bc-accent)' }} />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function Ticker({ text, colorClass }: { text: string; colorClass: string }) {
-  const doubled = `${text}      ${text}      `
-  return (
-    <div className="bc-ticker">
-      <span className={`bc-ticker-inner font-sans text-sm font-semibold ${colorClass}`}>{doubled}</span>
-    </div>
-  )
 }
 
 export function OSMainPage() {
@@ -300,12 +253,7 @@ export function OSMainPage() {
                         'from-bc-muted/5 to-transparent'
                       }`}>
                         <div className="flex items-center gap-2 min-w-0 flex-1">
-                          <span className={`w-2 h-2 rounded-full shrink-0 ${
-                            m.status === 'active' ? 'bg-bc-green shadow-[0_0_4px_var(--bc-green)]' :
-                            m.status === 'pending' ? 'bg-bc-amber shadow-[0_0_4px_var(--bc-amber)]' :
-                            m.status === 'failed' ? 'bg-bc-red shadow-[0_0_4px_var(--bc-red)]' :
-                            'bg-bc-muted/40'
-                          }`} />
+                          <span className={`w-2 h-2 rounded-full shrink-0 ${MISSION_STATUS_DOT[m.status]}`} />
                           <span className={`font-mono text-sm font-bold md:truncate break-words ${MISSION_TEXT[m.status]}`}>
                             {m.title}
                           </span>

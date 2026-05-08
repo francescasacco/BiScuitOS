@@ -132,7 +132,6 @@ export function TradeBoardWidget() {
 
   return (
     <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
-      {/* Header */}
       <div className="px-4 py-2.5 border-b border-bc-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <ArrowLeftRight size={13} strokeWidth={1.5} className="text-bc-accent" />
@@ -144,7 +143,6 @@ export function TradeBoardWidget() {
         </div>
       </div>
 
-      {/* Form */}
       {showForm && (
         <div className={`px-4 py-3 border-b ${TYPE_STYLE[formType].border} bg-bc-dark/60`}>
           <p className="font-mono text-xs tracking-widest mb-3" style={{ color: formType === 'offerta' ? 'var(--bc-green)' : 'var(--bc-accent)' }}>
@@ -184,7 +182,6 @@ export function TradeBoardWidget() {
         </div>
       )}
 
-      {/* Tabs */}
       <div className="flex border-b border-bc-border">
         {(['richiesta', 'offerta'] as ActiveTab[]).map(t => (
           <button key={t} className={`flex-1 font-mono text-xs py-2.5 relative transition-colors ${tab === t ? 'text-bc-text' : 'text-bc-muted hover:text-bc-text'}`} onClick={() => setTab(t)}>
@@ -198,7 +195,6 @@ export function TradeBoardWidget() {
         ))}
       </div>
 
-      {/* Active list */}
       <div className="divide-y divide-bc-border/50">
         {visible.length === 0
           ? <p className="font-mono text-xs text-bc-muted px-4 py-6 text-center">{tab === 'offerta' ? 'Nessuna offerta attiva.' : 'Nessuna richiesta attiva.'}</p>
@@ -206,14 +202,12 @@ export function TradeBoardWidget() {
         }
       </div>
 
-      {/* Archive section */}
       <div className="border-t border-bc-border/50">
         <div className="grid grid-cols-2 divide-x divide-bc-border/50">
-          {/* Archivio Richieste */}
           <div>
             <button className="w-full flex items-center justify-between px-3 py-2.5 text-bc-muted hover:text-bc-text transition-colors border-b border-bc-border/30" onClick={() => setShowArchiveRichieste(v => !v)}>
               <span className="flex items-center gap-1.5 font-mono text-xs">
-                <Archive size={10} strokeWidth={1.5} />
+                <Archive size={11} strokeWidth={1.5} />
                 ARCHIVIO RICHIESTE
                 <span className="text-[10px]">({archivedRichieste.length})</span>
               </span>
@@ -228,11 +222,10 @@ export function TradeBoardWidget() {
               </div>
             )}
           </div>
-          {/* Archivio Offerte */}
           <div>
             <button className="w-full flex items-center justify-between px-3 py-2.5 text-bc-muted hover:text-bc-text transition-colors border-b border-bc-border/30" onClick={() => setShowArchiveOfferte(v => !v)}>
               <span className="flex items-center gap-1.5 font-mono text-xs">
-                <Archive size={10} strokeWidth={1.5} />
+                <Archive size={11} strokeWidth={1.5} />
                 ARCHIVIO OFFERTE
                 <span className="text-[10px]">({archivedOfferte.length})</span>
               </span>

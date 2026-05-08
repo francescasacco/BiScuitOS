@@ -117,7 +117,6 @@ export function PilotForm({ onClose }: PilotFormProps) {
 
   return (
     <div className="max-w-xl mx-auto">
-      {/* Step indicator */}
       <div className="flex items-center gap-2 mb-6 font-mono text-xs">
         {STEPS.map((s, i) => (
           <div key={s} className="flex items-center gap-2">
@@ -132,7 +131,6 @@ export function PilotForm({ onClose }: PilotFormProps) {
         ))}
       </div>
 
-      {/* Step 0: Identità */}
       {step === 0 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">// IDENTITÀ PILOTA</div>
@@ -182,7 +180,6 @@ export function PilotForm({ onClose }: PilotFormProps) {
         </div>
       )}
 
-      {/* Step 1: Profilo */}
       {step === 1 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">// PROFILO PILOTA</div>
@@ -228,7 +225,6 @@ export function PilotForm({ onClose }: PilotFormProps) {
         </div>
       )}
 
-      {/* Step 2: Unità Mech */}
       {step === 2 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">// REGISTRAZIONE UNITÀ MECH</div>
@@ -298,7 +294,6 @@ export function PilotForm({ onClose }: PilotFormProps) {
         </div>
       )}
 
-      {/* Step 3: Conferma */}
       {step === 3 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">// CONFERMA // REGISTRAZIONE PILOTA</div>
@@ -320,7 +315,6 @@ export function PilotForm({ onClose }: PilotFormProps) {
         </div>
       )}
 
-      {/* Navigazione */}
       <div className="flex justify-between mt-6">
         <button className={step === 0 ? 'bc-btn border-bc-muted text-bc-muted' : 'bc-btn border-bc-muted text-bc-muted flex items-center gap-1'}
           onClick={step === 0 ? onClose : () => setStep(step - 1)}>
