@@ -5,9 +5,8 @@ import { pilotService } from '@/services/pilotService'
 import { useOSStore } from '@/store/useOSStore'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 import { MechItemList } from '@/components/crew/MechItemList'
-import {
-  EMPTY_FORM, STEPS, STEP_FIELDS, validateField,
-} from '@/components/crew/pilotFormValidation'
+import { EMPTY_FORM, STEPS, STEP_FIELDS, validateField } from '@/components/crew/pilotFormValidation'
+import { Check, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react'
 
 interface PilotFormProps {
   onClose: () => void
@@ -84,7 +83,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
       addPilot(pilot)
       addJournalEntry({
         id: crypto.randomUUID(),
-        title: `REGISTRAZIONE_PILOTA // ${form.identificativo}`,
+        title: `REGISTRAZIONE PILOTA // ${form.identificativo}`,
         content: `Nuovo nodo pilota iniettato nella rete.`,
         type: 'pilot_registration',
         author: 'SISTEMA',
@@ -102,9 +101,9 @@ export function PilotForm({ onClose }: PilotFormProps) {
   if (registering && !loading) {
     return (
       <div className="flex flex-col items-center justify-center py-16 space-y-3 font-mono text-sm">
-        <div className="text-bc-green text-glow animate-pulse">▶ Registrazione pilota nel nodo sistema...</div>
-        <div className="text-bc-green">▶ Sincronizzazione con il database Crawler...</div>
-        <div className="text-bc-green">▶ Evento REGISTRAZIONE_PILOTA inviato.</div>
+        <div className="text-bc-green text-glow animate-pulse flex items-center gap-1.5"><ChevronRight size={12} /> Registrazione pilota nel nodo sistema...</div>
+        <div className="text-bc-green flex items-center gap-1.5"><ChevronRight size={12} /> Sincronizzazione con il database Crawler...</div>
+        <div className="text-bc-green flex items-center gap-1.5"><ChevronRight size={12} /> Evento REGISTRAZIONE PILOTA inviato.</div>
         <div className="text-bc-amber mt-4">Sincronizzazione nodo completata.</div>
       </div>
     )
@@ -119,8 +118,8 @@ export function PilotForm({ onClose }: PilotFormProps) {
             <span className={`${
               i === step ? 'text-bc-green text-glow' :
               i < step ? 'text-bc-green/40' : 'text-bc-muted'
-            }`}>
-              {i < step ? '✓' : `${i + 1}`}. {s}
+            } flex items-center gap-1`}>
+              {i < step ? <Check size={10} strokeWidth={2.5} /> : `${i + 1}`}. {s}
             </span>
             {i < STEPS.length - 1 && <span className="text-bc-border">—</span>}
           </div>
@@ -294,8 +293,8 @@ export function PilotForm({ onClose }: PilotFormProps) {
                 </span>
               </div>
             )}
-            <div className="mt-3 pt-3 border-t border-bc-border text-bc-amber">
-              ⚠ CONFERMA INSERZIONE PILOTA NELLA RETE?
+            <div className="mt-3 pt-3 border-t border-bc-border text-bc-amber flex items-center gap-1.5">
+              <AlertTriangle size={12} strokeWidth={2} /> CONFERMA INSERZIONE PILOTA NELLA RETE?
             </div>
           </div>
         </div>
@@ -303,18 +302,13 @@ export function PilotForm({ onClose }: PilotFormProps) {
 
       {/* Navigazione */}
       <div className="flex justify-between mt-6">
-        <button
-          className="bc-btn border-bc-muted text-bc-muted"
-          onClick={step === 0 ? onClose : () => setStep(step - 1)}
-        >
-          {step === 0 ? 'ANNULLA' : '← INDIETRO'}
+        <button className={step === 0 ? 'bc-btn border-bc-muted text-bc-muted' : 'bc-btn border-bc-muted text-bc-muted flex items-center gap-1'}
+          onClick={step === 0 ? onClose : () => setStep(step - 1)}>
+          {step === 0 ? 'ANNULLA' : <><ChevronLeft size={13} /> INDIETRO</>}
         </button>
-        <button
-          className={step === STEPS.length - 1 ? 'bc-btn-amber' : 'bc-btn-green'}
-          onClick={step === STEPS.length - 1 ? handleSubmit : handleNext}
-          disabled={loading}
-        >
-          {step === STEPS.length - 1 ? (loading ? 'INSERZIONE...' : 'CONFERMA REGISTRAZIONE') : 'AVANTI →'}
+        <button className={`flex items-center gap-1 ${step === STEPS.length - 1 ? 'bc-btn-amber' : 'bc-btn-green'}`}
+          onClick={step === STEPS.length - 1 ? handleSubmit : handleNext} disabled={loading}>
+          {step === STEPS.length - 1 ? (loading ? 'INSERZIONE...' : 'CONFERMA REGISTRAZIONE') : <>AVANTI <ChevronRight size={13} /></>}
         </button>
       </div>
     </div>

@@ -4,7 +4,7 @@ const TYPE_STYLES: Record<JournalEntryType, { border: string; label: string; col
   event:              { border: 'border-bc-green', label: 'EVENTO',         color: 'text-bc-green', dot: 'bg-bc-accent' },
   mission:            { border: 'border-bc-blue',  label: 'MISSIONE',       color: 'text-bc-blue',  dot: 'bg-bc-green' },
   system:             { border: 'border-bc-muted', label: 'SISTEMA',        color: 'text-bc-muted', dot: 'bg-bc-muted' },
-  pilot_registration: { border: 'border-bc-green', label: 'REGISTRAZIONE',  color: 'text-bc-green', dot: 'bg-bc-green' },
+  pilot_registration: { border: 'border-bc-green', label: 'REGISTRAZIONE PILOTA', color: 'text-bc-green', dot: 'bg-bc-green' },
   override:           { border: 'border-bc-amber', label: 'OVERRIDE',       color: 'text-bc-amber', dot: 'bg-bc-amber' },
   alert:              { border: 'border-bc-red',   label: 'ALERT',          color: 'text-bc-red',   dot: 'bg-bc-red' },
   pilot_note:         { border: 'border-bc-amber', label: 'NOTA PILOTA',    color: 'text-bc-amber', dot: 'bg-bc-amber' },

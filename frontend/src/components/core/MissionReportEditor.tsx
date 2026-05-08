@@ -72,7 +72,7 @@ export function MissionReportEditor() {
             <CoreInp label="NOME"     value={sq.name}     onChange={v => updateSquad(i, { name: v })} />
             <CoreInp label="LOCATION" value={sq.location} onChange={v => updateSquad(i, { location: v })} />
             <CoreInp label="TIPO"     value={sq.type}     onChange={v => updateSquad(i, { type: v })} />
-            <CoreSelect label="STATO" value={sq.status} onChange={v => updateSquad(i, { status: v })} options={SQUAD_STATUSES} />
+            <CoreSelect label="STATO" value={Array.isArray(sq.status) ? sq.status[0] : sq.status} onChange={v => updateSquad(i, { status: v })} options={SQUAD_STATUSES} />
           </div>
           <CoreTextarea label="DESCRIZIONE" value={sq.description} onChange={v => updateSquad(i, { description: v })} />
         </div>
