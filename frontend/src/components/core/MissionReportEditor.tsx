@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useOSStore } from '@/store/useOSStore'
 import { missionService } from '@/services/missionService'
 import { CustomSelect } from '@/components/ui/CustomSelect'
@@ -19,6 +20,14 @@ export function MissionReportEditor() {
   const [report, setReport] = useState<MissionReport>({})
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const tabsRef = useRef<HTMLDivElement>(null)
+  const activeTabRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (tabsRef.current && activeTabRef.current) {
+      activeTabRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    }
+  }, [page])
 
   const selectMission = (id: string) => {
     setSelectedId(id)
@@ -169,23 +178,29 @@ export function MissionReportEditor() {
         </div>
       </div>
 
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-bc-black/80 backdrop-blur-sm p-4">
-          <div className="w-full max-w-2xl bg-bc-panel border border-bc-amber/40 rounded-xl shadow-[0_0_40px_rgba(251,191,36,0.1)] flex flex-col max-h-[85vh]">
+      {open && typeof document !== 'undefined' && document.body && createPortal(
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6" style={{ background: 'rgba(9,9,14,0.75)', backdropFilter: 'blur(4px)' }} onClick={e => { if (e.target === e.currentTarget) setOpen(false) }}>
+          <div className="w-full sm:max-w-2xl bg-bc-panel border border-bc-amber/40 rounded-xl shadow-[0_0_40px_rgba(251,191,36,0.1)] flex flex-col max-h-[80dvh] sm:max-h-[85vh]">
 
-            <div className="flex items-center justify-between px-5 py-3 border-b border-bc-border shrink-0">
-              <span className="font-display text-sm font-bold text-bc-amber tracking-widest truncate">
-                REPORT — {missions.find(m => m.id === selectedId)?.title}
-              </span>
-              <button className="p-1 text-bc-muted/50 hover:text-bc-text transition-colors shrink-0 ml-2" onClick={() => setOpen(false)}>
+            <div className="flex items-start justify-between px-4 py-3 border-b border-bc-border shrink-0 gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="font-mono text-[10px] text-bc-amber/50 uppercase tracking-widest mb-0.5">EDITOR REPORT</div>
+                <span className="font-display text-sm font-bold text-bc-amber tracking-wider leading-snug break-words block">
+                  {missions.find(m => m.id === selectedId)?.title}
+                </span>
+              </div>
+              <button className="p-1 text-bc-muted/50 hover:text-bc-text transition-colors shrink-0 mt-0.5" onClick={() => setOpen(false)}>
                 <X size={16} strokeWidth={2} />
               </button>
             </div>
 
-            <div className="flex items-center gap-1 px-5 py-2 border-b border-bc-border/40 shrink-0 overflow-x-auto">
+            <div ref={tabsRef} className="flex items-center justify-center px-3 py-2 border-b border-bc-border/40 shrink-0 gap-1 overflow-x-auto scroll-smooth" style={{ scrollbarWidth: 'none' }}>
               {PAGES.map((p, i) => (
-                <button key={i} onClick={() => setPage(i)}
-                  className={`font-mono text-[10px] px-2 py-1 rounded shrink-0 transition-colors ${
+                <button
+                  key={i}
+                  ref={i === page ? activeTabRef : undefined}
+                  onClick={() => setPage(i)}
+                  className={`font-mono text-[10px] px-2.5 py-1 rounded shrink-0 transition-colors ${
                     i === page
                       ? 'bg-bc-amber/20 text-bc-amber border border-bc-amber/40'
                       : 'text-bc-muted/60 hover:text-bc-muted border border-transparent'
@@ -215,7 +230,8 @@ export function MissionReportEditor() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   )

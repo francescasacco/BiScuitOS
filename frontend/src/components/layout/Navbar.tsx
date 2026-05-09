@@ -34,7 +34,7 @@ export function Navbar() {
         <div className="h-12 flex items-center justify-between px-4 md:px-5 gap-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <button
-              className="md:hidden inline-flex items-center justify-center text-bc-accent border border-bc-border w-8 h-8 hover:border-bc-accent transition-all shrink-0"
+              className="md:hidden inline-flex items-center justify-center text-bc-muted border border-bc-border w-8 h-8 hover:border-bc-accent hover:text-bc-accent transition-all shrink-0"
               onClick={() => setSidebarOpen(!sidebarOpen)}
               aria-label="Menu"
             >
