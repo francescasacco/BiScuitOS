@@ -25,12 +25,13 @@ export function CrewInterface() {
           onClick={(e) => { if (e.target === e.currentTarget) setShowForm(false) }}
         >
           <div className="w-full max-w-lg bg-bc-panel border border-bc-border rounded-xl shadow-2xl overflow-y-auto max-h-[90vh]">
-            <div className="flex items-center justify-between px-6 pt-5 pb-3 border-b border-bc-border">
-              <span className="font-mono text-xs text-bc-accent/70 uppercase tracking-widest">
-                // INSERZIONE NUOVO PILOTA
-              </span>
-              <button className="font-mono text-xs text-bc-muted hover:text-bc-red transition-colors px-1" onClick={() => setShowForm(false)}>
-                <X size={12} strokeWidth={2} />
+            <div className="flex items-start justify-between px-5 pt-4 pb-3 border-b border-bc-border bg-gradient-to-r from-bc-green/10 to-transparent gap-3">
+              <div>
+                <div className="font-mono text-[10px] text-bc-green/50 uppercase tracking-widest mb-0.5">REGISTRO PILOTI</div>
+                <span className="font-display text-sm font-bold text-bc-green tracking-wider">INSERZIONE NUOVO PILOTA</span>
+              </div>
+              <button className="text-bc-muted/50 hover:text-bc-red transition-colors shrink-0 mt-0.5 p-1" onClick={() => setShowForm(false)}>
+                <X size={14} strokeWidth={2} />
               </button>
             </div>
             <div className="p-6">
