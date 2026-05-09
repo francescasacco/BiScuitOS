@@ -83,9 +83,9 @@ export function MissionsInterface() {
       addMission(mission)
       const entry = await journalService.create({
         title: `MISSIONE REGISTRATA: ${form.title}`,
-        content: `Nuova missione aggiunta al registro. Stato: ${STATUS_LABELS[form.status]}${form.summary ? `\n${form.summary}` : ''}`,
+        content: form.summary?.trim() || `Nuova missione registrata nel sistema. Stato: ${STATUS_LABELS[form.status]}${form.reward ? ` — Ricompensa: ${form.reward}` : ''}`,
         type: 'mission',
-        author: 'OPERATORE SISTEMA',
+        author: 'SISTEMA',
       })
       addJournalEntry(entry)
       setForm({ ...EMPTY_FORM })

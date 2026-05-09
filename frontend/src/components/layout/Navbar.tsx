@@ -5,11 +5,14 @@ import { BiscuitLoader } from '@/components/core/BiscuitLoader'
 import { AccessDeniedOverlay } from '@/components/ui/AccessDeniedOverlay'
 import { JournalPanel } from '@/components/journal/JournalPanel'
 import { Menu, X, Key, ChevronLeft } from 'lucide-react'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const SYSTEM_KEY = import.meta.env.VITE_SYSTEM_KEY
 
 export function Navbar() {
   const { isOperator, setIsOperator, sidebarOpen, setSidebarOpen } = useOSStore()
+  const navigate = useNavigate()
+  const location = useLocation()
   const [showKeyInput, setShowKeyInput] = useState(false)
   const [keyInput, setKeyInput]         = useState('')
   const [showDenied, setShowDenied]     = useState(false)
@@ -65,7 +68,7 @@ export function Navbar() {
                   [ BISCUIT ]
                 </span>
                 <button className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all"
-                  onClick={() => setIsOperator(false)}>
+                  onClick={() => { setIsOperator(false); if (location.pathname === '/core') navigate('/') }}>
                   ESCI
                 </button>
               </div>
@@ -127,7 +130,7 @@ export function Navbar() {
               [ BISCUIT ]
             </span>
             <button className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-2 py-1 hover:border-bc-red hover:text-bc-red transition-all"
-              onClick={() => setIsOperator(false)}>
+              onClick={() => { setIsOperator(false); if (location.pathname === '/core') navigate('/') }}>
               ESCI
             </button>
           </div>

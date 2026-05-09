@@ -7,6 +7,7 @@ import type { JournalEntry, JournalEntryType } from '@/types/journal'
 import type { CrawlerSection, HangarItem } from '@/types/system'
 import { StatChip, CombinedBarChip, Ticker } from '@/components/ui/FeedWidgets'
 import { STATUS_DOT as MISSION_STATUS_DOT } from '@/components/missions/missionConstants'
+import { TaskBoardWidget } from '@/components/ui/TaskBoardWidget'
 
 const DEFAULT_SECTIONS: CrawlerSection[] = [
   { name: 'Ponte Comando',       detail: 'Princeps: Ottaviano',               status: 'active'  },
@@ -231,6 +232,7 @@ export function OSMainPage() {
               </span>
             </div>
             <div className="p-3 lg:overflow-y-auto lg:flex-1 lg:min-h-0 space-y-2">
+              <TaskBoardWidget />
               {missions.length === 0 ? (
                 <p className="font-sans text-bc-muted text-sm">Nessuna missione nel sistema.</p>
               ) : (

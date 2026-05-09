@@ -3,7 +3,6 @@ import type { Pilot } from '@/types/pilot'
 import type { CrawlerSystem } from '@/types/system'
 import type { JournalEntry } from '@/types/journal'
 import type { Mission } from '@/types/mission'
-import type { TaskBoardItem } from '@/types/taskBoard'
 import type { TradeOffer } from '@/types/tradeBoard'
 
 interface OSStore {
@@ -22,17 +21,12 @@ interface OSStore {
   journalEntries: JournalEntry[]
   setJournalEntries: (entries: JournalEntry[]) => void
   addJournalEntry: (entry: JournalEntry) => void
+  removeJournalEntry: (id: string) => void
 
   missions: Mission[]
   setMissions: (missions: Mission[]) => void
   addMission: (mission: Mission) => void
   updateMission: (mission: Mission) => void
-
-  taskBoardItems: TaskBoardItem[]
-  setTaskBoardItems: (items: TaskBoardItem[]) => void
-  addTaskBoardItem: (item: TaskBoardItem) => void
-  updateTaskBoardItem: (item: TaskBoardItem) => void
-  removeTaskBoardItem: (id: string) => void
 
   tradeOffers: TradeOffer[]
   setTradeOffers: (offers: TradeOffer[]) => void
@@ -64,6 +58,8 @@ export const useOSStore = create<OSStore>((set) => ({
   setJournalEntries: (entries) => set({ journalEntries: entries }),
   addJournalEntry: (entry) =>
     set((state) => ({ journalEntries: [entry, ...state.journalEntries] })),
+  removeJournalEntry: (id) =>
+    set((state) => ({ journalEntries: state.journalEntries.filter((e) => e.id !== id) })),
 
   missions: [],
   setMissions: (missions) => set({ missions }),
@@ -71,15 +67,6 @@ export const useOSStore = create<OSStore>((set) => ({
     set((state) => ({ missions: [mission, ...state.missions] })),
   updateMission: (mission) =>
     set((state) => ({ missions: state.missions.map((m) => (m.id === mission.id ? mission : m)) })),
-
-  taskBoardItems: [],
-  setTaskBoardItems: (items) => set({ taskBoardItems: items }),
-  addTaskBoardItem: (item) =>
-    set((state) => ({ taskBoardItems: [...state.taskBoardItems, item] })),
-  updateTaskBoardItem: (item) =>
-    set((state) => ({ taskBoardItems: state.taskBoardItems.map((t) => (t.id === item.id ? item : t)) })),
-  removeTaskBoardItem: (id) =>
-    set((state) => ({ taskBoardItems: state.taskBoardItems.filter((t) => t.id !== id) })),
 
   tradeOffers: [],
   setTradeOffers: (offers) => set({ tradeOffers: offers }),

@@ -131,7 +131,11 @@ export function PilotForm({ onClose }: PilotFormProps) {
       addPilot(pilot);
       const entry = await journalService.create({
         title: `REGISTRAZIONE PILOTA // ${form.identificativo}`,
-        content: `Nuovo nodo pilota iniettato nella rete.`,
+        content: `Nuovo nodo pilota iniettato nella rete.
+Identificativo: ${form.identificativo}
+Classe: ${form.classe}
+Mech: ${[form.mech_telaio, form.mech_modello].filter(Boolean).join(' / ')}${form.mech_nome ? ` — ${form.mech_nome}` : ''}
+Sincronizzazione sistema completata. Nodo assegnato.`,
         type: "pilot_registration",
         author: "SISTEMA",
       });

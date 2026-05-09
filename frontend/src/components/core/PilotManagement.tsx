@@ -21,7 +21,7 @@ const PILOT_BTN = {
 }
 
 export function PilotManagement() {
-  const { pilots, updatePilot, removePilot, addJournalEntry } = useOSStore()
+  const { pilots, updatePilot, removePilot, addJournalEntry, journalEntries, removeJournalEntry } = useOSStore()
   const [active, setActive]     = useState<Action>(null)
   const [editForm, setEditForm] = useState<Partial<Pilot>>({})
   const [editErrors, setEditErrors] = useState<Partial<Record<keyof PilotFormData, string>>>({})
@@ -80,6 +80,14 @@ export function PilotManagement() {
     try {
       await pilotService.delete(pilot.id)
       removePilot(pilot.id)
+      const pilotLogs = journalEntries.filter(e =>
+        e.title === `REGISTRAZIONE PILOTA // ${pilot.identificativo}` ||
+        e.title === `NOTA OPERATORE // ${pilot.identificativo}`
+      )
+      await Promise.all(pilotLogs.map(async e => {
+        await journalService.delete(e.id)
+        removeJournalEntry(e.id)
+      }))
       setActive(null)
       showFlash(`${pilot.identificativo} RIMOSSO DAL REGISTRO`)
     } catch (err) { console.error('[CRAWLER//OS] Delete pilota fallito:', err) }
