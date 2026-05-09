@@ -5,7 +5,7 @@ import type { HangarItem } from '@/types/system'
 import { CustomSelect } from '@/components/ui/CustomSelect'
 import { NumericStepper } from '@/components/ui/NumericStepper'
 import { CoreInp, CoreLabel, CoreCancelBtn } from './CoreField'
-import { Pencil, X as XIcon, Warehouse } from 'lucide-react'
+import { Pencil, X as XIcon, Warehouse, Plus } from 'lucide-react'
 
 const BLANK: HangarItem = { name: '', category: 'Sistema', tec: undefined, quantity: 1, status: 'normale' }
 
@@ -66,7 +66,7 @@ export function HangarManagement() {
           <Warehouse size={12} strokeWidth={2} /> GESTIONE HANGAR
         </div>
         <button className="font-mono text-xs text-bc-amber/60 border border-bc-amber/30 px-2 py-0.5 hover:border-bc-amber hover:text-bc-amber transition-all" onClick={openNew}>
-          + AGGIUNGI
+          <Plus size={11} strokeWidth={2} /> AGGIUNGI
         </button>
       </div>
 

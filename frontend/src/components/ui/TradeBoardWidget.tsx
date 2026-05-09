@@ -3,7 +3,7 @@ import { useOSStore } from '@/store/useOSStore'
 import { tradeBoardService } from '@/services/tradeBoardService'
 import { journalService } from '@/services/journalService'
 import { CustomSelect } from '@/components/ui/CustomSelect'
-import { X, ArrowLeftRight, Wrench, Archive, ChevronDown, ChevronUp } from 'lucide-react'
+import { X, ArrowLeftRight, Wrench, Archive, ChevronDown, ChevronUp, Plus } from 'lucide-react'
 import type { TradeOfferType } from '@/types/tradeBoard'
 
 const CATEGORIES = ['Sistema', 'Modulo', 'Altro'] as const
@@ -138,8 +138,8 @@ export function TradeBoardWidget() {
           <span className="font-mono text-xs text-bc-accent tracking-widest uppercase">Bacheca Scambi</span>
         </div>
         <div className="flex gap-2">
-          <button className="font-mono text-xs px-1.5 py-0.5 border border-bc-green/50 text-bc-green hover:bg-bc-green/10 transition-colors" onClick={() => openForm('offerta')}>+ OFFERTA</button>
-          <button className="font-mono text-xs px-1.5 py-0.5 border border-bc-accent/50 text-bc-accent hover:bg-bc-accent/10 transition-colors" onClick={() => openForm('richiesta')}>+ RICHIESTA</button>
+          <button className="font-mono text-xs px-1.5 py-0.5 border border-bc-green/50 text-bc-green hover:bg-bc-green/10 transition-colors flex items-center gap-1" onClick={() => openForm('offerta')}><Plus size={11} strokeWidth={2.5} /> OFFERTA</button>
+          <button className="font-mono text-xs px-1.5 py-0.5 border border-bc-accent/50 text-bc-accent hover:bg-bc-accent/10 transition-colors flex items-center gap-1" onClick={() => openForm('richiesta')}><Plus size={11} strokeWidth={2.5} /> RICHIESTA</button>
         </div>
       </div>
 

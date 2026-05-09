@@ -9,7 +9,7 @@ import { MissionList } from '@/components/missions/MissionList'
 import { MissionForm } from '@/components/missions/MissionForm'
 import { MissionReport } from '@/components/missions/MissionReport'
 import { STATUS_COLORS, STATUS_LABELS } from '@/components/missions/missionConstants'
-import { X } from 'lucide-react'
+import { X, Plus } from 'lucide-react'
 
 export function MissionsInterface() {
   const { missions, addMission, updateMission, isOperator } = useOSStore()
@@ -188,7 +188,7 @@ export function MissionsInterface() {
             className="bc-btn-amber self-start sm:self-auto"
             onClick={() => { setShowForm(s => !s); setSelected(null) }}
           >
-            {showForm ? 'ANNULLA' : '+ NUOVA MISSIONE'}
+            {showForm ? 'ANNULLA' : <span className="flex items-center gap-1.5"><Plus size={12} strokeWidth={2.5} /> NUOVA MISSIONE</span>}
           </button>
         )}
       </div>

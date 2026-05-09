@@ -4,7 +4,7 @@ import { systemService } from "@/services/systemService";
 import type { HangarItem } from "@/types/system";
 import { CustomSelect } from "@/components/ui/CustomSelect";
 import { NumericStepper } from "@/components/ui/NumericStepper";
-import { RefreshCw, Pencil, X } from 'lucide-react'
+import { RefreshCw, Pencil, X, Plus } from 'lucide-react'
 import { TradeBoardWidget } from "@/components/ui/TradeBoardWidget";
 
 const DEFAULT_INVENTORY: HangarItem[] = [
@@ -150,14 +150,14 @@ export function HangarInterface() {
         </div>
         {isOperator && (
           <button
-            className="bc-btn-amber self-start sm:self-auto"
+            className="bc-btn bc-btn-amber self-end sm:self-auto flex items-center gap-1.5"
             onClick={() => {
               setForm({ ...BLANK_ITEM });
               setEditIndex(null);
               setShowForm(true);
             }}
           >
-            + AGGIUNGI
+            <Plus size={12} strokeWidth={2.5} /> AGGIUNGI
           </button>
         )}
       </div>

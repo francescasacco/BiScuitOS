@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
-import { X, ChevronLeft } from 'lucide-react'
+import { X, ChevronLeft, Plus } from 'lucide-react'
 
 const splitMechItems = (str: string): string[] => {
   if (str.includes('\n')) return str.split('\n').filter(Boolean)
@@ -55,10 +55,10 @@ export function CrewInterface() {
             </p>
           </div>
           <button
-            className="bc-btn-green self-start sm:self-auto"
+            className="bc-btn bc-btn-green self-end sm:self-auto flex items-center gap-1.5"
             onClick={() => { setShowForm(true); setSelected(null) }}
           >
-            + REGISTRA PILOTA
+            <Plus size={12} strokeWidth={2.5} /> REGISTRA PILOTA
           </button>
         </div>
 
