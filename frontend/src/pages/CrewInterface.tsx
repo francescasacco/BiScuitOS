@@ -47,7 +47,11 @@ export function CrewInterface() {
               NODO EQUIPAGGIO // REGISTRO PILOTI
             </h1>
             <p className="font-mono text-xs text-bc-muted mt-0.5">
-              {pilots.length} nodo/i attivo/i registrato/i nel sistema
+              {pilots.length === 0
+                ? 'Nessun nodo registrato nel sistema'
+                : pilots.length === 1
+                  ? '1 nodo attivo registrato nel sistema'
+                  : `${pilots.length} nodi attivi registrati nel sistema`}
             </p>
           </div>
           <button
