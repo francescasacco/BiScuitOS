@@ -194,7 +194,7 @@ export function MissionReportEditor() {
               </button>
             </div>
 
-            <div ref={tabsRef} className="flex items-center justify-center px-3 py-2 border-b border-bc-border/40 shrink-0 gap-1 overflow-x-auto scroll-smooth" style={{ scrollbarWidth: 'none' }}>
+            <div ref={tabsRef} className="flex items-center sm:justify-center px-3 py-2 border-b border-bc-border/40 shrink-0 gap-1 overflow-x-auto scroll-smooth" style={{ scrollbarWidth: 'none' }}>
               {PAGES.map((p, i) => (
                 <button
                   key={i}
