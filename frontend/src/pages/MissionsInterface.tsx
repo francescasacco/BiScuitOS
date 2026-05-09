@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { missionService } from '@/services/missionService'
+import { journalService } from '@/services/journalService'
 import type { Mission, MissionStatus, MissionFormData } from '@/types/mission'
 import { ZOOM_STEPS, EMPTY_FORM } from '@/components/missions/missionConstants'
 import { computeClamp } from '@/components/missions/missionMapUtils'
@@ -12,7 +13,7 @@ import { STATUS_COLORS, STATUS_LABELS } from '@/components/missions/missionConst
 import { X, Plus } from 'lucide-react'
 
 export function MissionsInterface() {
-  const { missions, addMission, updateMission, isOperator } = useOSStore()
+  const { missions, addMission, updateMission, isOperator, addJournalEntry } = useOSStore()
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState<MissionFormData>(EMPTY_FORM)
   const [loading, setLoading] = useState(false)
@@ -80,6 +81,13 @@ export function MissionsInterface() {
     try {
       const mission = await missionService.create(form)
       addMission(mission)
+      const entry = await journalService.create({
+        title: `MISSIONE REGISTRATA: ${form.title}`,
+        content: `Nuova missione aggiunta al registro. Stato: ${STATUS_LABELS[form.status]}${form.summary ? `\n${form.summary}` : ''}`,
+        type: 'mission',
+        author: 'OPERATORE SISTEMA',
+      })
+      addJournalEntry(entry)
       setForm({ ...EMPTY_FORM })
       setShowForm(false)
     } catch (err) {

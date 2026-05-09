@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import type { PilotFormData } from "@/types/pilot";
 import { CLASSI_PILOTA } from "@/types/pilot";
 import { pilotService } from "@/services/pilotService";
+import { journalService } from "@/services/journalService";
 import { useOSStore } from "@/store/useOSStore";
 import { CustomSelect } from "@/components/ui/CustomSelect";
 import { MechItemList } from "@/components/crew/MechItemList";
@@ -128,14 +129,13 @@ export function PilotForm({ onClose }: PilotFormProps) {
     try {
       const pilot = await pilotService.create(form);
       addPilot(pilot);
-      addJournalEntry({
-        id: crypto.randomUUID(),
+      const entry = await journalService.create({
         title: `REGISTRAZIONE PILOTA // ${form.identificativo}`,
         content: `Nuovo nodo pilota iniettato nella rete.`,
         type: "pilot_registration",
         author: "SISTEMA",
-        created_at: new Date().toISOString(),
       });
+      addJournalEntry(entry);
       setTimeout(() => onClose(), 1500);
     } catch (err) {
       console.error("[CRAWLER//OS] Registrazione pilota fallita:", err);
