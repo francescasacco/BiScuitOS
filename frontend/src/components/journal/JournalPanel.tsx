@@ -63,7 +63,7 @@ export function JournalPanel() {
       <button
         ref={btnRef}
         className={`font-mono text-xs flex items-center gap-1.5 px-3 py-1 border transition-all ${
-          open ? 'border-bc-accent text-bc-accent' : 'border-bc-border text-bc-muted hover:border-bc-accent hover:text-bc-accent'
+          open ? 'border-bc-accent text-bc-accent' : 'border-[#ffffff] text-[#ffffff] hover:border-bc-accent hover:text-bc-accent'
         }`}
         onClick={handleOpen}
       >

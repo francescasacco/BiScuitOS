@@ -79,7 +79,7 @@ export function CrewInterface() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-bc-border pb-3">
           <div>
             <h1 className="font-display text-lg font-bold text-bc-green text-glow tracking-widest">
-              NODO EQUIPAGGIO // REGISTRO PILOTI
+              NODO EQUIPAGGIO //<span className="inline sm:hidden"><br/></span> REGISTRO PILOTI
             </h1>
             <p className="font-mono text-xs text-bc-muted mt-0.5">
               {pilots.length === 0

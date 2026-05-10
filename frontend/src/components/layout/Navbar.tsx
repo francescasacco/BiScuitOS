@@ -37,11 +37,12 @@ export function Navbar() {
         <div className="h-12 flex items-center justify-between px-4 md:px-5 gap-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <button
-              className="md:hidden inline-flex items-center justify-center text-bc-muted border border-bc-border w-8 h-8 hover:border-bc-accent hover:text-bc-accent transition-all shrink-0"
+              className="md:hidden inline-flex items-center justify-center gap-1.5 text-[#ffffff] border border-[#ffffff] px-2.5 h-8 hover:border-bc-accent hover:text-bc-accent transition-all shrink-0 animate-pulse"
               onClick={() => setSidebarOpen(!sidebarOpen)}
               aria-label="Menu"
             >
-              {sidebarOpen ? <ChevronLeft size={16} strokeWidth={2} /> : <Menu size={16} strokeWidth={2} />}
+              {sidebarOpen ? <ChevronLeft size={14} strokeWidth={2} /> : <Menu size={14} strokeWidth={2} />}
+              <span className="font-mono text-[11px] uppercase tracking-wider leading-none">Menu</span>
             </button>
 
             <span className="font-display text-sm font-bold tracking-widest text-bc-text whitespace-nowrap">
@@ -93,7 +94,7 @@ export function Navbar() {
               </div>
             ) : (
               <button
-                className="font-mono text-xs uppercase tracking-widest text-bc-text/80 border border-bc-border hover:border-bc-accent hover:text-bc-accent transition-all flex items-center gap-1.5 px-3 py-1"
+                className="font-mono text-xs uppercase tracking-widest text-[#ffffff] border border-[#ffffff] hover:border-bc-accent hover:text-bc-accent transition-all flex items-center gap-1.5 px-3 py-1"
                 onClick={() => setShowKeyInput(s => !s)}
               >
                 <Key size={12} strokeWidth={1.5} />

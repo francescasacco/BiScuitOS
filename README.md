@@ -46,6 +46,12 @@ La chiave non viene mai inviata al server. Lo stato `isOperator` è in memoria e
 
 ---
 
+## UX Mobile
+
+Le schede collassate (missioni e piloti) mostrano un hint "TOCCA PER ULTERIORI DETTAGLI" visibile solo su mobile (`sm:hidden`) per guidare l'utente all'interazione touch. Il pulsante menu nella Navbar mostra label "MENU" con animazione pulse per rendere evidente la presenza della sidebar.
+
+---
+
 ## Database
 
 Tabelle Supabase: `pilots`, `crawler_system`, `journal_stream`, `missions`, `task_board_items`, `trade_board`
