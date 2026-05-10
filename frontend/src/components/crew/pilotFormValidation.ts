@@ -59,6 +59,7 @@ export const EMPTY_FORM: PilotFormData = {
   motto_attivato: "",
   abilita: "",
   sesso: undefined,
+  access_key: '',
 };
 
 export function validateField(

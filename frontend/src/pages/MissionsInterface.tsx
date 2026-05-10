@@ -193,7 +193,7 @@ export function MissionsInterface() {
         </div>
         {isOperator && (
           <button
-            className="bc-btn-amber self-start sm:self-auto"
+            className="bc-btn bc-btn-amber self-end sm:self-auto"
             onClick={() => { setShowForm(s => !s); setSelected(null) }}
           >
             {showForm ? 'ANNULLA' : <span className="flex items-center gap-1.5"><Plus size={12} strokeWidth={2.5} /> NUOVA MISSIONE</span>}

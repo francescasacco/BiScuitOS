@@ -1,22 +1,56 @@
 import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
-import { X, ChevronLeft, Plus } from 'lucide-react'
+import { X, ChevronLeft, Plus, UserPen, Key } from 'lucide-react'
+import { PilotCard } from '@/components/crew/PilotCard'
+import { PilotForm } from '@/components/crew/PilotForm'
+import { PilotSelfEdit } from '@/components/crew/PilotSelfEdit'
+import type { Pilot } from '@/types/pilot'
+import type { JournalEntry } from '@/types/journal'
 
 const splitMechItems = (str: string): string[] => {
   if (str.includes('\n')) return str.split('\n').filter(Boolean)
   return str.split(',').map((s) => s.trim()).filter(Boolean)
 }
-import { PilotCard } from '@/components/crew/PilotCard'
-import { PilotForm } from '@/components/crew/PilotForm'
-import type { Pilot } from '@/types/pilot'
 
 export function CrewInterface() {
-  const { pilots, journalEntries, isOperator } = useOSStore()
+  const pilots = useOSStore((s) => s.pilots)
+  const journalEntries = useOSStore((s) => s.journalEntries)
+  const isOperator = useOSStore((s) => s.isOperator)
   const [showForm, setShowForm] = useState(false)
-  const [selected, setSelected] = useState<Pilot | null>(null)
+  const [showSelfEdit, setShowSelfEdit] = useState(false)
+  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const selected = selectedId ? (pilots.find((p) => p.id === selectedId) ?? null) : null
+  const handleSelect = (pilot: Pilot) => setSelectedId(pilot.id)
+  const pilotCards = pilots.map((p) => {
+    const isSelected = selected !== null && selected.id === p.id
+    return <PilotCard key={p.id} pilot={p} onSelect={handleSelect} selected={isSelected} />
+  })
 
   return (
     <div className="h-full overflow-y-auto p-3">
+
+      {showSelfEdit && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(9,9,14,0.75)', backdropFilter: 'blur(6px)' }}
+          onClick={(e) => { if (e.target === e.currentTarget) setShowSelfEdit(false) }}
+        >
+          <div className="w-full max-w-lg bg-bc-panel border border-bc-border rounded-xl shadow-2xl overflow-y-auto max-h-[90vh]">
+            <div className="flex items-start justify-between px-5 pt-4 pb-3 border-b border-bc-border bg-gradient-to-r from-bc-accent/10 to-transparent gap-3">
+              <div>
+                <div className="font-mono text-[10px] text-bc-accent/50 uppercase tracking-widest mb-0.5">REGISTRO PILOTI</div>
+                <span className="font-display text-sm font-bold text-bc-accent tracking-wider">AGGIORNA I TUOI DATI</span>
+              </div>
+              <button className="text-bc-muted/50 hover:text-bc-red transition-colors shrink-0 mt-0.5 p-1" onClick={() => setShowSelfEdit(false)}>
+                <X size={14} strokeWidth={2} />
+              </button>
+            </div>
+            <div className="p-6">
+              <PilotSelfEdit onClose={() => setShowSelfEdit(false)} />
+            </div>
+          </div>
+        </div>
+      )}
 
       {showForm && (
         <div
@@ -55,12 +89,20 @@ export function CrewInterface() {
                   : `${pilots.length} nodi attivi registrati nel sistema`}
             </p>
           </div>
-          <button
-            className="bc-btn bc-btn-green self-end sm:self-auto flex items-center gap-1.5"
-            onClick={() => { setShowForm(true); setSelected(null) }}
-          >
-            <Plus size={12} strokeWidth={2.5} /> REGISTRA PILOTA
-          </button>
+          <div className="flex flex-row gap-2 self-center sm:self-auto">
+            <button
+              className="bc-btn bc-btn-accent flex items-center gap-1.5"
+              onClick={() => setShowSelfEdit(true)}
+            >
+              <UserPen size={12} strokeWidth={2} /> AGGIORNA DATI PILOTA
+            </button>
+            <button
+              className="bc-btn bc-btn-green flex items-center gap-1.5"
+              onClick={() => { setShowForm(true); setSelectedId(null) }}
+            >
+              <Plus size={12} strokeWidth={2.5} /> REGISTRA PILOTA
+            </button>
+          </div>
         </div>
 
         {selected ? (
@@ -68,14 +110,23 @@ export function CrewInterface() {
             selected.sesso === 'F' ? 'border-bc-rose/40 border-glow-rose' : 'border-bc-green/40 border-glow'
           }`}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className={`font-display text-sm font-bold ${
-                selected.sesso === 'F' ? 'text-bc-rose text-glow-rose' : 'text-bc-green text-glow'
-              }`}>
-                {selected.identificativo}
-              </h2>
+              <div className="flex items-center gap-3 min-w-0 flex-wrap">
+                <h2 className={`font-display text-sm font-bold ${
+                  selected.sesso === 'F' ? 'text-bc-rose text-glow-rose' : 'text-bc-green text-glow'
+                }`}>
+                  {selected.identificativo}
+                </h2>
+                {selected.access_key && isOperator && (
+                  <div className="flex items-center gap-2 border border-bc-amber/30 bg-bc-amber/5 px-2.5 py-1 rounded">
+                    <Key size={10} strokeWidth={2} className="text-bc-amber/50 shrink-0" />
+                    <span className="font-mono text-[9px] text-bc-amber/50 uppercase tracking-widest">chiave modifica</span>
+                    <span className="font-mono text-xs text-bc-amber tracking-widest">{selected.access_key}</span>
+                  </div>
+                )}
+              </div>
               <button
-                className="bc-btn border-bc-muted text-bc-muted text-xs flex items-center gap-1"
-                onClick={() => setSelected(null)}
+                className="bc-btn border-bc-muted text-bc-muted text-xs flex items-center gap-1 shrink-0"
+                onClick={() => setSelectedId(null)}
               >
                 <ChevronLeft size={13} /> INDIETRO
               </button>
@@ -184,8 +235,8 @@ export function CrewInterface() {
 
             {isOperator && (() => {
               const notes = journalEntries.filter(
-                (e) => e.type === 'pilot_note' &&
-                  e.title === `NOTA OPERATORE // ${(selected as Pilot).identificativo}`
+                (e): e is JournalEntry => e.type === 'pilot_note' &&
+                  e.title === `NOTA OPERATORE // ${selected.identificativo}`
               )
               if (notes.length === 0) return null
               return (
@@ -218,11 +269,7 @@ export function CrewInterface() {
                 <p className="font-mono text-bc-muted text-sm">NESSUN PILOTA REGISTRATO</p>
                 <p className="font-mono text-bc-muted/60 text-xs mt-2">Nodo equipaggio del sistema vuoto</p>
               </div>
-            ) : (
-              (pilots as Pilot[]).map((p) => (
-                <PilotCard key={p.id} pilot={p} onSelect={(pilot) => setSelected(pilot)} selected={(selected as Pilot | null)?.id === p.id} />
-              ))
-            )}
+            ) : pilotCards}
           </div>
         )}
       </div>

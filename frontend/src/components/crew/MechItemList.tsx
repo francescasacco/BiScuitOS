@@ -1,14 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { X, Plus } from 'lucide-react'
 
 interface MechItemListProps {
   items: string[]
   onChange: (items: string[]) => void
   placeholder?: string
+  pendingRef?: React.MutableRefObject<string>
 }
 
-export function MechItemList({ items, onChange, placeholder }: MechItemListProps) {
+export function MechItemList({ items, onChange, placeholder, pendingRef }: MechItemListProps) {
   const [input, setInput] = useState('')
+
+  useEffect(() => {
+    if (pendingRef) pendingRef.current = input
+  }, [input, pendingRef])
 
   const add = () => {
     const trimmed = input.trim()

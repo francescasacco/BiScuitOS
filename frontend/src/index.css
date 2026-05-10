@@ -169,6 +169,14 @@ body {
   background: rgba(94,234,212,0.08);
   box-shadow: 0 0 14px rgba(94,234,212,0.2);
 }
+.bc-btn-accent {
+  border-color: var(--bc-accent);
+  color: var(--bc-accent);
+}
+.bc-btn-accent:hover {
+  background: rgba(167,139,250,0.08);
+  box-shadow: 0 0 14px rgba(167,139,250,0.2);
+}
 .bc-btn-amber {
   border-color: var(--bc-amber);
   color: var(--bc-amber);

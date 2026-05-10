@@ -55,9 +55,9 @@ export function MissionList({
             onClick={() => onSelect(m)}
           >
           <div className={`px-3 py-2 bg-gradient-to-r ${STATUS_GLOW[m.status]} border-b border-bc-border/40 flex items-center justify-between gap-2`}>
-              <div className="flex items-center gap-2 min-w-0">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
                 <span className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT[m.status]}`} />
-                <span className={`font-mono text-xs font-bold truncate ${STATUS_COLORS[m.status].split(' ')[0]}`}>
+                <span className={`font-mono text-xs font-bold break-words ${STATUS_COLORS[m.status].split(' ')[0]}`}>
                   {m.title}
                 </span>
               </div>
@@ -105,6 +105,11 @@ export function MissionList({
                   <AlertTriangle size={12} strokeWidth={2} className="text-bc-red shrink-0" />
                   <span className="font-mono text-xs text-bc-red tracking-wide">SCELTA CONTRATTO URGENTE</span>
                 </div>
+              )}
+              {hasReport && (
+                <p className="sm:hidden font-mono text-[10px] text-bc-amber uppercase tracking-[0.2em] text-center pt-1 border-t border-bc-amber/20 mt-1">
+                  TOCCA PER ULTERIORI DETTAGLI
+                </p>
               )}
             </div>
 

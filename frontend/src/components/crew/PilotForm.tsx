@@ -28,6 +28,12 @@ export function PilotForm({ onClose }: PilotFormProps) {
   const [abilita, setAbilita] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [registering, setRegistering] = useState(false);
+  const [generatedKey, setGeneratedKey] = useState<string | null>(null);
+
+  const generateKey = () => {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+    return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+  }
   const [errors, setErrors] = useState<
     Partial<Record<keyof PilotFormData, string>>
   >({});
@@ -127,7 +133,8 @@ export function PilotForm({ onClose }: PilotFormProps) {
     setLoading(true);
     setRegistering(true);
     try {
-      const pilot = await pilotService.create(form);
+      const key = generateKey()
+      const pilot = await pilotService.create({ ...form, access_key: key });
       addPilot(pilot);
       const entry = await journalService.create({
         title: `REGISTRAZIONE PILOTA // ${form.identificativo}`,
@@ -140,9 +147,15 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
         author: "SISTEMA",
       });
       addJournalEntry(entry);
-      setTimeout(() => onClose(), 1500);
-    } catch (err) {
+      setGeneratedKey(key);
+      setTimeout(() => onClose(), 4000);
+    } catch (err: unknown) {
       console.error("[CRAWLER//OS] Registrazione pilota fallita:", err);
+      const msg = (err as { message?: string })?.message ?? ''
+      if (msg.includes('unique') || msg.includes('duplicate') || msg.includes('pilots_identificativo_unique')) {
+        setErrors(e => ({ ...e, identificativo: 'Esiste già un pilota con questo identificativo.' }))
+        setStep(0)
+      }
       setRegistering(false);
     } finally {
       setLoading(false);
@@ -161,7 +174,14 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
         <div className="text-bc-green flex items-center gap-1.5">
           <ChevronRight size={12} /> Evento REGISTRAZIONE PILOTA inviato.
         </div>
-        <div className="text-bc-amber mt-4">
+        {generatedKey && (
+          <div className="mt-4 border border-bc-amber/40 bg-bc-amber/5 rounded-lg px-6 py-4 text-center space-y-2">
+            <p className="font-mono text-xs text-bc-amber/70 uppercase tracking-widest">Chiave di accesso personale</p>
+            <p className="font-display text-2xl font-bold text-bc-amber tracking-[0.3em]">{generatedKey}</p>
+            <p className="font-mono text-xs text-bc-muted/60">Conservala — serve per modificare i tuoi dati</p>
+          </div>
+        )}
+        <div className="text-bc-amber mt-2">
           Sincronizzazione nodo completata.
         </div>
       </div>
