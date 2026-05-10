@@ -51,7 +51,7 @@ export function Navbar() {
 
             <span className="hidden sm:inline font-mono text-bc-muted text-xs whitespace-nowrap">
               {now.toLocaleDateString('it-IT', { weekday: 'short', day: 'numeric', month: 'short' })}
-              <span className="ml-1 animate-pulse">{now.toLocaleTimeString('it-IT', { hour12: false })}</span>
+              <span className="ml-3 animate-pulse">{now.toLocaleTimeString('it-IT', { hour12: false })}</span>
             </span>
           </div>
 

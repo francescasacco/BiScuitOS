@@ -18,10 +18,11 @@ function DiscoveryIcon({ icon }: { icon: string }) {
 }
 
 const SQUAD_STATUS_COLOR: Record<string, string> = {
-  'COMPLETATA':           'text-bc-green border-bc-green/40',
-  'COMPLETATA CON DANNI': 'text-bc-amber border-bc-amber/40',
-  'CONTRATTO APERTO':     'text-bc-blue border-bc-blue/40',
-  'FALLITA':              'text-bc-red border-bc-red/40',
+  'COMPLETATA':             'text-bc-green border-bc-green/40',
+  'COMPLETATA CON DANNI':   'text-bc-amber border-bc-amber/40',
+  'COMPLETATA CON PERDITE': 'text-[#f97316] border-[#f97316]/40',
+  'CONTRATTO APERTO':       'text-bc-blue border-bc-blue/40',
+  'FALLITA':                'text-bc-red border-bc-red/40',
 }
 
 const CHAR_COLOR: Record<string, string> = {
@@ -82,7 +83,7 @@ export function MissionReport({ report }: Props) {
                   <div className="flex gap-1 flex-wrap justify-end">
                     {(Array.isArray(sq.status) ? sq.status : [sq.status]).map((s, si) => (
                       <span key={si} className={`font-mono text-[10px] border px-1 py-0.5 rounded text-center ${SQUAD_STATUS_COLOR[s] ?? 'text-bc-muted border-bc-muted/20'}`}>
-                        {s === 'COMPLETATA CON DANNI' ? <><span className="sm:hidden">COMPLETATA<br />CON DANNI</span><span className="hidden sm:inline">COMPLETATA CON DANNI</span></> : s}
+                        {s === 'COMPLETATA CON DANNI' ? <><span className="sm:hidden">COMPLETATA<br/>CON DANNI</span><span className="hidden sm:inline">COMPLETATA CON DANNI</span></> : s === 'COMPLETATA CON PERDITE' ? <><span className="sm:hidden">COMPLETATA<br/>CON PERDITE</span><span className="hidden sm:inline">COMPLETATA CON PERDITE</span></> : s}
                       </span>
                     ))}
                   </div>
