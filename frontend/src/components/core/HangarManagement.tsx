@@ -62,13 +62,12 @@ export function HangarManagement() {
   return (
     <div className="bc-panel border border-bc-amber/40 border-glow-amber h-full flex flex-col">
       <div className="flex items-center justify-between p-4 pb-3 shrink-0">
-        <div className="flex items-center gap-1.5 font-sans text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--bc-amber)' }}>
-          <Warehouse size={12} strokeWidth={2} /> GESTIONE HANGAR
-        </div>
-        <button className="font-mono text-xs text-bc-amber/60 border border-bc-amber/30 px-2 py-0.5 hover:border-bc-amber hover:text-bc-amber transition-all" onClick={openNew}>
+        <div className="flex items-center gap-1.5 bc-section-header !border-0 !pb-0 !mb-0"><Warehouse size={12} strokeWidth={2} /> GESTIONE HANGAR</div>
+        <button className="font-mono text-xs text-bc-amber/60 border border-bc-amber/30 px-3 py-1 hover:border-bc-amber hover:text-bc-amber transition-all flex items-center gap-1" onClick={openNew}>
           <Plus size={11} strokeWidth={2} /> AGGIUNGI
         </button>
       </div>
+      <div className="mx-4 h-px bg-bc-border/40 shrink-0" />
 
       <div className="flex-1 overflow-y-auto px-4 pb-4">
         {editIndex !== null && (

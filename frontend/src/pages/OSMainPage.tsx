@@ -183,7 +183,7 @@ export function OSMainPage() {
             </div>
           </div>
 
-          <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col lg:flex-1 lg:min-h-0">
+          <div className="hidden lg:flex bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex-col lg:flex-1 lg:min-h-0">
           <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
             <p className="bc-section-header !border-0 !pb-0 !mb-0">Archivio log recente</p>
           </div>
@@ -346,7 +346,7 @@ export function OSMainPage() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 lg:flex-1 lg:min-w-0 lg:min-h-0 order-3 lg:order-3">
+        <div className="flex flex-col gap-3 lg:flex-1 lg:min-w-0 lg:min-h-0 order-3">
 
           {crawlerSystem?.merchant_bridge && (
             <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
@@ -388,6 +388,40 @@ export function OSMainPage() {
             </div>
           </div>
 
+        </div>
+
+        <div className="lg:hidden order-4 bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col">
+          <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
+            <p className="bc-section-header !border-0 !pb-0 !mb-0">Archivio log recente</p>
+          </div>
+          <div className="p-4">
+            {recentLog.length === 0 ? (
+              <p className="font-sans text-bc-muted text-sm">Nessuna voce nel log.</p>
+            ) : (
+              <div className="space-y-0">
+                {recentLog.map((entry: JournalEntry, i) => (
+                  <div key={entry.id} className="flex gap-3">
+                    <div className="flex flex-col items-center">
+                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${LOG_COLOR[entry.type] ?? 'bg-bc-muted'}`} />
+                      {i < recentLog.length - 1 && <div className="flex-1 w-px bg-bc-track mt-1" />}
+                    </div>
+                    <div className="pb-4 min-w-0 flex-1 overflow-hidden">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="font-mono text-bc-muted text-xs shrink-0">
+                          {new Date(entry.created_at).toLocaleString('it-IT', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
+                        </span>
+                        <span className="font-sans text-xs text-bc-muted/60 uppercase tracking-wider shrink-0">{LOG_TYPE_LABEL[entry.type] ?? entry.type}</span>
+                      </div>
+                      <div className={`font-sans text-sm font-semibold truncate ${LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'}`}>{entry.title}</div>
+                      {entry.content && (
+                        <div className="font-sans text-xs text-bc-muted mt-0.5 leading-relaxed line-clamp-2">{entry.content}</div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
       </div>

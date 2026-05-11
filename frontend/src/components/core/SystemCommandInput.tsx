@@ -51,7 +51,7 @@ export function SystemCommandInput() {
   return (
     <div className="bc-panel border border-bc-amber/40 p-3 h-full flex flex-col">
       <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>
-        // CONSOLE INIEZIONE EVENTI
+        CONSOLE INIEZIONE EVENTI
       </div>
 
       <div className="flex items-end gap-3 mb-2">

@@ -161,7 +161,7 @@ export function MissionReportEditor() {
   return (
     <>
       <div className="bc-panel border border-bc-amber/40 p-4">
-        <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>// EDITOR REPORT MISSIONE</div>
+        <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>EDITOR REPORT MISSIONE</div>
         <div className="flex items-center gap-3">
           <div className="flex-1">
             <CustomSelect

@@ -58,7 +58,7 @@ export function OverrideConsole() {
   return (
     <div className="bc-panel border border-bc-amber/40 p-3 border-glow-amber overflow-hidden h-full flex flex-col">
       <div className="bc-section-header flex items-center gap-1.5" style={{ color: 'var(--bc-amber)' }}>
-        <AlertTriangle size={12} strokeWidth={2} /> // CONSOLE OVERRIDE — STATO CRAWLER
+        <AlertTriangle size={12} strokeWidth={2} /> CONSOLE OVERRIDE — STATO CRAWLER
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3">

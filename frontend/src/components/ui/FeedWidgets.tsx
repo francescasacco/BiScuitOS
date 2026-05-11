@@ -1,8 +1,18 @@
 export function StatChip({ label, value, accent }: { label: string; value: string; accent: string }) {
+  const parts = value.split('·').map(s => s.trim())
   return (
     <div className="bg-bc-panel border border-bc-border rounded-xl px-3 py-2.5">
       <div className="font-sans text-bc-muted text-xs font-medium uppercase tracking-wider mb-1">{label}</div>
-      <div className={`font-mono text-lg font-bold ${accent}`}>{value}</div>
+      {parts.length > 1 ? (
+        <div className={`font-mono text-lg font-bold ${accent}`}>
+          <span className="hidden sm:inline">{value}</span>
+          <span className="sm:hidden flex flex-col leading-tight">
+            {parts.map((p, i) => <span key={i}>{p}</span>)}
+          </span>
+        </div>
+      ) : (
+        <div className={`font-mono text-lg font-bold ${accent}`}>{value}</div>
+      )}
     </div>
   )
 }
