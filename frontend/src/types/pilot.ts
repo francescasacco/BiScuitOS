@@ -16,6 +16,7 @@ export interface Pilot {
   sesso?: 'M' | 'F'
   access_key?: string
   abilita?: string
+  equipaggiamento?: string
   role: 'pilot' | 'operator'
   created_at: string
   updated_at: string

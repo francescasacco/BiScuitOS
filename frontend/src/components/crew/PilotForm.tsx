@@ -26,6 +26,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
   const [sistemi, setSistemi] = useState<string[]>([]);
   const [moduli, setModuli] = useState<string[]>([]);
   const [abilita, setAbilita] = useState<string[]>([]);
+  const [equipaggiamento, setEquipaggiamento] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [registering, setRegistering] = useState(false);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
@@ -108,6 +109,11 @@ export function PilotForm({ onClose }: PilotFormProps) {
   const updateAbilita = (items: string[]) => {
     setAbilita(items);
     setForm((p) => ({ ...p, abilita: items.join("\n") }));
+  };
+
+  const updateEquipaggiamento = (items: string[]) => {
+    setEquipaggiamento(items);
+    setForm((p) => ({ ...p, equipaggiamento: items.join("\n") }));
   };
 
   const isStepAccessible = (targetStep: number): boolean => {
@@ -327,12 +333,22 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
           </div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">
-              ABILITÀ <span className="text-bc-muted/50">(opzionale)</span>
+              ABILITÀ
             </label>
             <MechItemList
               items={abilita}
               onChange={updateAbilita}
               placeholder="es. Hacking, Primo soccorso..."
+            />
+          </div>
+          <div>
+            <label className="font-mono text-xs text-bc-muted block mb-1">
+              EQUIPAGGIAMENTO
+            </label>
+            <MechItemList
+              items={equipaggiamento}
+              onChange={updateEquipaggiamento}
+              placeholder="es. Kit di pronto soccorso, Comunicatore portatile..."
             />
           </div>
         </div>

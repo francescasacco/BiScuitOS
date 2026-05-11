@@ -58,6 +58,7 @@ export const EMPTY_FORM: PilotFormData = {
   mech_status: "OPERATIVO",
   motto_attivato: "",
   abilita: "",
+  equipaggiamento: "",
   sesso: undefined,
   access_key: '',
 };

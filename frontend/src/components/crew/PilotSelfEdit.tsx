@@ -22,7 +22,9 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
   const [sistemiList, setSistemiList] = useState<string[]>([])
   const [moduliList, setModuliList] = useState<string[]>([])
   const [abilitaList, setAbilitaList] = useState<string[]>([])
+  const [equipaggiamentoList, setEquipaggiamentoList] = useState<string[]>([])
   const pendingAbilita = useRef('')
+  const pendingEquipaggiamento = useRef('')
   const pendingSistemi = useRef('')
   const pendingModuli = useRef('')
   const [saving, setSaving] = useState(false)
@@ -38,11 +40,12 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
       return
     }
     setPilotId(found.id)
-    const { id, created_at, updated_at, role, abilita, mech_sistemi, mech_moduli, ...rest } = found as Pilot
+    const { id, created_at, updated_at, role, abilita, equipaggiamento, mech_sistemi, mech_moduli, ...rest } = found as Pilot
     setForm(rest)
     setSistemiList(mech_sistemi?.split('\n').filter(Boolean) ?? [])
     setModuliList(mech_moduli?.split('\n').filter(Boolean) ?? [])
     setAbilitaList(abilita?.split('\n').filter(Boolean) ?? [])
+    setEquipaggiamentoList(equipaggiamento?.split('\n').filter(Boolean) ?? [])
     setAuthError('')
     setStep('edit')
   }
@@ -55,6 +58,9 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
     const finalAbilita = pendingAbilita.current.trim()
       ? [...abilitaList, pendingAbilita.current.trim()]
       : abilitaList
+    const finalEquipaggiamento = pendingEquipaggiamento.current.trim()
+      ? [...equipaggiamentoList, pendingEquipaggiamento.current.trim()]
+      : equipaggiamentoList
     const finalSistemi = pendingSistemi.current.trim()
       ? [...sistemiList, pendingSistemi.current.trim()]
       : sistemiList
@@ -65,6 +71,7 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
       const payload = {
         ...form,
         abilita: finalAbilita.join('\n'),
+        equipaggiamento: finalEquipaggiamento.join('\n'),
         mech_sistemi: finalSistemi.join('\n'),
         mech_moduli: finalModuli.join('\n'),
       }
@@ -148,6 +155,10 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
         <div>
           <label className="font-mono text-xs text-bc-muted block mb-1">ABILITÀ</label>
           <MechItemList items={abilitaList} onChange={setAbilitaList} placeholder="es. Hacking, Primo soccorso..." pendingRef={pendingAbilita} />
+        </div>
+        <div>
+          <label className="font-mono text-xs text-bc-muted block mb-1">EQUIPAGGIAMENTO</label>
+          <MechItemList items={equipaggiamentoList} onChange={setEquipaggiamentoList} placeholder="es. Kit di pronto soccorso, Comunicatore portatile..." pendingRef={pendingEquipaggiamento} />
         </div>
       </div>
 
