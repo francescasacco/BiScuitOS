@@ -348,22 +348,6 @@ export function OSMainPage() {
 
         <div className="flex flex-col gap-3 lg:flex-1 lg:min-w-0 lg:min-h-0 order-3">
 
-          {crawlerSystem?.merchant_bridge && (
-            <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
-              <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
-                <p className="bc-section-header !border-0 !pb-0 !mb-0">Ponte mercantile</p>
-              </div>
-              <div className="p-4 space-y-2">
-                {crawlerSystem.merchant_bridge.split('|').map((item, i) => (
-                  <div key={i} className="flex items-center gap-2 py-1.5 border-b border-bc-border last:border-0">
-                    <span className="w-1.5 h-1.5 rounded-full bg-bc-green shadow-[0_0_4px_var(--bc-green)] shrink-0" />
-                    <span className="font-mono text-xs font-semibold text-bc-green/80 flex-1 min-w-0 truncate">{item.trim()}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           <div
             className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col lg:flex-1 lg:min-h-0 cursor-pointer hover:border-bc-accent/50 transition-colors"
             onClick={() => navigate('/hangar')}
@@ -387,6 +371,22 @@ export function OSMainPage() {
               ))}
             </div>
           </div>
+
+          {crawlerSystem?.merchant_bridge && (
+            <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
+              <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
+                <p className="bc-section-header !border-0 !pb-0 !mb-0">Ponte mercantile</p>
+              </div>
+              <div className="p-4 space-y-2">
+                {crawlerSystem.merchant_bridge.split('|').map((item, i) => (
+                  <div key={i} className="flex items-center gap-2 py-1.5 border-b border-bc-border last:border-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-bc-green shadow-[0_0_4px_var(--bc-green)] shrink-0" />
+                    <span className="font-mono text-xs font-semibold text-bc-green/80 flex-1 min-w-0 truncate">{item.trim()}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
         </div>
 

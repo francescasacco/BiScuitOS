@@ -183,14 +183,14 @@ export function MissionMapOverlay({
           </div>
         )}
 
-        <div className="absolute bottom-3 right-2 md:right-6 flex flex-col gap-1 z-10" onClick={e => e.stopPropagation()}>
+        <div className="absolute bottom-3 right-3 flex flex-col gap-1 z-10" onClick={e => e.stopPropagation()}>
           <button onPointerDown={e => e.stopPropagation()} onClick={() => setZoomStep(s => Math.min(s + 1, ZOOM_STEPS.length - 1))} disabled={zoomStep === ZOOM_STEPS.length - 1}
-            className="w-4 h-4 md:w-6 md:h-6 flex items-center justify-center bg-bc-dark/80 border border-bc-border text-bc-muted hover:border-bc-green hover:text-bc-green disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded">
-            <Plus size={8} strokeWidth={2} />
+            className="w-6 h-6 flex items-center justify-center bg-bc-dark/80 border border-bc-border text-bc-muted hover:border-bc-green hover:text-bc-green disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded">
+            <Plus size={10} strokeWidth={2} />
           </button>
           <button onPointerDown={e => e.stopPropagation()} onClick={() => setZoomStep(s => Math.max(s - 1, 0))} disabled={zoomStep === 0}
-            className="w-4 h-4 md:w-6 md:h-6 flex items-center justify-center bg-bc-dark/80 border border-bc-border text-bc-muted hover:border-bc-green hover:text-bc-green disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded">
-            <Minus size={8} strokeWidth={2} />
+            className="w-6 h-6 flex items-center justify-center bg-bc-dark/80 border border-bc-border text-bc-muted hover:border-bc-green hover:text-bc-green disabled:opacity-30 disabled:cursor-not-allowed transition-all rounded">
+            <Minus size={10} strokeWidth={2} />
           </button>
         </div>
       </div>

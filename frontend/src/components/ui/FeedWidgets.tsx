@@ -1,7 +1,7 @@
 export function StatChip({ label, value, accent }: { label: string; value: string; accent: string }) {
   const parts = value.split('·').map(s => s.trim())
   return (
-    <div className="bg-bc-panel border border-bc-border rounded-xl px-3 py-2.5">
+    <div className="bg-bc-panel border border-bc-border rounded-xl px-3 py-2.5 flex flex-col items-center sm:items-start justify-center sm:justify-start text-center sm:text-left">
       <div className="font-sans text-bc-muted text-xs font-medium uppercase tracking-wider mb-1">{label}</div>
       {parts.length > 1 ? (
         <div className={`font-mono text-lg font-bold ${accent}`}>
