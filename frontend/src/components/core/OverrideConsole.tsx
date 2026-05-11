@@ -13,9 +13,9 @@ export function OverrideConsole() {
       : []
   )
   const [form, setForm] = useState({
-    crawler_name:         crawlerSystem?.crawler_name        ?? 'SANCTUARY',
-    crawler_type:         crawlerSystem?.crawler_type        ?? "d'Ingegneria",
-    crawler_tec:          crawlerSystem?.crawler_tec         ?? 2,
+    crawler_name:         crawlerSystem?.crawler_name        ?? '',
+    crawler_type:         crawlerSystem?.crawler_type        ?? '',
+    crawler_tec:          crawlerSystem?.crawler_tec         ?? 0,
     scrap:                crawlerSystem?.scrap               ?? '',
     engineers:            crawlerSystem?.engineers           ?? 0,
     ps_current:           crawlerSystem?.ps_current          ?? 0,

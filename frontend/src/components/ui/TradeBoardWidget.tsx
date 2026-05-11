@@ -73,8 +73,8 @@ export function TradeBoardWidget() {
   const [errors, setErrors] = useState<FormErrors>({})
   const [touched, setTouched] = useState<{ pilot_name?: boolean; item_name?: boolean }>({})
   const [saving, setSaving] = useState(false)
-  const [showArchiveRichieste, setShowArchiveRichieste] = useState(true)
-  const [showArchiveOfferte, setShowArchiveOfferte] = useState(true)
+  const [showArchiveRichieste, setShowArchiveRichieste] = useState(false)
+  const [showArchiveOfferte, setShowArchiveOfferte] = useState(false)
 
   const now = Date.now()
   const active   = tradeOffers.filter(o => !o.archived && (now - new Date(o.created_at).getTime()) < FOURTEEN_DAYS)

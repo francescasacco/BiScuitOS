@@ -9,16 +9,6 @@ import { StatChip, CombinedBarChip, Ticker } from '@/components/ui/FeedWidgets'
 import { STATUS_DOT as MISSION_STATUS_DOT } from '@/components/missions/missionConstants'
 import { TaskBoardWidget } from '@/components/ui/TaskBoardWidget'
 
-const DEFAULT_SECTIONS: CrawlerSection[] = [
-  { name: 'Ponte Comando',       detail: 'Princeps: Ottaviano',               status: 'active'  },
-  { name: 'Ponte Mech',          detail: 'Capo Meccanico: Maurice',           status: 'active'  },
-  { name: 'Officina Meccanica',  detail: "Ing. Spec.: Bob l'aggiustatutto",   status: 'active'  },
-  { name: 'Cabine Piloti Lv.1',  detail: '',                                  status: 'active'  },
-  { name: 'Armeria Lv.1',        detail: '',                                  status: 'active'  },
-  { name: 'Mensa Lv.1',          detail: '',                                  status: 'active'  },
-  { name: "Ponte d'Artiglieria", detail: '',                                  status: 'empty'   },
-  { name: 'Unità Medica',        detail: '',                                  status: 'empty'   },
-]
 
 const SECTION_DOT: Record<CrawlerSection['status'], string> = {
   active:  'bg-bc-green shadow-[0_0_4px_var(--bc-green)]',
@@ -31,12 +21,6 @@ const SECTION_NAME_COLOR: Record<CrawlerSection['status'], string> = {
   damaged: 'text-bc-red',
 }
 
-const DEFAULT_INVENTORY: HangarItem[] = [
-  { name: 'Scudo Rinforzato',   category: 'Sistema', tec: 2,    quantity: 1, status: 'normale'     },
-  { name: 'Bengala a Reattore', category: 'Modulo',  tec: 1,    quantity: 1, status: 'normale'     },
-  { name: 'Telaio Hussair',     category: 'Telaio',  tec: null, quantity: 1, status: 'danneggiato' },
-  { name: 'Antenna',            category: 'Sistema', tec: 2,    quantity: 4, status: 'normale'     },
-]
 
 
 const MISSION_TEXT: Record<MissionStatus, string> = {
@@ -102,12 +86,20 @@ export function OSMainPage() {
   const { journalEntries, pilots, crawlerSystem, missions } = useOSStore()
   const recentLog      = journalEntries.filter((e) => e.type !== 'pilot_note').slice(0, 12)
   const activeMissions = missions.filter((m) => m.status === 'active')
-  const sections       = (crawlerSystem?.sections && crawlerSystem.sections.length > 0)
+  const DEFAULT_SECTIONS: CrawlerSection[] = [
+    { name: 'Ponte Comando',       detail: '', status: 'empty' },
+    { name: 'Ponte Mech',          detail: '', status: 'empty' },
+    { name: 'Officina Meccanica',  detail: '', status: 'empty' },
+    { name: 'Cabine Piloti',       detail: '', status: 'empty' },
+    { name: 'Armeria',             detail: '', status: 'empty' },
+    { name: 'Mensa',              detail: '', status: 'empty' },
+    { name: "Ponte d'Artiglieria", detail: '', status: 'empty' },
+    { name: 'Unità Medica',        detail: '', status: 'empty' },
+  ]
+  const sections = (crawlerSystem?.sections && crawlerSystem.sections.length > 0)
     ? crawlerSystem.sections : DEFAULT_SECTIONS
   const CAT_ORDER: Record<string, number> = { Sistema: 0, Modulo: 1, Mech: 2, Telaio: 3, Batteria: 4, Altro: 5 }
-  const inventory      = (crawlerSystem?.inventory && crawlerSystem.inventory.length > 0)
-    ? [...crawlerSystem.inventory].sort((a, b) => (CAT_ORDER[a.category] ?? 5) - (CAT_ORDER[b.category] ?? 5))
-    : DEFAULT_INVENTORY
+  const inventory      = [...(crawlerSystem?.inventory ?? [])].sort((a, b) => (CAT_ORDER[a.category] ?? 5) - (CAT_ORDER[b.category] ?? 5))
 
   const repairStatus = crawlerSystem?.repair_status ?? 'OFFLINE'
   const repairBadge  =
@@ -136,7 +128,7 @@ export function OSMainPage() {
       <div className="shrink-0">
         <div className="flex items-center gap-3 flex-wrap">
           <h1 className="font-display text-3xl md:text-4xl font-bold tracking-widest uppercase leading-none text-bc-text text-glow">
-            {crawlerSystem?.crawler_name ?? 'SANCTUARY'}
+            {crawlerSystem?.crawler_name ?? 'CRAWLER-00'}
           </h1>
           {crawlerSystem?.crawler_tec != null && (
             <span className="font-mono text-xs uppercase tracking-widest border px-2 py-0.5 shrink-0 text-bc-accent border-bc-accent/40">
@@ -148,7 +140,7 @@ export function OSMainPage() {
           </span>
         </div>
         <p className="font-sans text-bc-muted text-sm mt-1">
-          Crawler {crawlerSystem?.crawler_type ?? "d'Ingegneria"} &nbsp;·&nbsp; {pilots.length} piloti registrati
+          {crawlerSystem?.crawler_type ? `Crawler ${crawlerSystem.crawler_type}` : 'Crawler'} &nbsp;·&nbsp; {pilots.length} piloti registrati
         </p>
       </div>
 
@@ -380,7 +372,9 @@ export function OSMainPage() {
               <p className="bc-section-header !border-0 !pb-0 !mb-0">Hangar</p>
             </div>
             <div className="p-4 lg:overflow-y-auto lg:flex-1 lg:min-h-0 space-y-2">
-              {inventory.map((item, i) => (
+              {inventory.length === 0 ? (
+                <p className="font-mono text-xs text-bc-muted">Nessuna voce nell'hangar.</p>
+              ) : inventory.map((item, i) => (
                 <div key={i} className="flex items-center gap-2 py-1.5 border-b border-bc-border last:border-0">
                   <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${INV_STATUS_DOT[item.status]}`} />
                   <span className={`font-mono text-xs font-semibold flex-1 min-w-0 ${item.status === 'distrutto' ? 'line-through text-bc-muted' : INV_CAT_COLOR[item.category]}`}>

@@ -7,36 +7,7 @@ import { NumericStepper } from "@/components/ui/NumericStepper";
 import { RefreshCw, Pencil, X, Plus } from 'lucide-react'
 import { TradeBoardWidget } from "@/components/ui/TradeBoardWidget";
 
-const DEFAULT_INVENTORY: HangarItem[] = [
-  {
-    name: "Scudo Rinforzato",
-    category: "Sistema",
-    tec: 2,
-    quantity: 1,
-    status: "normale",
-  },
-  {
-    name: "Bengala a Reattore",
-    category: "Modulo",
-    tec: 1,
-    quantity: 1,
-    status: "normale",
-  },
-  {
-    name: "Telaio Hussair",
-    category: "Telaio",
-    tec: null,
-    quantity: 1,
-    status: "danneggiato",
-  },
-  {
-    name: "Antenna",
-    category: "Sistema",
-    tec: 2,
-    quantity: 4,
-    status: "normale",
-  },
-];
+
 
 const CATEGORY_STYLE: Record<HangarItem["category"], string> = {
   Sistema:  "text-bc-blue  border-bc-blue/40  bg-bc-blue/10",
@@ -68,10 +39,7 @@ const BLANK_ITEM: HangarItem = {
 
 export function HangarInterface() {
   const { crawlerSystem, setCrawlerSystem, isOperator } = useOSStore();
-  const inventory: HangarItem[] =
-    crawlerSystem?.inventory && crawlerSystem.inventory.length > 0
-      ? crawlerSystem.inventory
-      : DEFAULT_INVENTORY;
+  const inventory: HangarItem[] = crawlerSystem?.inventory ?? [];
 
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<HangarItem>({ ...BLANK_ITEM });
@@ -267,6 +235,9 @@ export function HangarInterface() {
       <TradeBoardWidget />
 
       <style>{`@media(min-width:768px){.hangar-grid{grid-template-columns:repeat(${grouped.length},minmax(0,1fr))}}`}</style>
+      {grouped.length === 0 ? (
+        <p className="font-mono text-xs text-bc-muted">Nessuna voce nell'hangar.</p>
+      ) : (
       <div className="hangar-grid grid grid-cols-1 sm:grid-cols-2 gap-3">
         {grouped.map(({ cat, items }) => (
           <div
@@ -308,6 +279,7 @@ export function HangarInterface() {
           </div>
         ))}
       </div>
+      )}
     </div></div>
   );
 }
