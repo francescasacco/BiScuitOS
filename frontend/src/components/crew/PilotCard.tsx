@@ -46,9 +46,12 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
       {pilot.mech_nome && (
         <div className="mt-3 border-t border-bc-border pt-3">
           <div className="font-mono text-bc-muted text-xs">UNITÀ MECH</div>
-          <div className="font-mono text-xs text-bc-blue mt-0.5">{pilot.mech_nome}</div>
+          <div className="font-mono text-xs text-bc-blue mt-1">{pilot.mech_nome}</div>
+          {pilot.mech_telaio && (
+            <div className="font-mono text-xs text-bc-muted mt-1">TELAIO: {pilot.mech_telaio}</div>
+          )}
           {pilot.mech_status && (
-            <div className="font-mono text-xs text-bc-amber mt-0.5 capitalize">
+            <div className="font-mono text-xs text-bc-amber mt-1 capitalize">
               STATO: {pilot.mech_status}
             </div>
           )}
