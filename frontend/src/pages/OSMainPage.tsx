@@ -10,6 +10,19 @@ import { STATUS_DOT as MISSION_STATUS_DOT } from '@/components/missions/missionC
 import { TaskBoardWidget } from '@/components/ui/TaskBoardWidget'
 
 
+const DEFAULT_SECTIONS: CrawlerSection[] = [
+  { name: 'Ponte Comando',       detail: '', status: 'empty' },
+  { name: 'Ponte Mech',          detail: '', status: 'empty' },
+  { name: 'Officina Meccanica',  detail: '', status: 'empty' },
+  { name: 'Cabine Piloti',       detail: '', status: 'empty' },
+  { name: 'Armeria',             detail: '', status: 'empty' },
+  { name: 'Mensa',              detail: '', status: 'empty' },
+  { name: "Ponte d'Artiglieria", detail: '', status: 'empty' },
+  { name: 'Unità Medica',        detail: '', status: 'empty' },
+]
+
+const CAT_ORDER: Record<string, number> = { Sistema: 0, Modulo: 1, Mech: 2, Telaio: 3, Batteria: 4, Altro: 5 }
+
 const SECTION_DOT: Record<CrawlerSection['status'], string> = {
   active:  'bg-bc-green shadow-[0_0_4px_var(--bc-green)]',
   empty:   'bg-bc-muted/40',
@@ -86,20 +99,9 @@ export function OSMainPage() {
   const { journalEntries, pilots, crawlerSystem, missions } = useOSStore()
   const recentLog      = journalEntries.filter((e) => e.type !== 'pilot_note').slice(0, 12)
   const activeMissions = missions.filter((m) => m.status === 'active')
-  const DEFAULT_SECTIONS: CrawlerSection[] = [
-    { name: 'Ponte Comando',       detail: '', status: 'empty' },
-    { name: 'Ponte Mech',          detail: '', status: 'empty' },
-    { name: 'Officina Meccanica',  detail: '', status: 'empty' },
-    { name: 'Cabine Piloti',       detail: '', status: 'empty' },
-    { name: 'Armeria',             detail: '', status: 'empty' },
-    { name: 'Mensa',              detail: '', status: 'empty' },
-    { name: "Ponte d'Artiglieria", detail: '', status: 'empty' },
-    { name: 'Unità Medica',        detail: '', status: 'empty' },
-  ]
   const sections = (crawlerSystem?.sections && crawlerSystem.sections.length > 0)
     ? crawlerSystem.sections : DEFAULT_SECTIONS
-  const CAT_ORDER: Record<string, number> = { Sistema: 0, Modulo: 1, Mech: 2, Telaio: 3, Batteria: 4, Altro: 5 }
-  const inventory      = [...(crawlerSystem?.inventory ?? [])].sort((a, b) => (CAT_ORDER[a.category] ?? 5) - (CAT_ORDER[b.category] ?? 5))
+  const inventory = [...(crawlerSystem?.inventory ?? [])].sort((a, b) => (CAT_ORDER[a.category] ?? 5) - (CAT_ORDER[b.category] ?? 5))
 
   const repairStatus = crawlerSystem?.repair_status ?? 'OFFLINE'
   const repairBadge  =
@@ -229,7 +231,7 @@ export function OSMainPage() {
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0 flex items-center justify-between">
               <p className="bc-section-header !border-0 !pb-0 !mb-0">Missioni correnti</p>
               <span className="font-mono text-[10px] text-bc-muted/50">
-                {missions.filter(m => m.status === 'active').length} attive
+                {activeMissions.length} attive
               </span>
             </div>
             <div className="p-3 lg:overflow-y-auto lg:flex-1 lg:min-h-0 space-y-2">

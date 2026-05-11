@@ -31,7 +31,7 @@ export function CoreSystemInterface() {
         </h1>
         <div className="border border-bc-amber/40 bg-bc-amber/5 px-3 py-2 sm:text-right">
           <span className="text-bc-amber font-display text-xs font-bold tracking-widest flex items-center gap-1.5">
-            <AlertTriangle size={12} strokeWidth={2} /> INTERFACCIA SISTEMA CORE — ACCESSO OPERATORE ATTIVO
+            <AlertTriangle className="size-4 sm:size-3" strokeWidth={2} /> INTERFACCIA SISTEMA CORE — ACCESSO OPERATORE ATTIVO
           </span>
           <p className="font-mono text-xs text-bc-amber/60 mt-0.5">
             Tutte le azioni sono registrate nell'Archivio Log. Procedere con cautela.

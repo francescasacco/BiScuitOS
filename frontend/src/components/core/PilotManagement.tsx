@@ -123,7 +123,7 @@ export function PilotManagement() {
           <p className="font-mono text-xs text-bc-muted">NESSUN PILOTA NEL REGISTRO</p>
         ) : (
           <div className="space-y-2">
-            {(pilots as Pilot[]).map((pilot) => (
+            {pilots.map((pilot) => (
               <div key={pilot.id} className={`border rounded-lg overflow-hidden ${
                 pilot.sesso === 'F' ? 'border-bc-rose/50' : 'border-bc-border'
               }`}>

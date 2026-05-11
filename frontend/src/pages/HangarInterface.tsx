@@ -260,19 +260,21 @@ export function HangarInterface() {
                     </span>
                     {item.notes && <p className="font-mono text-xs text-bc-muted mt-0.5 leading-snug">{item.notes}</p>}
                   </div>
-                  {item.status !== 'normale' && (
-                    <span className={`font-mono text-xs border px-1 shrink-0 ${STATUS_TEXT[item.status]}`}>{item.status.toUpperCase()}</span>
-                  )}
-                  {item.tec != null && (
-                    <span className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-1 shrink-0">T{item.tec}</span>
-                  )}
-                  {isOperator && (
-                    <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
-                      <button className="text-bc-muted hover:text-bc-amber p-0.5" onClick={() => handleStatusCycle(i)}><RefreshCw size={10} strokeWidth={2} /></button>
-                      <button className="text-bc-muted hover:text-bc-blue p-0.5" onClick={() => handleEdit(i)}><Pencil size={10} strokeWidth={2} /></button>
-                      <button className="text-bc-muted hover:text-bc-red p-0.5" onClick={() => handleDelete(i)}><X size={10} strokeWidth={2} /></button>
-                    </div>
-                  )}
+                  <div className="flex items-center gap-1 shrink-0">
+                    {item.status !== 'normale' && (
+                      <span className={`font-mono text-xs border px-1 ${STATUS_TEXT[item.status]}`}>{item.status.toUpperCase()}</span>
+                    )}
+                    {item.tec != null && (
+                      <span className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-1">T{item.tec}</span>
+                    )}
+                    {isOperator && (
+                      <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button className="text-bc-muted hover:text-bc-amber p-0.5" onClick={() => handleStatusCycle(i)}><RefreshCw size={10} strokeWidth={2} /></button>
+                        <button className="text-bc-muted hover:text-bc-blue p-0.5" onClick={() => handleEdit(i)}><Pencil size={10} strokeWidth={2} /></button>
+                        <button className="text-bc-muted hover:text-bc-red p-0.5" onClick={() => handleDelete(i)}><X size={10} strokeWidth={2} /></button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

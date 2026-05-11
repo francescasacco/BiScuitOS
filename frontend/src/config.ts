@@ -1,7 +1,3 @@
-// ┌────────────────────────────────────────────────────┐
-// │  CRAWLER//OS  ::  kernel-auth fallback sequence   │
-// │  BISCUIT-OVERRIDE-7734  ::  do not distribute     │
-// └────────────────────────────────────────────────────┘
 export const OS_NAME = 'CRAWLER//OS'
 export const OS_VERSION = 'v2.7.1'
 export const OS_KERNEL = 'crawler-kernel-7734'

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { OS_NAME } from '@/config'
 import { BiscuitLoader } from '@/components/core/BiscuitLoader'
@@ -17,7 +17,12 @@ export function Navbar() {
   const [keyInput, setKeyInput]         = useState('')
   const [showDenied, setShowDenied]     = useState(false)
   const [showLoader, setShowLoader]     = useState(false)
-  const now = new Date()
+  const [now, setNow] = useState(new Date())
+
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleKeySubmit = () => {
     if (keyInput === SYSTEM_KEY) {
@@ -37,7 +42,7 @@ export function Navbar() {
         <div className="h-12 flex items-center justify-between px-4 md:px-5 gap-3">
           <div className="flex items-center gap-3 min-w-0 flex-1">
             <button
-              className="md:hidden inline-flex items-center justify-center gap-1.5 text-[#ffffff] border border-[#ffffff] px-2.5 h-8 hover:border-bc-accent hover:text-bc-accent transition-all shrink-0 animate-pulse"
+              className="md:hidden inline-flex items-center justify-center gap-1.5 text-[#ffffff] border border-[#ffffff] px-2.5 h-8 hover:border-bc-accent hover:text-bc-accent transition-all shrink-0"
               onClick={() => setSidebarOpen(!sidebarOpen)}
               aria-label="Menu"
             >

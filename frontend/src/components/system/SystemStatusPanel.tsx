@@ -5,8 +5,8 @@ export function SystemStatusPanel() {
   const sys = crawlerSystem
 
   const repairLevel =
-    sys?.repair_status === 'NOMINAL' ? 'nominal' :
-    sys?.repair_status === 'DAMAGED' ? 'warning' : 'critical'
+    sys?.repair_status === 'NOMINALE'    ? 'nominal' :
+    sys?.repair_status === 'DANNEGGIATO' ? 'warning' : 'critical'
 
   return (
     <div className="bc-panel border border-bc-border p-3 border-glow">

@@ -2,9 +2,8 @@ import { useState } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { systemService } from '@/services/systemService'
 import type { HangarItem } from '@/types/system'
-import { CustomSelect } from '@/components/ui/CustomSelect'
 import { NumericStepper } from '@/components/ui/NumericStepper'
-import { CoreInp, CoreLabel, CoreCancelBtn } from './CoreField'
+import { CoreInp, CoreLabel, CoreCancelBtn, CoreSelect } from './CoreField'
 import { Pencil, X as XIcon, Warehouse, Plus } from 'lucide-react'
 
 const BLANK: HangarItem = { name: '', category: 'Sistema', tec: undefined, quantity: 1, status: 'normale' }
@@ -77,7 +76,7 @@ export function HangarManagement() {
             </p>
             <div className="grid grid-cols-2 gap-2">
               <CoreInp label="NOME" value={form.name} onChange={v => setForm(p => ({ ...p, name: v }))} />
-              <CoreSelect label="CATEGORIA" value={form.category} onChange={v => setForm(p => ({ ...p, category: v as HangarItem['category'] }))} options={['Sistema', 'Modulo', 'Telaio', 'Altro']} />
+              <CoreSelect label="CATEGORIA" value={form.category} onChange={v => setForm(p => ({ ...p, category: v as HangarItem['category'] }))} options={['Sistema', 'Modulo', 'Batteria', 'Mech', 'Telaio', 'Altro']} />
               <div>
                 <CoreLabel>TEC</CoreLabel>
                 <NumericStepper value={form.tec} onChange={v => setForm(p => ({ ...p, tec: v }))} min={1} nullable />
@@ -126,11 +125,3 @@ export function HangarManagement() {
   )
 }
 
-function CoreSelect({ label, value, onChange, options }: { label: string; value: string; onChange: (v: string) => void; options: string[] }) {
-  return (
-    <div>
-      <CoreLabel>{label}</CoreLabel>
-      <CustomSelect value={value} onChange={onChange} options={options} />
-    </div>
-  )
-}
