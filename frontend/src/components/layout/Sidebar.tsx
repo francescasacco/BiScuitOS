@@ -19,7 +19,6 @@ export function Sidebar() {
   const navigate  = useNavigate()
   const location  = useLocation()
 
-  const scrapPct = Math.min(100, ((crawlerSystem?.scrap ?? 0) / 500) * 100)
 
   const activeMissions = Array.isArray(missions) ? missions.filter((m) => m.status === 'active').length : 0
   const pilotCount     = Array.isArray(pilots) ? pilots.length : 0
@@ -135,15 +134,9 @@ export function Sidebar() {
         <p className="font-sans text-bc-muted text-xs font-semibold uppercase tracking-widest">Risorse</p>
 
         <div className="space-y-2.5">
-          <div>
-            <div className="flex justify-between font-sans text-xs mb-1">
-              <span className="text-bc-muted">Rottami</span>
-              <span className="font-mono text-bc-amber text-xs">{crawlerSystem?.scrap ?? '—'}</span>
-            </div>
-            <div className="h-1 rounded-full bg-bc-track overflow-hidden">
-              <div className="h-full rounded-full transition-all duration-700"
-                style={{ width: `${scrapPct}%`, background: 'var(--bc-amber)', boxShadow: '0 0 6px var(--bc-amber)' }} />
-            </div>
+          <div className="flex justify-between font-sans text-xs">
+            <span className="text-bc-muted">Rottami</span>
+            <span className="font-mono text-bc-amber text-xs">{crawlerSystem?.scrap ?? '—'}</span>
           </div>
 
           <div className="flex justify-between font-sans text-xs pt-1">

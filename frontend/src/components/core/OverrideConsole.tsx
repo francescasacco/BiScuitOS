@@ -15,7 +15,8 @@ export function OverrideConsole() {
   const [form, setForm] = useState({
     crawler_name:         crawlerSystem?.crawler_name        ?? 'SANCTUARY',
     crawler_type:         crawlerSystem?.crawler_type        ?? "d'Ingegneria",
-    scrap:                crawlerSystem?.scrap               ?? 0,
+    crawler_tec:          crawlerSystem?.crawler_tec         ?? 2,
+    scrap:                crawlerSystem?.scrap               ?? '',
     engineers:            crawlerSystem?.engineers           ?? 0,
     ps_current:           crawlerSystem?.ps_current          ?? 0,
     ps_max:               crawlerSystem?.ps_max              ?? 0,
@@ -60,21 +61,22 @@ export function OverrideConsole() {
         <AlertTriangle size={12} strokeWidth={2} /> // CONSOLE OVERRIDE — STATO CRAWLER
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3">
         <CoreInp label="NOME CRAWLER" value={form.crawler_name} onChange={setTxt('crawler_name')} />
         <CoreInp label="TIPOLOGIA" value={form.crawler_type} onChange={setTxt('crawler_type')} />
+        <CoreNumInp label="LIVELLO TEC" value={form.crawler_tec} onChange={setNum('crawler_tec')} />
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-        <CoreNumInp label="ROTTAMI"      value={form.scrap}            onChange={setNum('scrap')} />
+        <CoreInp    label="ROTTAMI"      value={form.scrap}            onChange={setTxt('scrap')} placeholder="es. 9 T3 | 6 T4" />
         <CoreNumInp label="INGEGNERI"    value={form.engineers}        onChange={setNum('engineers')} />
         <CoreNumInp label="MANUTENZIONE" value={form.maintenance_cost} onChange={setNum('maintenance_cost')} />
         <CoreInp    label="STATO"        value={form.repair_status}    onChange={setTxt('repair_status')} />
       </div>
 
       <div className="grid grid-cols-2 gap-2 mb-3">
-        <CoreNumInp label="PS CORRENTI"   value={form.ps_current}          onChange={setNum('ps_current')} />
-        <CoreNumInp label="PS MAX"        value={form.ps_max}              onChange={setNum('ps_max')} />
+        <CoreNumInp label="P.S. CORRENTI" value={form.ps_current}          onChange={setNum('ps_current')} />
+        <CoreNumInp label="P.S. MAX"       value={form.ps_max}              onChange={setNum('ps_max')} />
         <CoreNumInp label="POTENZIAMENTO" value={form.enhancement_current} onChange={setNum('enhancement_current')} />
         <CoreNumInp label="POT. MAX"      value={form.enhancement_max}     onChange={setNum('enhancement_max')} />
       </div>

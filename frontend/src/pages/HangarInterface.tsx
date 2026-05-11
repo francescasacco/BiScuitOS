@@ -39,10 +39,12 @@ const DEFAULT_INVENTORY: HangarItem[] = [
 ];
 
 const CATEGORY_STYLE: Record<HangarItem["category"], string> = {
-  Sistema: "text-bc-blue  border-bc-blue/40  bg-bc-blue/10",
-  Modulo: "text-bc-accent border-bc-accent/40 bg-bc-accent/10",
-  Telaio: "text-bc-amber border-bc-amber/40 bg-bc-amber/10",
-  Altro: "text-bc-muted border-bc-muted/40 bg-bc-muted/10",
+  Sistema:  "text-bc-blue  border-bc-blue/40  bg-bc-blue/10",
+  Modulo:   "text-bc-accent border-bc-accent/40 bg-bc-accent/10",
+  Batteria: "text-bc-blue  border-bc-blue/40  bg-bc-blue/10",
+  Mech:     "text-bc-muted border-bc-muted/40 bg-bc-muted/10",
+  Telaio:   "text-bc-amber border-bc-amber/40 bg-bc-amber/10",
+  Altro:    "text-bc-muted border-bc-muted/40 bg-bc-muted/10",
 };
 
 const STATUS_DOT: Record<HangarItem["status"], string> = {
@@ -51,9 +53,9 @@ const STATUS_DOT: Record<HangarItem["status"], string> = {
   distrutto: "bg-bc-red   shadow-[0_0_4px_var(--bc-red)]",
 };
 const STATUS_TEXT: Record<HangarItem["status"], string> = {
-  normale: "text-bc-green",
-  danneggiato: "text-bc-amber",
-  distrutto: "text-bc-red",
+  normale:     "text-bc-green border-bc-green/30",
+  danneggiato: "text-bc-amber border-bc-amber/30",
+  distrutto:   "text-bc-red border-bc-red/30",
 };
 
 const BLANK_ITEM: HangarItem = {
@@ -127,7 +129,7 @@ export function HangarInterface() {
   };
 
   const grouped = (
-    ["Sistema", "Modulo", "Telaio", "Altro"] as HangarItem["category"][]
+    ["Sistema", "Modulo", "Mech", "Telaio", "Batteria", "Altro"] as HangarItem["category"][]
   )
     .map((cat) => ({
       cat,
@@ -189,7 +191,7 @@ export function HangarInterface() {
               <CustomSelect
                 value={form.category}
                 onChange={(v) => setForm((p) => ({ ...p, category: v as HangarItem["category"] }))}
-                options={['Sistema', 'Modulo', 'Telaio', 'Altro']}
+                options={['Sistema', 'Modulo', 'Batteria', 'Mech', 'Telaio', 'Altro']}
               />
             </div>
             <div>
@@ -264,11 +266,12 @@ export function HangarInterface() {
 
       <TradeBoardWidget />
 
-      <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${grouped.length}, minmax(0, 1fr))` }}>
+      <style>{`@media(min-width:768px){.hangar-grid{grid-template-columns:repeat(${grouped.length},minmax(0,1fr))}}`}</style>
+      <div className="hangar-grid grid grid-cols-1 sm:grid-cols-2 gap-3">
         {grouped.map(({ cat, items }) => (
           <div
             key={cat}
-            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col min-h-[200px]"
+            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col sm:min-h-[200px]"
           >
             <div className="px-3 py-2 border-b border-bc-border flex items-center gap-2">
               <span className={`font-mono text-xs uppercase tracking-widest border px-1.5 py-0.5 ${CATEGORY_STYLE[cat]}`}>
@@ -278,21 +281,20 @@ export function HangarInterface() {
             </div>
             <div className="divide-y divide-bc-border flex-1">
               {items.map(({ x: item, i }) => (
-                <div key={i} className="flex items-start gap-2 px-3 py-2.5 group">
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 mt-1 ${STATUS_DOT[item.status]}`} />
+                <div key={i} className="flex items-center gap-2 px-3 py-2.5 group">
+                  <span className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT[item.status]}`} />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {item.tec != null && (
-                        <span className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-1 shrink-0">T{item.tec}</span>
-                      )}
-                      <span className={`font-sans text-sm font-semibold leading-snug ${
-                        item.status === 'distrutto' ? 'line-through text-bc-muted' : 'text-bc-text'
-                      }`}>
-                        {item.name}{item.quantity > 1 ? ` ×${item.quantity}` : ''}
-                      </span>
-                    </div>
+                    <span className={`font-sans text-sm font-semibold leading-snug ${item.status === 'distrutto' ? 'line-through text-bc-muted' : 'text-bc-text'}`}>
+                      {item.name}{item.quantity > 1 ? ` ×${item.quantity}` : ''}
+                    </span>
                     {item.notes && <p className="font-mono text-xs text-bc-muted mt-0.5 leading-snug">{item.notes}</p>}
                   </div>
+                  {item.status !== 'normale' && (
+                    <span className={`font-mono text-xs border px-1 shrink-0 ${STATUS_TEXT[item.status]}`}>{item.status.toUpperCase()}</span>
+                  )}
+                  {item.tec != null && (
+                    <span className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-1 shrink-0">T{item.tec}</span>
+                  )}
                   {isOperator && (
                     <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
                       <button className="text-bc-muted hover:text-bc-amber p-0.5" onClick={() => handleStatusCycle(i)}><RefreshCw size={10} strokeWidth={2} /></button>

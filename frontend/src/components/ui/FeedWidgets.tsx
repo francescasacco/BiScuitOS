@@ -16,7 +16,7 @@ export function CombinedBarChip({
     <div className="col-span-3 sm:col-span-2 bg-bc-panel border border-bc-border rounded-xl px-3 py-2.5 flex flex-col justify-center gap-2.5">
       <div>
         <div className="flex justify-between font-mono text-xs mb-1">
-          <span className="text-bc-muted text-xs uppercase tracking-wider">Scafo</span>
+          <span className="text-bc-muted text-xs uppercase tracking-wider">Punti Struttura</span>
           <span className="text-bc-red font-semibold">{psCurrent ?? '—'}<span className="text-bc-muted font-normal">/{psMax ?? '—'}</span></span>
         </div>
         <div className="h-0.5 rounded-full bg-bc-track overflow-hidden">

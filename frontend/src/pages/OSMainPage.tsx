@@ -89,10 +89,12 @@ const INV_STATUS_DOT: Record<HangarItem['status'], string> = {
   distrutto:   'bg-bc-red   shadow-[0_0_4px_var(--bc-red)]',
 }
 const INV_CAT_COLOR: Record<HangarItem['category'], string> = {
-  Sistema: 'text-bc-blue',
-  Modulo:  'text-bc-blue',
-  Telaio:  'text-bc-amber',
-  Altro:   'text-bc-muted',
+  Sistema:   'text-bc-blue',
+  Modulo:    'text-bc-blue',
+  Batteria:  'text-bc-blue',
+  Mech:      'text-bc-muted',
+  Telaio:    'text-bc-amber',
+  Altro:     'text-bc-muted',
 }
 
 export function OSMainPage() {
@@ -102,8 +104,10 @@ export function OSMainPage() {
   const activeMissions = missions.filter((m) => m.status === 'active')
   const sections       = (crawlerSystem?.sections && crawlerSystem.sections.length > 0)
     ? crawlerSystem.sections : DEFAULT_SECTIONS
+  const CAT_ORDER: Record<string, number> = { Sistema: 0, Modulo: 1, Mech: 2, Telaio: 3, Batteria: 4, Altro: 5 }
   const inventory      = (crawlerSystem?.inventory && crawlerSystem.inventory.length > 0)
-    ? crawlerSystem.inventory : DEFAULT_INVENTORY
+    ? [...crawlerSystem.inventory].sort((a, b) => (CAT_ORDER[a.category] ?? 5) - (CAT_ORDER[b.category] ?? 5))
+    : DEFAULT_INVENTORY
 
   const repairStatus = crawlerSystem?.repair_status ?? 'OFFLINE'
   const repairBadge  =
@@ -134,6 +138,11 @@ export function OSMainPage() {
           <h1 className="font-display text-3xl md:text-4xl font-bold tracking-widest uppercase leading-none text-bc-text text-glow">
             {crawlerSystem?.crawler_name ?? 'SANCTUARY'}
           </h1>
+          {crawlerSystem?.crawler_tec != null && (
+            <span className="font-mono text-xs uppercase tracking-widest border px-2 py-0.5 shrink-0 text-bc-accent border-bc-accent/40">
+              TEC {crawlerSystem.crawler_tec}
+            </span>
+          )}
           <span className={`font-mono text-xs uppercase tracking-widest border px-2 py-0.5 shrink-0 ${repairBadge}`}>
             STATO {repairStatus}
           </span>
@@ -144,7 +153,7 @@ export function OSMainPage() {
       </div>
 
       <div className="shrink-0 grid grid-cols-3 sm:grid-cols-5 gap-2">
-        <StatChip label="Rottami"         value={String(crawlerSystem?.scrap     ?? '—')} accent="text-bc-amber" />
+        <StatChip label="Rottami"         value={crawlerSystem?.scrap ?? '—'} accent="text-bc-amber" />
         <StatChip label="Piloti"          value={String(pilots.length)}                   accent="text-bc-green" />
         <StatChip label="Missioni attive" value={String(activeMissions.length)}           accent="text-bc-accent" />
         <CombinedBarChip

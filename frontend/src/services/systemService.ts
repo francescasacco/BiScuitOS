@@ -34,7 +34,7 @@ export const systemService = {
       .insert({
         crawler_name: "SANCTUARY",
         crawler_type: "d'Ingegneria",
-        scrap: 52,
+        scrap: '9 T3 | 6 T4',
         engineers: 3,
         fuel: 0,
         ps_current: 20,
