@@ -32,7 +32,10 @@ export function ResourceMonitor() {
       <div className="bc-section-header">// MONITOR RISORSE</div>
       <div className="space-y-4">
         <ResourceBar label="CARBURANTE" value={sys?.fuel ?? 0} max={100} color="var(--bc-green)" />
-        <ResourceBar label="ROTTAMI" value={sys?.scrap ?? 0} max={500} color="var(--bc-amber)" />
+        <div className="flex justify-between font-mono text-xs">
+          <span className="text-bc-muted">ROTTAMI</span>
+          <span className="text-bc-amber font-bold">{sys?.scrap ?? '—'}</span>
+        </div>
         <div className="flex justify-between font-mono text-xs pt-2 border-t border-bc-border">
           <span className="text-bc-muted">INGEGNERI ATTIVI</span>
           <span className="text-bc-blue font-bold">{sys?.engineers ?? 0}</span>
