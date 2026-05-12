@@ -8,13 +8,22 @@ interface Props { report: MissionReportType; status?: MissionStatus }
 
 const ICON_MAP_TYPED = ICON_MAP as Record<string, keyof typeof LucideIcons>
 
-function DiscoveryIcon({ icon }: { icon: string }) {
+export const STATUS_ICON_COLOR: Record<string, string> = {
+  active:     '#5eead4',
+  pending:    '#fbbf24',
+  completed:  '#22d3ee',
+  failed:     '#f87171',
+  classified: '#60a5fa',
+}
+
+export function DiscoveryIcon({ icon, color }: { icon: string; color: string }) {
   const name = ICON_MAP_TYPED[icon.toLowerCase()]
+  const style = { color, stroke: color }
   if (name) {
-    const Icon = LucideIcons[name] as React.FC<{ size?: number; strokeWidth?: number; className?: string }>
-    return <Icon size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" />
+    const Icon = LucideIcons[name] as React.FC<{ size?: number; strokeWidth?: number; className?: string; style?: React.CSSProperties }>
+    return <Icon size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" style={style} />
   }
-  return <Diamond size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" />
+  return <Diamond size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" style={style} />
 }
 
 const SQUAD_STATUS_COLOR: Record<string, string> = {
@@ -51,6 +60,7 @@ function Section({ title, children, dividerClass }: { title: string; children: R
 export function MissionReport({ report, status }: Props) {
   const d = status ? STATUS_DIVIDER[status] : 'border-bc-border/25'
   const sub = status ? STATUS_DIVIDER[status] : 'border-bc-border/30'
+  const iconColor = status ? STATUS_ICON_COLOR[status] : '#8888b0'
   return (
     <div className="mt-2 space-y-2">
       {report.date && (
@@ -101,7 +111,7 @@ export function MissionReport({ report, status }: Props) {
           <div className="space-y-1.5">
             {report.discoveries.map((d, i) => (
               <div key={i} className="flex items-start gap-2">
-                <DiscoveryIcon icon={d.icon} />
+                <DiscoveryIcon icon={d.icon} color={iconColor} />
                 <div>
                   <p className="font-mono text-xs text-bc-text font-semibold">{d.title}</p>
                   <p className="font-sans text-xs text-bc-text/70 leading-snug mt-0.5">{d.description}</p>

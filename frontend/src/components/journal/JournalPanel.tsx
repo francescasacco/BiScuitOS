@@ -49,7 +49,7 @@ export function JournalPanel() {
   const caretLeft  = rect ? rect.left + (rect.width / 2) - 6 : 20
 
   const panelStyle: React.CSSProperties = isMobile ? {
-    top: 52, left: 24, right: 24,
+    top: 52, left: 20, right: 20,
     maxHeight: 'calc(100dvh - 64px)',
   } : rect ? {
     top: rect.bottom + 10,

@@ -132,6 +132,7 @@ export function MissionMapOverlay({
 
             {missions.filter(m => m.map_x != null && m.map_y != null).map(m => {
               const isSel = m.id === selected?.id
+              const isTooltipVisible = tooltip?.id === m.id
               return (
                 <div key={m.id} className="absolute flex flex-col items-center"
                   style={{
@@ -141,10 +142,19 @@ export function MissionMapOverlay({
                     transition: 'opacity 300ms', zIndex: 2,
                   }}
                 >
+                  {isTooltipVisible && (
+                    <div className="absolute bottom-full mb-2 pointer-events-none z-50" style={{ whiteSpace: 'nowrap', transform: 'translateX(-50%)', left: '50%' }}>
+                      <div className="bg-bc-dark border border-bc-border rounded px-2.5 py-1.5 shadow-xl">
+                        <p className="font-mono text-xs font-bold text-bc-text">{m.title}</p>
+                        <p className={`font-mono text-xs mt-0.5 ${STATUS_COLORS[m.status].split(' ')[0]}`}>{STATUS_LABELS[m.status]}</p>
+                      </div>
+                      <div className="w-2 h-2 bg-bc-dark border-r border-b border-bc-border rotate-45 mx-auto -mt-[5px]" />
+                    </div>
+                  )}
                   <div className="absolute pointer-events-auto" style={{ inset: '-8px' }}
-                    onMouseEnter={(e) => setTooltip({ id: m.id, x: e.clientX, y: e.clientY })}
-                    onMouseMove={(e) => setTooltip({ id: m.id, x: e.clientX, y: e.clientY })}
+                    onMouseEnter={() => setTooltip({ id: m.id, x: 0, y: 0 })}
                     onMouseLeave={() => setTooltip(null)}
+                    onPointerDown={() => setTooltip({ id: m.id, x: 0, y: 0 })}
                   />
                   <div className={`rotate-45 border-2 transition-all duration-300 ${MARKER_BORDER[m.status]} ${isSel ? 'w-5 h-5' : 'w-3.5 h-3.5'}`} />
                 </div>

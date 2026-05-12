@@ -8,6 +8,7 @@ import type { CrawlerSection, HangarItem } from '@/types/system'
 import { StatChip, CombinedBarChip, Ticker } from '@/components/ui/FeedWidgets'
 import { STATUS_DOT as MISSION_STATUS_DOT, STATUS_BORDER_IDLE, STATUS_DIVIDER, STATUS_COLOR_VAR, STATUS_GLOW, STATUS_LABELS, STATUS_COLORS } from '@/components/missions/missionConstants'
 import { TaskBoardWidget } from '@/components/ui/TaskBoardWidget'
+import { DiscoveryIcon, STATUS_ICON_COLOR } from '@/components/missions/MissionReport'
 
 
 const DEFAULT_SECTIONS: CrawlerSection[] = [
@@ -302,7 +303,7 @@ export function OSMainPage() {
                                 <div className="space-y-1">
                                   {m.report.discoveries.map((d, i) => (
                                     <div key={i} className="flex items-center gap-1.5">
-                                      <Diamond size={11} strokeWidth={1.5} fill="currentColor" className="shrink-0" style={{ color: 'color-mix(in srgb, var(--mission-color) 70%, transparent)' }} />
+                                      <DiscoveryIcon icon={d.icon} color={STATUS_ICON_COLOR[m.status] ?? '#8888b0'} />
                                       <span className="font-sans text-xs text-bc-text/80 leading-snug">{d.title}</span>
                                     </div>
                                   ))}
@@ -395,7 +396,7 @@ export function OSMainPage() {
           <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0">
             <p className="bc-section-header !border-0 !pb-0 !mb-0">Archivio log recente</p>
           </div>
-          <div className="p-4">
+          <div className="p-4 overflow-y-auto max-h-[320px]">
             <LogTimeline entries={recentLog} />
           </div>
         </div>
