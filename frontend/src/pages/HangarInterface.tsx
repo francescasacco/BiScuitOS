@@ -134,154 +134,133 @@ export function HangarInterface() {
 
       <div className="shrink-0 h-px bg-bc-track" />
 
-      {showForm && isOperator && (
-        <div className="shrink-0 bg-bc-panel border border-bc-amber/40 rounded-xl p-4 border-glow-amber">
-          <p className="font-mono text-xs text-bc-amber/70 uppercase tracking-widest mb-3">
-            {editIndex !== null ? "MODIFICA OGGETTO" : "NUOVO OGGETTO"}
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-            <div>
-              <label className="font-mono text-xs text-bc-muted block mb-1">
-                NOME
-              </label>
-              <input
-                className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
-                value={form.name}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, name: e.target.value }))
-                }
-              />
-            </div>
-            <div>
-              <label className="font-mono text-xs text-bc-muted block mb-1">
-                CATEGORIA
-              </label>
-              <CustomSelect
-                value={form.category}
-                onChange={(v) => setForm((p) => ({ ...p, category: v as HangarItem["category"] }))}
-                options={['Sistema', 'Modulo', 'Batteria', 'Mech', 'Telaio', 'Altro']}
-              />
-            </div>
-            <div>
-              <label className="font-mono text-xs text-bc-muted block mb-1">
-                LIVELLO TEC
-              </label>
-              <NumericStepper
-                value={form.tec}
-                onChange={(v) => setForm((p) => ({ ...p, tec: v }))}
-                min={1}
-                nullable
-              />
-            </div>
-            <div>
-              <label className="font-mono text-xs text-bc-muted block mb-1">
-                QUANTITÀ
-              </label>
-              <NumericStepper
-                value={form.quantity}
-                onChange={(v) => setForm((p) => ({ ...p, quantity: v ?? 1 }))}
-                min={1}
-              />
-            </div>
-            <div>
-              <label className="font-mono text-xs text-bc-muted block mb-1">
-                STATO
-              </label>
-              <CustomSelect
-                value={form.status}
-                onChange={(v) => setForm((p) => ({ ...p, status: v as HangarItem["status"] }))}
-                options={['normale', 'danneggiato', 'distrutto']}
-              />
-            </div>
-            <div>
-              <label className="font-mono text-xs text-bc-muted block mb-1">
-                NOTE
-              </label>
-              <input
-                className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
-                placeholder="—"
-                value={form.notes ?? ""}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, notes: e.target.value }))
-                }
-              />
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <button
-              className="bc-btn-amber flex-1 py-1.5 font-mono text-xs"
-              onClick={handleSubmit}
-              disabled={saving}
-            >
-              {saving
-                ? "SALVATAGGIO..."
-                : editIndex !== null
-                  ? "AGGIORNA"
-                  : "AGGIUNGI"}
-            </button>
-            <button
-              className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-4 py-1.5 hover:border-bc-red hover:text-bc-red transition-all"
-              onClick={() => {
-                setShowForm(false);
-                setEditIndex(null);
-              }}
-            >
-              ANNULLA
-            </button>
-          </div>
-        </div>
-      )}
+      <div className="flex flex-col lg:flex-row gap-3 lg:items-start">
 
-      <TradeBoardWidget />
-
-      <style>{`@media(min-width:768px){.hangar-grid{grid-template-columns:repeat(${grouped.length},minmax(0,1fr))}}`}</style>
-      {grouped.length === 0 ? (
-        <p className="font-mono text-xs text-bc-muted">Nessuna voce nell'hangar.</p>
-      ) : (
-      <div className="hangar-grid grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {grouped.map(({ cat, items }) => (
-          <div
-            key={cat}
-            className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col sm:min-h-[200px]"
-          >
-            <div className="px-3 py-2 border-b border-bc-border flex items-center gap-2">
-              <span className={`font-mono text-xs uppercase tracking-widest border px-1.5 py-0.5 ${CATEGORY_STYLE[cat]}`}>
-                {cat}
-              </span>
-              <span className="font-mono text-xs text-bc-muted">{items.length}</span>
+        <div className="flex flex-col gap-3 lg:flex-[3] min-w-0">
+          {showForm && isOperator && (
+            <div className="shrink-0 bg-bc-panel border border-bc-amber/40 rounded-xl p-4 border-glow-amber">
+              <p className="font-mono text-xs text-bc-amber/70 uppercase tracking-widest mb-3">
+                {editIndex !== null ? "MODIFICA OGGETTO" : "NUOVO OGGETTO"}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                <div>
+                  <label className="font-mono text-xs text-bc-muted block mb-1">NOME</label>
+                  <input
+                    className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
+                    value={form.name}
+                    onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-bc-muted block mb-1">CATEGORIA</label>
+                  <CustomSelect
+                    value={form.category}
+                    onChange={(v) => setForm((p) => ({ ...p, category: v as HangarItem["category"] }))}
+                    options={['Sistema', 'Modulo', 'Batteria', 'Mech', 'Telaio', 'Altro']}
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-bc-muted block mb-1">LIVELLO TEC</label>
+                  <NumericStepper
+                    value={form.tec}
+                    onChange={(v) => setForm((p) => ({ ...p, tec: v }))}
+                    min={1}
+                    nullable
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-bc-muted block mb-1">QUANTITÀ</label>
+                  <NumericStepper
+                    value={form.quantity}
+                    onChange={(v) => setForm((p) => ({ ...p, quantity: v ?? 1 }))}
+                    min={1}
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-bc-muted block mb-1">STATO</label>
+                  <CustomSelect
+                    value={form.status}
+                    onChange={(v) => setForm((p) => ({ ...p, status: v as HangarItem["status"] }))}
+                    options={['normale', 'danneggiato', 'distrutto']}
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-xs text-bc-muted block mb-1">NOTE</label>
+                  <input
+                    className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber"
+                    placeholder="—"
+                    value={form.notes ?? ""}
+                    onChange={(e) => setForm((p) => ({ ...p, notes: e.target.value }))}
+                  />
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  className="bc-btn-amber flex-1 py-1.5 font-mono text-xs"
+                  onClick={handleSubmit}
+                  disabled={saving}
+                >
+                  {saving ? "SALVATAGGIO..." : editIndex !== null ? "AGGIORNA" : "AGGIUNGI"}
+                </button>
+                <button
+                  className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-4 py-1.5 hover:border-bc-red hover:text-bc-red transition-all"
+                  onClick={() => { setShowForm(false); setEditIndex(null); }}
+                >
+                  ANNULLA
+                </button>
+              </div>
             </div>
-            <div className="divide-y divide-bc-border flex-1">
-              {items.map(({ x: item, i }) => (
-                <div key={i} className="flex items-center gap-2 px-3 py-2.5 group">
-                  <span className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT[item.status]}`} />
-                  <div className="flex-1 min-w-0">
-                    <span className={`font-sans text-sm font-semibold leading-snug ${item.status === 'distrutto' ? 'line-through text-bc-muted' : 'text-bc-text'}`}>
-                      {item.name}{item.quantity > 1 ? ` ×${item.quantity}` : ''}
-                    </span>
-                    {item.notes && <p className="font-mono text-xs text-bc-muted mt-0.5 leading-snug">{item.notes}</p>}
+          )}
+
+          <style>{`@media(min-width:768px){.hangar-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}`}</style>
+          {grouped.length === 0 ? (
+            <p className="font-mono text-xs text-bc-muted">Nessuna voce nell'hangar.</p>
+          ) : (
+            <div className="hangar-grid grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {grouped.map(({ cat, items }) => (
+                <div key={cat} className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col sm:min-h-[200px]">
+                  <div className="px-3 py-2 border-b border-bc-border flex items-center gap-2">
+                    <span className={`font-mono text-xs uppercase tracking-widest border px-1.5 py-0.5 ${CATEGORY_STYLE[cat]}`}>{cat}</span>
+                    <span className="font-mono text-xs text-bc-muted">{items.length}</span>
                   </div>
-                  <div className="flex items-center gap-1 shrink-0">
-                    {item.status !== 'normale' && (
-                      <span className={`font-mono text-xs border px-1 ${STATUS_TEXT[item.status]}`}>{item.status.toUpperCase()}</span>
-                    )}
-                    {item.tec != null && (
-                      <span className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-1">T{item.tec}</span>
-                    )}
-                    {isOperator && (
-                      <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button className="text-bc-muted hover:text-bc-amber p-0.5" onClick={() => handleStatusCycle(i)}><RefreshCw size={10} strokeWidth={2} /></button>
-                        <button className="text-bc-muted hover:text-bc-blue p-0.5" onClick={() => handleEdit(i)}><Pencil size={10} strokeWidth={2} /></button>
-                        <button className="text-bc-muted hover:text-bc-red p-0.5" onClick={() => handleDelete(i)}><X size={10} strokeWidth={2} /></button>
+                  <div className="divide-y divide-bc-border flex-1">
+                    {items.map(({ x: item, i }) => (
+                      <div key={i} className="flex items-center gap-2 px-3 py-2.5 group">
+                        <span className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT[item.status]}`} />
+                        <div className="flex-1 min-w-0">
+                          <span className={`font-sans text-sm font-semibold leading-snug ${item.status === 'distrutto' ? 'line-through text-bc-muted' : 'text-bc-text'}`}>
+                            {item.name}{item.quantity > 1 ? ` ×${item.quantity}` : ''}
+                          </span>
+                          {item.notes && <p className="font-mono text-xs text-bc-muted mt-0.5 leading-snug">{item.notes}</p>}
+                        </div>
+                        <div className="flex items-center gap-1 shrink-0">
+                          {item.status !== 'normale' && (
+                            <span className={`font-mono text-xs border px-1 ${STATUS_TEXT[item.status]}`}>{item.status.toUpperCase()}</span>
+                          )}
+                          {item.tec != null && (
+                            <span className="font-mono text-xs text-bc-muted border border-bc-muted/30 px-1">T{item.tec}</span>
+                          )}
+                          {isOperator && (
+                            <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button className="text-bc-muted hover:text-bc-amber p-0.5" onClick={() => handleStatusCycle(i)}><RefreshCw size={10} strokeWidth={2} /></button>
+                              <button className="text-bc-muted hover:text-bc-blue p-0.5" onClick={() => handleEdit(i)}><Pencil size={10} strokeWidth={2} /></button>
+                              <button className="text-bc-muted hover:text-bc-red p-0.5" onClick={() => handleDelete(i)}><X size={10} strokeWidth={2} /></button>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    )}
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        ))}
+          )}
+        </div>
+
+        <div className="lg:w-[47%] shrink-0 lg:sticky lg:top-0">
+          <TradeBoardWidget /></div>
+
       </div>
-      )}
     </div></div>
   );
 }

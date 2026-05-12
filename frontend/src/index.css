@@ -163,43 +163,44 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 .bc-btn:active {
-  opacity: 0.75;
-  transform: scale(0.97);
+  opacity: 0.6;
+  transform: scale(0.94);
 }
 .bc-btn-green {
   border-color: var(--bc-green);
   color: var(--bc-green);
 }
 .bc-btn-green:hover, .bc-btn-green:active {
-  background: rgba(94,234,212,0.08);
-  box-shadow: 0 0 14px rgba(94,234,212,0.2);
+  background: rgba(94,234,212,0.15);
+  box-shadow: 0 0 18px rgba(94,234,212,0.35);
 }
 .bc-btn-accent {
   border-color: var(--bc-accent);
   color: var(--bc-accent);
 }
 .bc-btn-accent:hover, .bc-btn-accent:active {
-  background: rgba(167,139,250,0.08);
-  box-shadow: 0 0 14px rgba(167,139,250,0.2);
+  background: rgba(167,139,250,0.15);
+  box-shadow: 0 0 18px rgba(167,139,250,0.35);
 }
 .bc-btn-amber {
   border-color: var(--bc-amber);
   color: var(--bc-amber);
 }
 .bc-btn-amber:hover, .bc-btn-amber:active {
-  background: rgba(251,191,36,0.08);
-  box-shadow: 0 0 14px rgba(251,191,36,0.2);
+  background: rgba(251,191,36,0.15);
+  box-shadow: 0 0 18px rgba(251,191,36,0.35);
 }
 .bc-btn-red {
   border-color: var(--bc-red);
   color: var(--bc-red);
 }
-.bc-btn-red:hover, .bc-btn-red:active { background: rgba(248,113,113,0.08); }
+.bc-btn-red:hover, .bc-btn-red:active { background: rgba(248,113,113,0.15); box-shadow: 0 0 18px rgba(248,113,113,0.35); }
 
 /* ── Touch active states (simula hover su mobile) ── */
 @media (hover: none) {
   button:active, a:active {
-    opacity: 0.7;
+    opacity: 0.5;
+    transform: scale(0.95);
   }
 }
 

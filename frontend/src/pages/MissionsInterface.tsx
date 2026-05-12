@@ -225,7 +225,7 @@ export function MissionsInterface() {
           />
 
           <div
-            className={`fixed inset-x-0 bottom-0 top-[160px] md:absolute md:inset-0 z-20 md:z-20 rounded-t-xl md:rounded-lg overflow-hidden transition-transform duration-300 ease-in-out md:p-0 ${
+            className={`fixed inset-x-0 bottom-0 top-[158px] md:absolute md:inset-0 z-20 md:z-20 rounded-t-xl md:rounded-lg overflow-hidden transition-transform duration-300 ease-in-out md:p-0 ${
               selected?.report ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
