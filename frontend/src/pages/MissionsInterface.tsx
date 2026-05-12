@@ -225,12 +225,12 @@ export function MissionsInterface() {
           />
 
           <div
-            className={`fixed inset-x-0 bottom-0 top-[172px] md:absolute md:inset-0 z-20 md:z-20 rounded-t-xl md:rounded-lg overflow-hidden transition-transform duration-300 ease-in-out md:p-0 ${
+            className={`fixed inset-x-0 bottom-0 top-[160px] md:absolute md:inset-0 z-20 md:z-20 rounded-t-xl md:rounded-lg overflow-hidden transition-transform duration-300 ease-in-out md:p-0 ${
               selected?.report ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
             <div className="absolute inset-0 bg-bc-black/60 backdrop-blur-sm md:block" onClick={() => setSelected(null)} />
-            <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-xl overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)] mx-3 mb-4 md:mx-0 md:mb-0 max-h-[75vh] md:max-h-none">
+            <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-xl overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)] mx-3 mb-4 md:mx-0 md:mb-0 max-h-[80vh] md:max-h-none">
               {selected && (
                 <>
                   <div className="shrink-0 px-4 py-2.5 border-b border-bc-border bg-gradient-to-r from-bc-border/20 to-transparent flex items-center justify-between gap-3">
@@ -244,10 +244,10 @@ export function MissionsInterface() {
                       )}
                     </div>
                     <button
-                      className="shrink-0 p-1 text-bc-muted/40 hover:text-bc-text transition-colors"
+                      className="shrink-0 p-1 text-bc-text/70 hover:text-bc-red transition-colors"
                       onClick={() => setSelected(null)}
                     >
-                      <X size={14} strokeWidth={2} />
+                      <X size={18} strokeWidth={2} />
                     </button>
                   </div>
                   <div className="overflow-y-auto flex-1 px-4 py-3">

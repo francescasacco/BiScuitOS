@@ -189,8 +189,8 @@ export function MissionReportEditor() {
                   {missions.find(m => m.id === selectedId)?.title}
                 </span>
               </div>
-              <button className="p-1 text-bc-muted/50 hover:text-bc-text transition-colors shrink-0 mt-0.5" onClick={() => setOpen(false)}>
-                <X size={16} strokeWidth={2} />
+              <button className="p-1 text-bc-text/70 hover:text-bc-red transition-colors shrink-0 mt-0.5" onClick={() => setOpen(false)}>
+                <X size={18} strokeWidth={2} />
               </button>
             </div>
 

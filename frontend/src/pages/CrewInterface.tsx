@@ -41,8 +41,8 @@ export function CrewInterface() {
                 <div className="font-mono text-[10px] text-bc-accent/50 uppercase tracking-widest mb-0.5">REGISTRO PILOTI</div>
                 <span className="font-display text-sm font-bold text-bc-accent tracking-wider">AGGIORNA I TUOI DATI</span>
               </div>
-              <button className="text-bc-muted/50 hover:text-bc-red transition-colors shrink-0 mt-0.5 p-1" onClick={() => setShowSelfEdit(false)}>
-                <X size={14} strokeWidth={2} />
+              <button className="text-bc-text/70 hover:text-bc-red transition-colors shrink-0 mt-0.5 p-1" onClick={() => setShowSelfEdit(false)}>
+                <X size={16} strokeWidth={2} />
               </button>
             </div>
             <div className="p-6">
@@ -64,8 +64,8 @@ export function CrewInterface() {
                 <div className="font-mono text-[10px] text-bc-green/50 uppercase tracking-widest mb-0.5">REGISTRO PILOTI</div>
                 <span className="font-display text-sm font-bold text-bc-green tracking-wider">INSERZIONE NUOVO PILOTA</span>
               </div>
-              <button className="text-bc-muted/50 hover:text-bc-red transition-colors shrink-0 mt-0.5 p-1" onClick={() => setShowForm(false)}>
-                <X size={14} strokeWidth={2} />
+              <button className="text-bc-text/70 hover:text-bc-red transition-colors shrink-0 mt-0.5 p-1" onClick={() => setShowForm(false)}>
+                <X size={16} strokeWidth={2} />
               </button>
             </div>
             <div className="p-6">
