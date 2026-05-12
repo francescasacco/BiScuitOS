@@ -214,6 +214,8 @@ export function MissionsInterface() {
             zoomLevel={zoomLevel}
             zoomStep={zoomStep}
             setZoomStep={setZoomStep}
+            pan={pan}
+            zoomCenter={zoomCenter}
             missions={missions}
             selected={selected}
             tooltip={tooltip}

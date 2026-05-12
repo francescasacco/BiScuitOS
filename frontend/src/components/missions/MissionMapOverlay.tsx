@@ -13,6 +13,8 @@ interface MissionMapOverlayProps {
   zoomLevel: number
   zoomStep: number
   setZoomStep: React.Dispatch<React.SetStateAction<number>>
+  pan: { x: number; y: number }
+  zoomCenter: { x: number; y: number }
   missions: Mission[]
   selected: Mission | null
   tooltip: { id: string; x: number; y: number } | null
@@ -56,8 +58,8 @@ function useImageRect(containerRef: React.RefObject<HTMLDivElement>) {
 
 export function MissionMapOverlay({
   mapContainerRef, zoomStyle, isPanning, zoomLevel, zoomStep, setZoomStep,
-  missions, selected, tooltip, setTooltip, showForm, form, repositioning,
-  isOperator, onPointerDown, onPointerMove, onPointerUp,
+  pan, zoomCenter, missions, selected, tooltip, setTooltip, showForm, form,
+  repositioning, isOperator, onPointerDown, onPointerMove, onPointerUp,
 }: MissionMapOverlayProps) {
   const isZoomed = zoomStep > 0
   const imgRect = useImageRect(mapContainerRef)
@@ -140,8 +142,9 @@ export function MissionMapOverlay({
       )}
 
       {tooltipMission && tooltipMission.map_x != null && tooltipMission.map_y != null && imgRect.width > 0 && (() => {
-        const px = imgRect.left + (tooltipMission.map_x! / 100) * imgRect.width
-        const py = imgRect.top + (tooltipMission.map_y! / 100) * imgRect.height
+        const Z = zoomLevel
+        const px = imgRect.left + (imgRect.width  / 100) * (Z * tooltipMission.map_x! + 50 - Z * zoomCenter.x) + pan.x
+        const py = imgRect.top  + (imgRect.height / 100) * (Z * tooltipMission.map_y! + 50 - Z * zoomCenter.y) + pan.y
         return (
           <div className="absolute pointer-events-none z-50"
             style={{ left: px, top: py, transform: 'translate(-50%, -100%) translateY(-12px)', whiteSpace: 'nowrap' }}>
