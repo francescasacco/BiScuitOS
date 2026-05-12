@@ -9,7 +9,7 @@ import { MissionMapOverlay } from '@/components/missions/MissionMapOverlay'
 import { MissionList } from '@/components/missions/MissionList'
 import { MissionForm } from '@/components/missions/MissionForm'
 import { MissionReport } from '@/components/missions/MissionReport'
-import { STATUS_COLORS, STATUS_LABELS } from '@/components/missions/missionConstants'
+import { STATUS_COLORS, STATUS_LABELS, STATUS_BORDER, STATUS_DIVIDER, STATUS_COLOR_VAR } from '@/components/missions/missionConstants'
 import { X, Plus } from 'lucide-react'
 
 export function MissionsInterface() {
@@ -188,7 +188,7 @@ export function MissionsInterface() {
             NUCLEO MISSIONI // ESPLORAZIONI
           </h1>
           <p className="font-mono text-xs text-bc-muted mt-0.5">
-            {missions.filter(m => m.status === 'active').length} attive / {missions.length} totali
+            <span className="text-bc-green">{missions.filter(m => m.status === 'active').length} attive</span> / {missions.length} totali
           </p>
         </div>
         {isOperator && (
@@ -230,10 +230,16 @@ export function MissionsInterface() {
             }`}
           >
             <div className="absolute inset-0 bg-bc-black/60 backdrop-blur-sm md:block" onClick={() => setSelected(null)} />
-            <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-xl overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)] mx-3 mb-4 md:mx-0 md:mb-0 max-h-[80vh] md:max-h-none">
+            <div
+              className={`relative h-full flex flex-col bg-bc-panel/95 border rounded-xl overflow-hidden mx-3 mb-4 md:mx-0 md:mb-0 max-h-[80vh] md:max-h-none ${selected ? STATUS_BORDER[selected.status] : 'border-bc-border/60'}`}
+              style={selected ? { '--mission-color': STATUS_COLOR_VAR[selected.status] } as React.CSSProperties : undefined}
+            >
               {selected && (
                 <>
-                  <div className="shrink-0 px-4 py-2.5 border-b border-bc-border bg-gradient-to-r from-[#f5e6c8]/10 to-transparent flex items-center justify-between gap-3">
+                  <div
+                    className="shrink-0 px-4 py-2.5 border-b flex items-center justify-between gap-3"
+                    style={{ borderBottomColor: `color-mix(in srgb, var(--mission-color) 25%, transparent)`, background: `linear-gradient(to right, color-mix(in srgb, var(--mission-color) 12%, transparent), transparent)` }}
+                  >
                     <div className="flex items-center gap-3 min-w-0">
                       <span className={`bc-tag ${STATUS_COLORS[selected.status]}`}>{STATUS_LABELS[selected.status]}</span>
                       <span className="font-display text-sm font-bold text-bc-text tracking-wider md:truncate break-words">{selected.title}</span>
@@ -250,13 +256,13 @@ export function MissionsInterface() {
                       <X size={18} strokeWidth={2} />
                     </button>
                   </div>
-                  <div className="overflow-y-auto flex-1 px-4 py-3">
+                  <div className="overflow-y-auto flex-1 px-4 py-3 mission-scroll">
                     {selected.summary && (
-                      <p className="font-sans text-sm text-bc-muted leading-relaxed mb-3 pb-3 border-b border-bc-border/30">
+                      <p className={`font-sans text-sm text-bc-muted leading-relaxed mb-3 pb-3 border-b ${STATUS_DIVIDER[selected.status]}`}>
                         {selected.summary}
                       </p>
                     )}
-                    {selected.report && <MissionReport report={selected.report} />}
+                    {selected.report && <MissionReport report={selected.report} status={selected.status} />}
                   </div>
                 </>
               )}

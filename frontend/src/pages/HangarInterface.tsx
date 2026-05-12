@@ -218,8 +218,8 @@ export function HangarInterface() {
           ) : (
             <div className="hangar-grid grid grid-cols-1 sm:grid-cols-2 gap-3">
               {grouped.map(({ cat, items }) => (
-                <div key={cat} className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden flex flex-col sm:min-h-[200px]">
-                  <div className="px-3 py-2.5 border-b border-bc-border flex items-center gap-2 bg-gradient-to-r from-bc-amber/20 via-bc-amber/8 to-transparent">
+                <div key={cat} className="bg-bc-panel border border-bc-amber/40 rounded-xl overflow-hidden flex flex-col sm:min-h-[200px]">
+                  <div className="px-3 py-2.5 border-b border-bc-amber/40 flex items-center gap-2 bg-gradient-to-r from-bc-amber/20 via-bc-amber/8 to-transparent">
                     <span className={`font-mono text-xs font-bold uppercase tracking-widest border px-1.5 py-0.5 ${CATEGORY_STYLE[cat]}`}>{cat}</span>
                     <span className="font-mono text-xs text-bc-muted">{items.length}</span>
                   </div>

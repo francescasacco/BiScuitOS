@@ -83,10 +83,10 @@ export function CrewInterface() {
             </h1>
             <p className="font-mono text-[13px] text-bc-muted mt-0.5">
               {pilots.length === 0
-                ? 'Nessun nodo registrato nel sistema'
+                ? 'Nessun pilota registrato nel sistema'
                 : pilots.length === 1
-                  ? '1 nodo attivo registrato nel sistema'
-                  : `${pilots.length} nodi attivi registrati nel sistema`}
+                  ? '1 pilota registrato nel sistema'
+                  : `${pilots.length} piloti registrati nel sistema`}
             </p>
           </div>
           <div className="flex flex-row gap-2 self-center sm:self-auto">
@@ -108,9 +108,9 @@ export function CrewInterface() {
         <div className="flex-1 overflow-y-auto mt-3">
         {selected ? (
           <div className={`bc-panel border overflow-hidden ${
-            selected.sesso === 'F' ? 'border-bc-rose/40 border-glow-rose' : 'border-bc-green/40 border-glow'
+            selected.sesso === 'F' ? '!border-bc-rose/40 border-glow-rose' : '!border-bc-green/40 border-glow'
           }`}>
-            <div className={`px-6 py-3 border-b border-bc-border bg-gradient-to-r ${
+            <div className={`px-6 py-3 border-b ${selected.sesso === 'F' ? '!border-bc-rose/20' : '!border-bc-green/20'} bg-gradient-to-r ${
               selected.sesso === 'F' ? 'from-bc-rose/10' : 'from-bc-green/10'
             } to-transparent flex items-center justify-between`}>
               <div className="flex items-center gap-3 min-w-0 flex-wrap">
@@ -137,7 +137,7 @@ export function CrewInterface() {
 
             <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <div className="bc-section-header">// DATI PILOTA</div>
+                <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>// DATI PILOTA</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 items-start">
                   {[
                     ['IDENTIFICATIVO', selected.identificativo],
@@ -207,7 +207,7 @@ export function CrewInterface() {
               </div>
 
               <div className="space-y-3">
-                <div className="bc-section-header">// UNITÀ MECH</div>
+                <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>// UNITÀ MECH</div>
                 {(selected.mech_telaio || selected.mech_modello || selected.mech_nome) ? (
                   <div className="space-y-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 items-start">
@@ -282,8 +282,8 @@ export function CrewInterface() {
               )
               if (notes.length === 0) return null
               return (
-                <div className="mt-6 pt-4 border-t border-bc-border">
-                  <div className="bc-section-header">// NOTE</div>
+                <div className={`mt-6 pt-4 border-t ${selected.sesso === 'F' ? '!border-bc-rose/20' : '!border-bc-green/20'}`}>
+                  <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>// NOTE</div>
                   <div className="space-y-3">
                     {notes.map((note) => (
                       <div key={note.id} className="border-l-2 border-bc-amber/50 pl-3 py-1">

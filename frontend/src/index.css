@@ -44,6 +44,13 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--bc-border); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--bc-accent); }
 
+.mission-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--mission-color, var(--bc-border)) 70%, transparent);
+}
+.mission-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--mission-color, var(--bc-accent));
+}
+
 /* ── Very subtle ambient scanline ──────────── */
 .crt-overlay::before {
   content: '';

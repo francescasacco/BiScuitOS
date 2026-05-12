@@ -1,6 +1,6 @@
 import type { Mission, MissionStatus } from '@/types/mission'
 import { CustomSelect } from '@/components/ui/CustomSelect'
-import { STATUS_COLORS, STATUS_LABELS, STATUS_DOT } from './missionConstants'
+import { STATUS_COLORS, STATUS_LABELS, STATUS_DOT, STATUS_BORDER_IDLE, STATUS_DIVIDER, STATUS_COLOR_VAR, STATUS_GLOW } from './missionConstants'
 import { MapPin, X, AlertTriangle, Diamond, CornerDownRight } from 'lucide-react'
 
 interface MissionListProps {
@@ -13,13 +13,6 @@ interface MissionListProps {
   onStatusChange: (id: string, status: MissionStatus) => void
 }
 
-const STATUS_GLOW: Record<MissionStatus, string> = {
-  active:     'from-bc-green/20 to-transparent',
-  pending:    'from-bc-amber/20 to-transparent',
-  completed:  'from-cyan-400/15 to-transparent',
-  failed:     'from-bc-red/20 to-transparent',
-  classified: 'from-bc-blue/20 to-transparent',
-}
 
 export function MissionList({
   missions,
@@ -50,11 +43,12 @@ export function MissionList({
             className={`rounded-xl border overflow-hidden cursor-pointer transition-all duration-150 ${
               isSel
                 ? 'border-bc-accent bg-bc-accent/5 shadow-[0_0_12px_rgba(167,139,250,0.15)]'
-                : 'border-bc-border hover:border-bc-border/80'
+                : STATUS_BORDER_IDLE[m.status]
             }`}
+            style={{ '--mission-color': STATUS_COLOR_VAR[m.status] } as React.CSSProperties}
             onClick={() => onSelect(m)}
           >
-          <div className={`px-3 py-2 bg-gradient-to-r ${STATUS_GLOW[m.status]} border-b border-bc-border/40 flex items-center justify-between gap-2`}>
+          <div className={`px-3 py-2 bg-gradient-to-r ${STATUS_GLOW[m.status]} border-b ${STATUS_DIVIDER[m.status]} flex items-center justify-between gap-2`}>
               <div className="flex items-center gap-2 min-w-0 flex-1">
                 <span className={`w-2 h-2 rounded-full shrink-0 ${STATUS_DOT[m.status]}`} />
                 <span className={`font-mono text-xs font-bold break-words ${STATUS_COLORS[m.status].split(' ')[0]}`}>
@@ -89,8 +83,8 @@ export function MissionList({
               {hasReport && m.report?.discoveries && m.report.discoveries.length > 0 && (
                 <div className="flex flex-wrap gap-1 pt-0.5">
                   {m.report.discoveries.slice(0, 4).map((d, i) => (
-                    <span key={i} className="flex items-center gap-1 bg-bc-panel border border-bc-border/50 rounded-full px-2 py-0.5">
-                      <Diamond size={9} strokeWidth={1.5} className="text-bc-accent/50 shrink-0" />
+                    <span key={i} className={`flex items-center gap-1 bg-bc-panel border ${STATUS_DIVIDER[m.status]} rounded-full px-2 py-0.5`}>
+                      <Diamond size={11} strokeWidth={1.5} fill="currentColor" className="shrink-0" style={{ color: 'color-mix(in srgb, var(--mission-color) 70%, transparent)' }} />
                       <span className="font-sans text-[11px] text-bc-text/70 leading-none">{d.title}</span>
                     </span>
                   ))}
@@ -114,7 +108,7 @@ export function MissionList({
             </div>
 
             {isOperator && (
-              <div className="border-t border-bc-border/30 px-3 py-2 space-y-2 bg-bc-dark/20" onClick={e => e.stopPropagation()}>
+              <div className={`border-t ${STATUS_DIVIDER[m.status]} px-3 py-2 space-y-2 bg-bc-dark/20`} onClick={e => e.stopPropagation()}>
                 <CustomSelect
                   value={m.status}
                   onChange={(v) => onStatusChange(m.id, v as MissionStatus)}

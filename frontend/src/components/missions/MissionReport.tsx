@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import * as LucideIcons from 'lucide-react'
 import { AlertTriangle, Radio, Diamond, ChevronUp, ChevronDown } from 'lucide-react'
-import type { MissionReport as MissionReportType } from '@/types/mission'
-import { ICON_MAP } from './missionConstants'
+import type { MissionReport as MissionReportType, MissionStatus } from '@/types/mission'
+import { ICON_MAP, STATUS_DIVIDER } from './missionConstants'
 
-interface Props { report: MissionReportType }
+interface Props { report: MissionReportType; status?: MissionStatus }
 
 const ICON_MAP_TYPED = ICON_MAP as Record<string, keyof typeof LucideIcons>
 
@@ -36,10 +36,10 @@ const CHAR_LABEL: Record<string, string> = {
   ally: 'ALLEATO', contract: 'CONTRATTO', hostile: 'OSTILE', neutral: 'NEUTRO',
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children, dividerClass }: { title: string; children: React.ReactNode; dividerClass: string }) {
   const [open, setOpen] = useState(true)
   return (
-    <div className="border-t border-bc-border/40 pt-2">
+    <div className={`border-t ${dividerClass} pt-2`}>
       <button className="flex items-center justify-between w-full mb-2" onClick={() => setOpen(o => !o)}>
         <span className="flex items-center gap-1.5 font-mono text-xs tracking-widest text-bc-text/50 uppercase">
           <Diamond size={10} strokeWidth={1.5} />{title}
@@ -51,7 +51,9 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   )
 }
 
-export function MissionReport({ report }: Props) {
+export function MissionReport({ report, status }: Props) {
+  const d = status ? STATUS_DIVIDER[status] : 'border-bc-border/25'
+  const sub = status ? STATUS_DIVIDER[status] : 'border-bc-border/30'
   return (
     <div className="mt-2 space-y-2">
       {report.date && (
@@ -61,10 +63,10 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.intel && report.intel.length > 0 && (
-        <Section title="Intel live">
+        <Section title="Intel live" dividerClass={d}>
           <div className="flex flex-wrap gap-1.5">
             {report.intel.map((item, i) => (
-              <div key={i} className="flex items-start gap-1.5 w-full bg-bc-dark/60 border border-bc-border/30 rounded px-2.5 py-1.5">
+              <div key={i} className={`flex items-start gap-1.5 w-full bg-bc-dark/60 border ${sub} rounded px-2.5 py-1.5`}>
                 <Radio size={12} strokeWidth={1.5} className="text-bc-accent/50 shrink-0 mt-0.5" />
                 <span className="font-sans text-xs text-bc-text/80 leading-snug">{item}</span>
               </div>
@@ -74,10 +76,10 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.squads && report.squads.length > 0 && (
-        <Section title="Squadre">
+        <Section title="Squadre" dividerClass={d}>
           <div className="grid grid-cols-2 gap-1.5">
             {report.squads.map((sq) => (
-              <div key={sq.number} className="border border-bc-border/40 rounded p-2 bg-bc-dark/40">
+              <div key={sq.number} className={`border ${sub} rounded p-2 bg-bc-dark/40`}>
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-mono text-xs text-bc-muted">SQ.{sq.number}</span>
                   <div className="flex gap-1 flex-wrap justify-end">
@@ -98,7 +100,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.discoveries && report.discoveries.length > 0 && (
-        <Section title="Scoperte principali">
+        <Section title="Scoperte principali" dividerClass={d}>
           <div className="space-y-1.5">
             {report.discoveries.map((d, i) => (
               <div key={i} className="flex items-start gap-2">
@@ -114,7 +116,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.characters && report.characters.length > 0 && (
-        <Section title="Personaggi incontrati">
+        <Section title="Personaggi incontrati" dividerClass={d}>
           <div className="space-y-1.5">
             {report.characters.map((c, i) => (
               <div key={i} className={`border rounded p-2 ${CHAR_COLOR[c.alignment]}`}>
@@ -131,7 +133,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.contracts && report.contracts.length > 0 && (
-        <Section title="Contratti aperti">
+        <Section title="Contratti aperti" dividerClass={d}>
           {report.contractsIncompatible && (
             <div className="flex items-center gap-1.5 mb-2 px-2 py-1 border border-bc-red/40 rounded bg-bc-red/5">
               <AlertTriangle size={12} strokeWidth={2} className="text-bc-red shrink-0" />
@@ -140,7 +142,7 @@ export function MissionReport({ report }: Props) {
           )}
           <div className="space-y-2">
             {report.contracts.map((ct, i) => (
-              <div key={i} className="border border-bc-border/40 rounded p-2 bg-bc-dark/40">
+              <div key={i} className={`border ${sub} rounded p-2 bg-bc-dark/40`}>
                 <p className="font-mono text-xs text-bc-text font-semibold mb-1">{ct.name}</p>
                 <div className="space-y-0.5">
                   <p className="font-mono text-xs text-bc-muted">Cliente: <span className="text-bc-text/80">{ct.client}</span></p>
@@ -155,10 +157,10 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.assets && report.assets.length > 0 && (
-        <Section title="Asset recuperati">
+        <Section title="Asset recuperati" dividerClass={d}>
           <div className="space-y-1">
             {report.assets.map((a, i) => (
-              <div key={i} className="flex items-center justify-between py-1 border-b border-bc-border/30 last:border-0">
+              <div key={i} className={`flex items-center justify-between py-1 border-b ${sub} last:border-0`}>
                 <span className="font-mono text-xs text-bc-text">{a.name}</span>
                 <span className="font-mono text-xs text-bc-muted shrink-0 ml-2">{a.category}</span>
               </div>
@@ -168,7 +170,7 @@ export function MissionReport({ report }: Props) {
       )}
 
       {report.priorities && report.priorities.length > 0 && (
-        <Section title="Priorità">
+        <Section title="Priorità" dividerClass={d}>
           <ol className="space-y-1">
             {report.priorities.map((p, i) => (
               <li key={i} className="flex items-start gap-2">

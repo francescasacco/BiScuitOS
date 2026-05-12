@@ -6,7 +6,7 @@ import type { MissionStatus } from '@/types/mission'
 import type { JournalEntry, JournalEntryType } from '@/types/journal'
 import type { CrawlerSection, HangarItem } from '@/types/system'
 import { StatChip, CombinedBarChip, Ticker } from '@/components/ui/FeedWidgets'
-import { STATUS_DOT as MISSION_STATUS_DOT } from '@/components/missions/missionConstants'
+import { STATUS_DOT as MISSION_STATUS_DOT, STATUS_BORDER_IDLE, STATUS_DIVIDER, STATUS_COLOR_VAR, STATUS_GLOW } from '@/components/missions/missionConstants'
 import { TaskBoardWidget } from '@/components/ui/TaskBoardWidget'
 
 
@@ -230,7 +230,7 @@ export function OSMainPage() {
           >
             <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border shrink-0 flex items-center justify-between">
               <p className="bc-section-header !border-0 !pb-0 !mb-0">Missioni correnti</p>
-              <span className="font-mono text-[10px] text-bc-muted/50">
+              <span className="font-mono text-[10px] font-bold uppercase tracking-widest border px-1.5 py-0.5 text-bc-green border-bc-green/40 bg-bc-green/10">
                 {activeMissions.length} attive
               </span>
             </div>
@@ -247,22 +247,18 @@ export function OSMainPage() {
                     <div
                       key={m.id}
                       className={`rounded-lg border bg-bc-dark/40 overflow-hidden transition-all ${
-                        isPinned ? 'border-bc-accent/40' : 'border-bc-border/60'
+                        isPinned ? 'border-bc-accent/40' : STATUS_BORDER_IDLE[m.status]
                       }`}
+                      style={{ '--mission-color': STATUS_COLOR_VAR[m.status] } as React.CSSProperties}
                     >
                     <div
-                      className={`px-3 py-2.5 flex items-center gap-2 border-b border-bc-border/30 bg-gradient-to-r ${
-                        m.status === 'active' ? 'from-bc-green/8 to-transparent' :
-                        m.status === 'pending' ? 'from-bc-amber/8 to-transparent' :
-                        m.status === 'failed' ? 'from-bc-red/8 to-transparent' :
-                        'from-bc-muted/5 to-transparent'
-                      }`}>
+                      className={`px-3 py-2.5 flex items-center gap-2 border-b ${STATUS_DIVIDER[m.status]} bg-gradient-to-r ${STATUS_GLOW[m.status]}`}>
                         <div className="flex items-center gap-2 min-w-0 flex-1">
                           <span className={`w-2 h-2 rounded-full shrink-0 ${MISSION_STATUS_DOT[m.status]}`} />
                           <span className={`font-mono text-sm font-bold md:truncate break-words ${MISSION_TEXT[m.status]}`}>
                             {m.title}
                           </span>
-                          {isPinned && <Diamond size={10} strokeWidth={1.5} className="text-bc-accent/60 shrink-0" />}
+                          {isPinned && <Diamond size={13} strokeWidth={1.5} className="shrink-0" style={{ color: 'var(--mission-color)' }} />}
                         </div>
                         <span className={`bc-tag text-xs shrink-0 ${statusColor}`}>{MISSION_STATUS_LABEL[m.status]}</span>
                         {m.report && (
@@ -298,24 +294,24 @@ export function OSMainPage() {
                       </div>
 
                       {isExpanded && m.report && (
-                        <div className="px-3 pb-3 pt-1 border-t border-bc-border/20 space-y-2" onClick={e => e.stopPropagation()}>
+                        <div className={`px-3 pb-3 pt-1 border-t ${STATUS_DIVIDER[m.status]} space-y-2`} onClick={e => e.stopPropagation()}>
                           <div className="grid grid-cols-2 gap-2">
                             {m.report.discoveries && m.report.discoveries.length > 0 && (
-                              <div className="bg-bc-black/30 border border-bc-border/30 rounded-lg p-2">
+                              <div className={`bg-bc-black/30 border ${STATUS_DIVIDER[m.status]} rounded-lg p-2`}>
                                 <p className="flex items-center gap-1 font-mono text-[10px] text-bc-text/50 uppercase tracking-widest mb-1.5">
                                   <Diamond size={9} strokeWidth={1.5} />Scoperte
                                 </p>
                                 <div className="space-y-1">
                                   {m.report.discoveries.map((d, i) => (
                                     <div key={i} className="flex items-center gap-1.5">
-                                      <Diamond size={9} strokeWidth={1.5} className="text-bc-accent/50 shrink-0" />
+                                      <Diamond size={11} strokeWidth={1.5} fill="currentColor" className="shrink-0" style={{ color: 'color-mix(in srgb, var(--mission-color) 70%, transparent)' }} />
                                       <span className="font-sans text-xs text-bc-text/80 leading-snug">{d.title}</span>
                                     </div>
                                   ))}
                                 </div>
                               </div>
                             )}
-                            <div className="bg-bc-black/30 border border-bc-border/30 rounded-lg p-2">
+                            <div className={`bg-bc-black/30 border ${STATUS_DIVIDER[m.status]} rounded-lg p-2`}>
                               <div className="flex items-center gap-1.5 mb-1.5">
                                 <p className="flex items-center gap-1 font-mono text-[10px] text-bc-text/50 uppercase tracking-widest">
                                   <Diamond size={9} strokeWidth={1.5} />Contratti

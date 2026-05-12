@@ -40,6 +40,46 @@ export const STATUS_DOT: Record<MissionStatus, string> = {
   classified: 'bg-bc-blue shadow-[0_0_5px_var(--bc-blue)]',
 }
 
+export const STATUS_GLOW: Record<MissionStatus, string> = {
+  active:     'from-bc-green/20 to-transparent',
+  pending:    'from-bc-amber/20 to-transparent',
+  completed:  'from-cyan-400/15 to-transparent',
+  failed:     'from-bc-red/20 to-transparent',
+  classified: 'from-bc-blue/20 to-transparent',
+}
+
+export const STATUS_COLOR_VAR: Record<MissionStatus, string> = {
+  active:     '#5eead4',
+  pending:    '#fbbf24',
+  completed:  '#22d3ee',
+  failed:     '#f87171',
+  classified: '#60a5fa',
+}
+
+export const STATUS_BORDER_IDLE: Record<MissionStatus, string> = {
+  active:     'border-bc-green/30 hover:border-bc-green/60',
+  pending:    'border-bc-amber/30 hover:border-bc-amber/60',
+  completed:  'border-cyan-400/30 hover:border-cyan-400/60',
+  failed:     'border-bc-red/30 hover:border-bc-red/60',
+  classified: 'border-bc-blue/30 hover:border-bc-blue/60',
+}
+
+export const STATUS_BORDER: Record<MissionStatus, string> = {
+  active:     'border-bc-green/50',
+  pending:    'border-bc-amber/50',
+  completed:  'border-cyan-400/50',
+  failed:     'border-bc-red/50',
+  classified: 'border-bc-blue/50',
+}
+
+export const STATUS_DIVIDER: Record<MissionStatus, string> = {
+  active:     'border-bc-green/25',
+  pending:    'border-bc-amber/25',
+  completed:  'border-cyan-400/25',
+  failed:     'border-bc-red/25',
+  classified: 'border-bc-blue/25',
+}
+
 export const ZOOM_STEPS = [1, 1.5, 2, 2.5]
 
 export const EMPTY_FORM: MissionFormData = { title: '', status: 'pending', summary: '', reward: '' }

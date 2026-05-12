@@ -14,8 +14,8 @@ export function MissionFeed() {
   const active = missions.filter((m) => m.status === 'active').slice(0, 3)
 
   return (
-    <div className="bc-panel border border-bc-border p-3">
-      <div className="bc-section-header">// NUCLEO MISSIONI — ATTIVE</div>
+    <div className="bc-panel border !border-bc-green/40 p-3">
+      <div className="bc-section-header" style={{ borderBottomColor: 'color-mix(in srgb, var(--bc-green) 20%, transparent)' }}>// NUCLEO MISSIONI — ATTIVE</div>
       {active.length === 0 ? (
         <p className="font-mono text-bc-muted text-xs">NESSUNA MISSIONE ATTIVA</p>
       ) : (
@@ -23,7 +23,7 @@ export function MissionFeed() {
           {active.map((m) => {
             const s = STATUS_STYLES[m.status]
             return (
-              <div key={m.id} className="border-b border-bc-border last:border-0 pb-3 last:pb-0">
+              <div key={m.id} className="border-b !border-bc-green/20 last:border-0 pb-3 last:pb-0">
                 <div className={`font-mono text-sm font-bold ${s.color} ${s.glow}`}>
                   {m.title}
                 </div>

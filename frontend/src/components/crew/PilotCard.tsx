@@ -8,10 +8,11 @@ interface PilotCardProps {
 
 export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
   const isFemale = pilot.sesso === 'F'
-  const borderSelected = isFemale ? 'border-bc-rose border-glow-rose' : 'border-bc-green border-glow'
+  const borderSelected = isFemale ? '!border-bc-rose border-glow-rose' : '!border-bc-green border-glow'
   const borderIdle = isFemale
-    ? 'border-bc-border hover:border-bc-rose/50 hover:bg-bc-rose/5'
-    : 'border-bc-border hover:border-bc-green/50 hover:bg-bc-green/5'
+    ? '!border-bc-rose/50 !bg-bc-rose/5 hover:!border-bc-rose/70 hover:!bg-bc-rose/10'
+    : '!border-bc-green/50 !bg-bc-green/5 hover:!border-bc-green/70 hover:!bg-bc-green/10'
+  const dividerColor = isFemale ? '!border-bc-rose/20' : '!border-bc-green/20'
   const nameColor = isFemale ? 'text-bc-rose text-glow-rose' : 'text-bc-green text-glow'
   const hasAntenna = pilot.mech_moduli?.toLowerCase().includes('antenna')
   return (
@@ -21,7 +22,7 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
       }`}
       onClick={() => onSelect?.(pilot)}
     >
-      <div className={`px-4 py-3 border-b border-bc-border bg-gradient-to-r ${
+      <div className={`px-4 py-3 border-b ${dividerColor} bg-gradient-to-r ${
         isFemale ? 'from-bc-rose/10' : 'from-bc-green/10'
       } to-transparent flex items-start justify-between`}>
         <div>
@@ -47,7 +48,7 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
 
       <div className="p-4">
       {pilot.mech_nome && (
-        <div className="border-b border-bc-border pb-3 mb-2">
+        <div className={`border-b ${dividerColor} pb-3 mb-2`}>
           <div className="font-mono text-bc-muted text-xs">UNITÀ MECH</div>
           <div className="font-mono text-xs text-bc-blue mt-1">{pilot.mech_nome}</div>
           {pilot.mech_telaio && (
@@ -65,7 +66,7 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
         ID NODO: {pilot.id.slice(0, 8).toUpperCase()}
       </div>
 
-      <p className="font-mono text-[10px] text-bc-amber uppercase tracking-[0.2em] text-center pt-1 border-t border-bc-amber/20 mt-4">
+      <p className={`font-mono text-[10px] text-bc-amber uppercase tracking-[0.2em] text-center pt-1 border-t ${dividerColor} mt-4`}>
         TOCCA PER ULTERIORI DETTAGLI
       </p>
       </div>
