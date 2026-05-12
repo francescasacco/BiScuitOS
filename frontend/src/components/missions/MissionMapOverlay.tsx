@@ -142,9 +142,12 @@ export function MissionMapOverlay({
       )}
 
       {tooltipMission && tooltipMission.map_x != null && tooltipMission.map_y != null && imgRect.width > 0 && (() => {
-        const Z = zoomLevel
-        const px = imgRect.left + (imgRect.width  / 100) * (Z * tooltipMission.map_x! + 50 - Z * zoomCenter.x) + pan.x
-        const py = imgRect.top  + (imgRect.height / 100) * (Z * tooltipMission.map_y! + 50 - Z * zoomCenter.y) + pan.y
+        const px = isZoomed
+          ? imgRect.left + (imgRect.width  / 100) * (zoomLevel * tooltipMission.map_x! + 50 - zoomLevel * zoomCenter.x) + pan.x
+          : imgRect.left + (imgRect.width  / 100) * tooltipMission.map_x!
+        const py = isZoomed
+          ? imgRect.top  + (imgRect.height / 100) * (zoomLevel * tooltipMission.map_y! + 50 - zoomLevel * zoomCenter.y) + pan.y
+          : imgRect.top  + (imgRect.height / 100) * tooltipMission.map_y!
         return (
           <div className="absolute pointer-events-none z-50"
             style={{ left: px, top: py, transform: 'translate(-50%, -100%) translateY(-12px)', whiteSpace: 'nowrap' }}>
