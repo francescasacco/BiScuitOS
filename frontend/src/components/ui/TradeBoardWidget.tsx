@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { tradeBoardService } from '@/services/tradeBoardService'
 import { journalService } from '@/services/journalService'
@@ -10,10 +10,11 @@ const CATEGORIES = ['Sistema', 'Modulo', 'Altro'] as const
 type ActiveTab = 'richiesta' | 'offerta'
 type FormErrors = { pilot_name?: string; item_name?: string }
 
-function validate(pilotName: string, itemName: string): FormErrors {
+function validate(pilotName: string, itemName: string, cat: typeof CATEGORIES[number]): FormErrors {
   const errors: FormErrors = {}
   if (!pilotName.trim()) errors.pilot_name = 'Seleziona un pilota.'
-  if (!itemName.trim()) errors.item_name = 'Il nome del modulo/sistema è obbligatorio.'
+  const label = cat === 'Sistema' ? 'sistema' : cat === 'Modulo' ? 'modulo' : 'oggetto'
+  if (!itemName.trim()) errors.item_name = `Il nome del ${label} è obbligatorio.`
   else if (itemName.trim().length < 2) errors.item_name = 'Troppo corto — servono almeno 2 caratteri.'
   else if (itemName.length > 80) errors.item_name = 'Hai superato il limite di 80 caratteri.'
   return errors
@@ -64,6 +65,15 @@ function OfferRow({ offer, isOperator, onDelete }: {
 export function TradeBoardWidget() {
   const { pilots, tradeOffers, addTradeOffer, removeTradeOffer, isOperator, addJournalEntry } = useOSStore()
   const [tab, setTab] = useState<ActiveTab>('richiesta')
+  const prevLengthRef = useRef(tradeOffers.length)
+
+  useEffect(() => {
+    if (tradeOffers.length > prevLengthRef.current) {
+      const newest = tradeOffers[0]
+      if (newest && newest.type !== tab) setTab(newest.type as ActiveTab)
+    }
+    prevLengthRef.current = tradeOffers.length
+  }, [tradeOffers])
   const [showForm, setShowForm] = useState(false)
   const [formType, setFormType] = useState<ActiveTab>('offerta')
   const [pilotName, setPilotName] = useState('')
@@ -84,21 +94,22 @@ export function TradeBoardWidget() {
   const archivedRichieste = archived.filter(o => o.type === 'richiesta')
   const archivedOfferte   = archived.filter(o => o.type === 'offerta')
   const pilotOptions = pilots.map(p => p.identificativo)
-  const getMechItems = (name: string) => {
+  const getMechItems = (name: string, cat: typeof category) => {
     const pilot = pilots.find(p => p.identificativo === name)
     if (!pilot) return []
-    return [pilot.mech_sistemi, pilot.mech_moduli].filter(Boolean).join('\n')
-      .split('\n').map(s => s.trim()).filter(Boolean)
+    if (cat === 'Sistema') return (pilot.mech_sistemi ?? '').split('\n').map(s => s.trim()).filter(Boolean)
+    if (cat === 'Modulo')  return (pilot.mech_moduli  ?? '').split('\n').map(s => s.trim()).filter(Boolean)
+    return []
   }
-  const mechItems = getMechItems(pilotName)
+  const mechItems = getMechItems(pilotName, category)
 
   const touch = (field: keyof FormErrors) => {
     setTouched(t => ({ ...t, [field]: true }))
-    setErrors(prev => ({ ...prev, [field]: validate(pilotName, itemName)[field] }))
+    setErrors(prev => ({ ...prev, [field]: validate(pilotName, itemName, category)[field] }))
   }
 
   const handleSubmit = async () => {
-    const e = validate(pilotName, itemName)
+    const e = validate(pilotName, itemName, category)
     setErrors(e); setTouched({ pilot_name: true, item_name: true })
     if (Object.keys(e).length > 0) return
     setSaving(true)
@@ -121,8 +132,22 @@ export function TradeBoardWidget() {
   }
 
   const handleDelete = async (id: string) => {
-    try { await tradeBoardService.delete(id); removeTradeOffer(id) }
-    catch (err) { console.error('[TRADE] Eliminazione fallita:', err) }
+    try {
+      const offer = tradeOffers.find(o => o.id === id)
+      await tradeBoardService.delete(id)
+      removeTradeOffer(id)
+      if (offer) {
+        const { journalEntries, removeJournalEntry } = useOSStore.getState()
+        const expectedTitle = offer.type === 'offerta'
+          ? `OFFERTA ATTIVA — ${offer.item_name}!`
+          : `CERCASI — ${offer.item_name}!`
+        const entry = journalEntries.find(e => e.type === 'event' && e.title === expectedTitle && e.author === offer.pilot_name)
+        if (entry) {
+          await journalService.delete(entry.id)
+          removeJournalEntry(entry.id)
+        }
+      }
+    } catch (err) { console.error('[TRADE] Eliminazione fallita:', err) }
   }
 
   const openForm = (type: ActiveTab) => {
@@ -156,14 +181,19 @@ export function TradeBoardWidget() {
             </div>
             <div>
               <label className="font-mono text-xs text-bc-muted block mb-1">CATEGORIA</label>
-              <CustomSelect value={category} onChange={v => setCategory(v as typeof category)} options={[...CATEGORIES]} />
+              <CustomSelect value={category} onChange={v => { setCategory(v as typeof category); setItemName('') }} options={[...CATEGORIES]} />
             </div>
             <div className="sm:col-span-2">
-              <label className="font-mono text-xs text-bc-muted block mb-1">{formType === 'offerta' ? 'MODULO / SISTEMA DA OFFRIRE *' : 'MODULO / SISTEMA DESIDERATO *'}</label>
+              <label className="font-mono text-xs text-bc-muted block mb-1">
+                {formType === 'offerta'
+                  ? category === 'Sistema' ? 'SISTEMA DA OFFRIRE *' : category === 'Modulo' ? 'MODULO DA OFFRIRE *' : 'OGGETTO DA OFFRIRE *'
+                  : category === 'Sistema' ? 'SISTEMA DESIDERATO *' : category === 'Modulo' ? 'MODULO DESIDERATO *' : 'OGGETTO DESIDERATO *'
+                }
+              </label>
               {formType === 'offerta' && mechItems.length > 0 ? (
                 <CustomSelect value={itemName} onChange={v => { setItemName(v); setTouched(t => ({ ...t, item_name: true })); setErrors(e => ({ ...e, item_name: undefined })) }} options={mechItems} placeholder="SELEZIONA DAL MECH..." hasError={!!(touched.item_name && errors.item_name)} />
               ) : (
-                <input className={`bc-input text-xs${touched.item_name && errors.item_name ? ' border-bc-red focus:border-bc-red' : ''}`} placeholder="es. Scudo Energetico, Modulo Radar..." value={itemName} onChange={e => { setItemName(e.target.value); if (touched.item_name) setErrors(er => ({ ...er, item_name: validate(pilotName, e.target.value).item_name })) }} onBlur={() => touch('item_name')} />
+                <input className={`bc-input text-xs${touched.item_name && errors.item_name ? ' border-bc-red focus:border-bc-red' : ''}`} placeholder="es. Scudo Energetico, Modulo Radar..." value={itemName} onChange={e => { setItemName(e.target.value); if (touched.item_name) setErrors(er => ({ ...er, item_name: validate(pilotName, e.target.value, category).item_name })) }} onBlur={() => touch('item_name')} />
               )}
               {touched.item_name && errors.item_name && <p className="font-mono text-xs text-bc-red mt-1 italic">{errors.item_name}</p>}
               {formType === 'offerta' && pilotName && mechItems.length === 0 && <p className="font-mono text-xs text-bc-muted/60 mt-1">Nessun sistema/modulo registrato per questo pilota.</p>}

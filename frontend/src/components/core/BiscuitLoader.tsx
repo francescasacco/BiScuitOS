@@ -95,10 +95,8 @@ export function BiscuitLoader({ onComplete }: { onComplete: () => void }) {
         {OPERATOR_NAME}
       </h1>
 
-      {/* Ring + spinning cookie */}
       <div className="relative" style={{ width: 200, height: 200 }}>
 
-        {/* Progress ring — static */}
         <svg
           className="absolute inset-0"
           width={200} height={200}
@@ -116,13 +114,11 @@ export function BiscuitLoader({ onComplete }: { onComplete: () => void }) {
           />
         </svg>
 
-        {/* Spinning cookie — centered inside ring */}
         <div
           className="absolute inset-0 flex items-center justify-center"
           style={{ animation: 'cookie-spin 3s linear infinite' }}
         >
           <svg width={SZ} height={SZ} viewBox={`0 0 ${SZ} ${SZ}`}>
-            {/* Cookie body — solid warm golden brown */}
             <path
               d={cookiePath}
               fill="#c47a28"
@@ -130,11 +126,9 @@ export function BiscuitLoader({ onComplete }: { onComplete: () => void }) {
               strokeWidth="2.5"
               style={{ filter: 'drop-shadow(0 0 6px rgba(228,150,10,0.8))' }}
             />
-            {/* Dark chocolate-spot dots */}
             {dots.map((d, i) => (
               <circle key={i} cx={d.x} cy={d.y} r="3" fill="#6b3a0a" />
             ))}
-            {/* Classic biscuit cross lines */}
             <line
               x1={CX - INNER_R + 10} y1={CY}
               x2={CX + INNER_R - 10} y2={CY}

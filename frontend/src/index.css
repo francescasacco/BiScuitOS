@@ -38,7 +38,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Scrollbars ─────────────────────────────── */
 ::-webkit-scrollbar       { width: 3px; height: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--bc-border); border-radius: 2px; }
@@ -51,7 +50,6 @@ body {
   background: var(--mission-color, var(--bc-accent));
 }
 
-/* ── Very subtle ambient scanline ──────────── */
 .crt-overlay::before {
   content: '';
   position: fixed;
@@ -77,7 +75,6 @@ body {
   z-index: 9999;
 }
 
-/* ── Glows ──────────────────────────────────── */
 .text-glow {
   text-shadow: 0 0 20px rgba(167,139,250,0.5), 0 0 50px rgba(167,139,250,0.15);
 }
@@ -94,7 +91,6 @@ body {
   text-shadow: 0 0 20px rgba(94,234,212,0.5), 0 0 50px rgba(94,234,212,0.15);
 }
 
-/* ── Cards & panels ─────────────────────────── */
 .bc-panel {
   background: var(--bc-panel);
   border: 1px solid var(--bc-border);
@@ -108,7 +104,6 @@ body {
   padding: 16px;
 }
 
-/* ── Section header ─────────────────────────── */
 .bc-section-header {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 11px;
@@ -121,7 +116,6 @@ body {
   margin-bottom: 12px;
 }
 
-/* ── Border glows ───────────────────────────── */
 .border-glow {
   box-shadow: 0 0 20px rgba(167,139,250,0.08), 0 0 0 1px rgba(167,139,250,0.15);
 }
@@ -138,7 +132,6 @@ body {
   box-shadow: 0 0 16px rgba(244,114,182,0.25), 0 0 0 1px rgba(244,114,182,0.4);
 }
 
-/* ── Status dots ────────────────────────────── */
 .status-dot {
   width: 7px; height: 7px;
   border-radius: 50%;
@@ -149,7 +142,6 @@ body {
 .status-dot.warning  { background: var(--bc-amber);  box-shadow: 0 0 6px var(--bc-amber); }
 .status-dot.critical { background: var(--bc-red);    box-shadow: 0 0 6px var(--bc-red); animation: pulse 1s infinite; }
 
-/* ── Cursor blink ───────────────────────────── */
 .cursor-blink::after {
   content: '|';
   animation: blink 1.2s step-end infinite;
@@ -157,7 +149,6 @@ body {
   opacity: 0.6;
 }
 
-/* ── Buttons ────────────────────────────────── */
 .bc-btn {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 12px;
@@ -228,7 +219,6 @@ body {
   }
 }
 
-/* ── Inputs ─────────────────────────────────── */
 .bc-input {
   font-family: inherit;
   font-size: 13px;
@@ -257,7 +247,6 @@ body {
   padding-right: 32px;
 }
 
-/* ── Tag / badge ────────────────────────────── */
 .bc-tag {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 11px;
@@ -269,7 +258,6 @@ body {
   letter-spacing: 0.06em;
 }
 
-/* ── Noise overlay ──────────────────────────── */
 .noise-overlay { position: relative; }
 .noise-overlay::before {
   content: '';
@@ -281,7 +269,6 @@ body {
   border-radius: inherit;
 }
 
-/* ── Animations ─────────────────────────────── */
 @keyframes scanline {
   0%   { transform: translateY(-100vh); }
   100% { transform: translateY(100vh); }
