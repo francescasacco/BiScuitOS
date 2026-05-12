@@ -5,7 +5,7 @@ export function SystemStatusPanel() {
   const sys = crawlerSystem
 
   const repairLevel =
-    sys?.repair_status === 'NOMINALE'    ? 'nominal' :
+    (sys?.repair_status === 'NOMINALE' || sys?.repair_status === 'NORMALE') ? 'nominal' :
     sys?.repair_status === 'DANNEGGIATO' ? 'warning' : 'critical'
 
   return (

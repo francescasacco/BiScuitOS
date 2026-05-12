@@ -131,7 +131,7 @@ export function OSMainPage() {
 
   const repairStatus = crawlerSystem?.repair_status ?? 'OFFLINE'
   const repairBadge  =
-    repairStatus === 'NOMINALE'    ? 'text-bc-green border-bc-green/40 bg-bc-green/10' :
+    (repairStatus === 'NOMINALE' || repairStatus === 'NORMALE') ? 'text-bc-green border-bc-green/40 bg-bc-green/10' :
     repairStatus === 'DANNEGGIATO' ? 'text-bc-amber border-bc-amber/40 bg-bc-amber/10' :
                                      'text-bc-red border-bc-red/40 bg-bc-red/10'
 
