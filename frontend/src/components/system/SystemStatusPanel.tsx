@@ -25,7 +25,9 @@ export function SystemStatusPanel() {
         <div>
           <div className="font-mono text-bc-muted text-xs mb-1">PONTE MERCANTE</div>
           <div className="font-mono text-sm text-bc-green">
-            {sys?.merchant_bridge ?? '—'}
+            {sys?.merchant_bridge?.length
+              ? `${sys.merchant_bridge.length} oggett${sys.merchant_bridge.length === 1 ? 'o' : 'i'}`
+              : '—'}
           </div>
         </div>
       </div>

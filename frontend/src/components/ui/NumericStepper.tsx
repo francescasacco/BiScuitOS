@@ -80,7 +80,8 @@ export function NumericStepper({
         <input
           type="text"
           inputMode="numeric"
-          value={raw === '' ? '—' : raw}
+          value={raw}
+          placeholder="—"
           onChange={handleInput}
           onKeyDown={(e) => {
             if (!/[0-9]|Backspace|Delete|ArrowLeft|ArrowRight|Tab/.test(e.key) && !e.ctrlKey && !e.metaKey) {
@@ -88,9 +89,8 @@ export function NumericStepper({
               showError('Sono consentiti solo valori numerici.')
             }
           }}
-          onFocus={(e) => { if (e.target.value === '—') setRaw('') }}
           onBlur={handleBlur}
-          className={`flex-1 min-w-0 bg-transparent font-mono text-sm py-1.5 px-3 outline-none ${error ? 'text-bc-red' : textColor}`}
+          className={`flex-1 min-w-0 bg-transparent font-mono text-sm py-1.5 px-3 outline-none placeholder:text-current/40 ${error ? 'text-bc-red' : textColor}`}
         />
         <button type="button" onClick={decrement} className={btnClass}><Minus size={12} strokeWidth={2} /></button>
         <button type="button" onClick={increment} className={btnClass}><Plus size={12} strokeWidth={2} /></button>

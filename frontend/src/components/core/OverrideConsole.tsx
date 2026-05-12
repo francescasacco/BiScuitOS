@@ -3,14 +3,17 @@ import { systemService } from '@/services/systemService'
 import { journalService } from '@/services/journalService'
 import { useOSStore } from '@/store/useOSStore'
 import { CoreInp, CoreNumInp, CoreLabel, CoreAddBtn, CoreRemoveBtn } from './CoreField'
+import { CustomSelect } from '@/components/ui/CustomSelect'
+import { NumericStepper } from '@/components/ui/NumericStepper'
+import type { HangarItem } from '@/types/system'
 import { Check, AlertTriangle } from 'lucide-react'
+
+const BLANK_BRIDGE: HangarItem = { name: '', category: 'Sistema', tec: undefined, quantity: 1, status: 'normale' }
 
 export function OverrideConsole() {
   const { crawlerSystem, setCrawlerSystem, addJournalEntry } = useOSStore()
-  const [bridgeItems, setBridgeItems] = useState<string[]>(
-    crawlerSystem?.merchant_bridge
-      ? crawlerSystem.merchant_bridge.split('|').map(s => s.trim()).filter(Boolean)
-      : []
+  const [bridgeItems, setBridgeItems] = useState<HangarItem[]>(
+    crawlerSystem?.merchant_bridge ?? []
   )
   const [form, setForm] = useState({
     crawler_name:         crawlerSystem?.crawler_name        ?? '',
@@ -31,17 +34,18 @@ export function OverrideConsole() {
   const setNum = (key: string) => (v: number | undefined) => setForm(p => ({ ...p, [key]: v ?? 0 }))
   const setTxt = (key: string) => (v: string) => setForm(p => ({ ...p, [key]: v }))
 
+  const updateBridge = (i: number, patch: Partial<HangarItem>) =>
+    setBridgeItems(p => p.map((x, j) => j === i ? { ...x, ...patch } : x))
+
   const handleSave = async () => {
     setSaving(true)
     try {
-      const updated = await systemService.update({
-        ...form,
-        merchant_bridge: bridgeItems.filter(Boolean).join(' | '),
-      })
+      const bridge = bridgeItems.filter(b => b.name.trim())
+      const updated = await systemService.update({ ...form, merchant_bridge: bridge })
       setCrawlerSystem(updated)
       const entry = await journalService.create({
         title: 'OVERRIDE SISTEMA // STATO CRAWLER AGGIORNATO',
-        content: `Override eseguito. ROTTAMI: ${form.scrap} | INGEGNERI: ${form.engineers} | PS: ${form.ps_current}/${form.ps_max} | POT: ${form.enhancement_current}/${form.enhancement_max} | STATO: ${form.repair_status} | PONTE: ${bridgeItems.join(', ')}`,
+        content: `Override eseguito. ROTTAMI: ${form.scrap} | INGEGNERI: ${form.engineers} | PS: ${form.ps_current}/${form.ps_max} | POT: ${form.enhancement_current}/${form.enhancement_max} | STATO: ${form.repair_status} | PONTE: ${bridge.map(b => `${b.name} (${b.category}${b.tec ? ` T${b.tec}` : ''})`).join(', ') || '—'}`,
         type: 'override',
         author: 'OPERATORE SISTEMA',
       })
@@ -83,19 +87,34 @@ export function OverrideConsole() {
 
       <div className="mb-3">
         <CoreLabel>PONTE MERCANTILE</CoreLabel>
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 mt-1">
           {bridgeItems.map((item, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <input
-                className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber flex-1"
-                value={item}
-                onChange={e => setBridgeItems(p => p.map((v, j) => j === i ? e.target.value : v))}
-                placeholder="Voce ponte mercantile..."
-              />
-              <CoreRemoveBtn onClick={() => setBridgeItems(p => p.filter((_, j) => j !== i))} />
+            <div key={i} className="border border-bc-amber/20 rounded p-2 space-y-1.5">
+              <div className="flex items-center gap-1.5">
+                <input
+                  className="bc-input border-bc-amber/40 text-bc-amber focus:border-bc-amber text-xs flex-1 min-w-0"
+                  value={item.name}
+                  onChange={e => updateBridge(i, { name: e.target.value })}
+                  placeholder="Nome oggetto..."
+                />
+                <CoreRemoveBtn onClick={() => setBridgeItems(p => p.filter((_, j) => j !== i))} />
+              </div>
+              <div className="grid grid-cols-2 gap-1.5">
+                <CustomSelect
+                  value={item.category}
+                  onChange={v => updateBridge(i, { category: v as HangarItem['category'] })}
+                  options={['Sistema', 'Modulo', 'Batteria', 'Mech', 'Telaio', 'Altro']}
+                />
+                <NumericStepper
+                  value={item.tec}
+                  onChange={v => updateBridge(i, { tec: v })}
+                  min={1}
+                  nullable
+                />
+              </div>
             </div>
           ))}
-          <CoreAddBtn label="AGGIUNGI VOCE" onClick={() => setBridgeItems(p => [...p, ''])} />
+          <CoreAddBtn label="AGGIUNGI VOCE" onClick={() => setBridgeItems(p => [...p, { ...BLANK_BRIDGE }])} />
         </div>
       </div>
 

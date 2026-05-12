@@ -26,7 +26,7 @@ export interface CrawlerSystem {
   enhancement_current?: number
   enhancement_max?: number
   maintenance_cost?: number
-  merchant_bridge?: string
+  merchant_bridge?: HangarItem[]
   repair_status?: string
   active_alerts?: string
   system_notes?: string

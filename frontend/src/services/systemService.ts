@@ -43,7 +43,7 @@ export const systemService = {
         enhancement_max: 120,
         maintenance_cost: 12,
         repair_status: "NOMINALE",
-        merchant_bridge: "Modulo Scudo | Sistema Postazione di Tiro (Tec +1)",
+        merchant_bridge: [],
         system_notes: "",
         inventory: [
           {

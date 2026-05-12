@@ -87,9 +87,9 @@ const INV_STATUS_DOT: Record<HangarItem['status'], string> = {
 }
 const INV_CAT_COLOR: Record<HangarItem['category'], string> = {
   Sistema:   'text-bc-blue',
-  Modulo:    'text-bc-blue',
-  Batteria:  'text-bc-blue',
-  Mech:      'text-bc-muted',
+  Modulo:    'text-bc-accent',
+  Batteria:  'text-bc-green',
+  Mech:      'text-bc-amber',
   Telaio:    'text-bc-amber',
   Altro:     'text-bc-muted',
 }
@@ -263,7 +263,8 @@ export function OSMainPage() {
                         <span className={`bc-tag text-xs shrink-0 ${statusColor}`}>{MISSION_STATUS_LABEL[m.status]}</span>
                         {m.report && (
                           <button
-                            className="shrink-0 w-8 h-8 flex items-center justify-center text-bc-muted hover:text-bc-accent border border-bc-border/40 hover:border-bc-accent/50 rounded transition-colors"
+                            className="shrink-0 w-8 h-8 flex items-center justify-center rounded transition-colors"
+                            style={{ border: '1px solid color-mix(in srgb, var(--mission-color) 30%, transparent)', color: 'color-mix(in srgb, var(--mission-color) 50%, transparent)' }}
                             onClick={e => toggleExpanded(m.id, e)}
                           >
                             {isExpanded ? <ChevronUp size={14} strokeWidth={2} /> : <ChevronDown size={14} strokeWidth={2} />}
@@ -370,16 +371,21 @@ export function OSMainPage() {
             </div>
           </div>
 
-          {crawlerSystem?.merchant_bridge && (
+          {crawlerSystem?.merchant_bridge && crawlerSystem.merchant_bridge.length > 0 && (
             <div className="shrink-0 bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
               <div className="px-4 py-2.5 bg-gradient-to-r from-[#ffc8d8]/15 to-transparent border-b border-bc-border">
                 <p className="bc-section-header !border-0 !pb-0 !mb-0">Ponte mercantile</p>
               </div>
               <div className="p-4 space-y-2">
-                {crawlerSystem.merchant_bridge.split('|').map((item, i) => (
+                {[...crawlerSystem.merchant_bridge].sort((a, b) => (CAT_ORDER[a.category] ?? 5) - (CAT_ORDER[b.category] ?? 5)).map((item, i) => (
                   <div key={i} className="flex items-center gap-2 py-1.5 border-b border-bc-border last:border-0">
-                    <span className="w-1.5 h-1.5 rounded-full bg-bc-green shadow-[0_0_4px_var(--bc-green)] shrink-0" />
-                    <span className="font-mono text-xs font-semibold text-bc-green/80 flex-1 min-w-0 truncate">{item.trim()}</span>
+                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${INV_STATUS_DOT[item.status]}`} />
+                    <span className={`font-mono text-xs font-semibold flex-1 min-w-0 ${item.status === 'distrutto' ? 'line-through text-bc-muted' : INV_CAT_COLOR[item.category]}`}>
+                      {item.name}{item.quantity > 1 ? ` ×${item.quantity}` : ''}
+                    </span>
+                    <span className="font-mono text-xs text-bc-muted shrink-0">
+                      {item.category}{item.tec != null ? ` T${item.tec}` : ''}
+                    </span>
                   </div>
                 ))}
               </div>
