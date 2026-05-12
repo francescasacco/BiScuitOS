@@ -103,7 +103,7 @@ export function OverrideConsole() {
                 <CustomSelect
                   value={item.category}
                   onChange={v => updateBridge(i, { category: v as HangarItem['category'] })}
-                  options={['Sistema', 'Modulo', 'Batteria', 'Mech', 'Telaio', 'Altro']}
+                  options={['Sistema', 'Modulo', 'Mech', 'Telaio', 'Altro']}
                 />
                 <NumericStepper
                   value={item.tec}

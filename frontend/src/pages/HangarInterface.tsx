@@ -12,10 +12,9 @@ import { TradeBoardWidget } from "@/components/ui/TradeBoardWidget";
 const CATEGORY_STYLE: Record<HangarItem["category"], string> = {
   Sistema:  "text-bc-blue  border-bc-blue/40  bg-bc-blue/10",
   Modulo:   "text-bc-accent border-bc-accent/40 bg-bc-accent/10",
-  Batteria: "text-bc-blue  border-bc-blue/40  bg-bc-blue/10",
-  Mech:     "text-bc-muted border-bc-muted/40 bg-bc-muted/10",
-  Telaio:   "text-bc-amber border-bc-amber/40 bg-bc-amber/10",
-  Altro:    "text-bc-muted border-bc-muted/40 bg-bc-muted/10",
+  Mech:     "text-yellow-200 border-yellow-200/40 bg-yellow-200/10",
+  Telaio:   "text-bc-red border-bc-red/40 bg-bc-red/10",
+  Altro:    "text-bc-green border-bc-green/40 bg-bc-green/10",
 };
 
 const STATUS_DOT: Record<HangarItem["status"], string> = {
@@ -97,7 +96,7 @@ export function HangarInterface() {
   };
 
   const grouped = (
-    ["Sistema", "Modulo", "Mech", "Telaio", "Batteria", "Altro"] as HangarItem["category"][]
+    ["Sistema", "Modulo", "Mech", "Telaio", "Altro"] as HangarItem["category"][]
   )
     .map((cat) => ({
       cat,
@@ -156,7 +155,7 @@ export function HangarInterface() {
                   <CustomSelect
                     value={form.category}
                     onChange={(v) => setForm((p) => ({ ...p, category: v as HangarItem["category"] }))}
-                    options={['Sistema', 'Modulo', 'Batteria', 'Mech', 'Telaio', 'Altro']}
+                    options={['Sistema', 'Modulo', 'Mech', 'Telaio', 'Altro']}
                   />
                 </div>
                 <div>

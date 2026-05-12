@@ -76,7 +76,7 @@ export function HangarManagement() {
             </p>
             <div className="grid grid-cols-2 gap-2">
               <CoreInp label="NOME" value={form.name} onChange={v => setForm(p => ({ ...p, name: v }))} />
-              <CoreSelect label="CATEGORIA" value={form.category} onChange={v => setForm(p => ({ ...p, category: v as HangarItem['category'] }))} options={['Sistema', 'Modulo', 'Batteria', 'Mech', 'Telaio', 'Altro']} />
+              <CoreSelect label="CATEGORIA" value={form.category} onChange={v => setForm(p => ({ ...p, category: v as HangarItem['category'] }))} options={['Sistema', 'Modulo', 'Mech', 'Telaio', 'Altro']} />
               <div>
                 <CoreLabel>TEC</CoreLabel>
                 <NumericStepper value={form.tec} onChange={v => setForm(p => ({ ...p, tec: v }))} min={1} nullable />

@@ -6,7 +6,7 @@ export interface CrawlerSection {
 
 export interface HangarItem {
   name: string
-  category: 'Sistema' | 'Modulo' | 'Batteria' | 'Mech' | 'Telaio' | 'Altro'
+  category: 'Sistema' | 'Modulo' | 'Mech' | 'Telaio' | 'Altro'
   tec?: number | null
   quantity: number
   status: 'normale' | 'danneggiato' | 'distrutto'

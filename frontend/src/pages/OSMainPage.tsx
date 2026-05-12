@@ -21,7 +21,7 @@ const DEFAULT_SECTIONS: CrawlerSection[] = [
   { name: 'Unità Medica',        detail: '', status: 'empty' },
 ]
 
-const CAT_ORDER: Record<string, number> = { Sistema: 0, Modulo: 1, Mech: 2, Telaio: 3, Batteria: 4, Altro: 5 }
+const CAT_ORDER: Record<string, number> = { Sistema: 0, Modulo: 1, Mech: 2, Telaio: 3, Altro: 4 }
 
 const SECTION_DOT: Record<CrawlerSection['status'], string> = {
   active:  'bg-bc-green shadow-[0_0_4px_var(--bc-green)]',
@@ -88,10 +88,9 @@ const INV_STATUS_DOT: Record<HangarItem['status'], string> = {
 const INV_CAT_COLOR: Record<HangarItem['category'], string> = {
   Sistema:   'text-bc-blue',
   Modulo:    'text-bc-accent',
-  Batteria:  'text-bc-green',
-  Mech:      'text-bc-amber',
-  Telaio:    'text-bc-amber',
-  Altro:     'text-bc-muted',
+  Mech:      'text-yellow-200',
+  Telaio:    'text-bc-red',
+  Altro:     'text-bc-green',
 }
 
 export function OSMainPage() {
