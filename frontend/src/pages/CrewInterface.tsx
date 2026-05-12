@@ -210,61 +210,57 @@ export function CrewInterface() {
                 <div className="bc-section-header">// UNITÀ MECH</div>
                 {(selected.mech_telaio || selected.mech_modello || selected.mech_nome) ? (
                   <div className="space-y-3">
-                    <div className="flex flex-col md:flex-row gap-4">
-                      <div className="flex-1 space-y-3">
-                        {selected.mech_telaio && (
-                          <div>
-                            <div className="font-mono text-bc-muted text-xs">TELAIO</div>
-                            <div className="font-mono text-[13px] text-bc-blue capitalize">{selected.mech_telaio}</div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 items-start">
+                      {selected.mech_telaio && (
+                        <div className="md:col-start-1 md:row-start-1">
+                          <div className="font-mono text-bc-muted text-xs">TELAIO</div>
+                          <div className="font-mono text-[13px] text-bc-blue capitalize">{selected.mech_telaio}</div>
+                        </div>
+                      )}
+                      {selected.mech_modello && (
+                        <div className="md:col-start-2 md:row-start-1">
+                          <div className="font-mono text-bc-muted text-xs">MODELLO</div>
+                          <div className="font-mono text-[13px] text-bc-blue capitalize">{selected.mech_modello}</div>
+                        </div>
+                      )}
+                      {selected.mech_nome && (
+                        <div className="md:col-start-1 md:row-start-2">
+                          <div className="font-mono text-bc-muted text-xs">NOME</div>
+                          <div className="font-mono text-[13px] text-bc-blue capitalize">{selected.mech_nome}</div>
+                        </div>
+                      )}
+                      {selected.mech_status && (
+                        <div className="md:col-start-2 md:row-start-2">
+                          <div className="font-mono text-bc-muted text-xs">STATO</div>
+                          <div className="font-mono text-[13px] text-bc-blue capitalize">{selected.mech_status}</div>
+                        </div>
+                      )}
+                      {selected.mech_sistemi && (
+                        <div className="md:col-start-1 md:row-start-3">
+                          <div className="font-mono text-bc-muted text-xs mb-1">SISTEMI</div>
+                          <div className="space-y-1">
+                            {splitMechItems(selected.mech_sistemi).map((item, i) => (
+                              <div key={i} className="flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-bc-blue/50 shrink-0" />
+                                <span className="font-mono text-[13px] text-bc-blue">{item}</span>
+                              </div>
+                            ))}
                           </div>
-                        )}
-                        {selected.mech_nome && (
-                          <div>
-                            <div className="font-mono text-bc-muted text-xs">NOME</div>
-                            <div className="font-mono text-[13px] text-bc-blue capitalize">{selected.mech_nome}</div>
+                        </div>
+                      )}
+                      {selected.mech_moduli && (
+                        <div className="md:col-start-2 md:row-start-3">
+                          <div className="font-mono text-bc-muted text-xs mb-1">MODULI</div>
+                          <div className="space-y-1">
+                            {splitMechItems(selected.mech_moduli).map((item, i) => (
+                              <div key={i} className="flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-bc-blue/50 shrink-0" />
+                                <span className="font-mono text-[13px] text-bc-blue">{item}</span>
+                              </div>
+                            ))}
                           </div>
-                        )}
-                        {selected.mech_sistemi && (
-                          <div>
-                            <div className="font-mono text-bc-muted text-xs mb-1">SISTEMI</div>
-                            <div className="space-y-1">
-                              {splitMechItems(selected.mech_sistemi).map((item, i) => (
-                                <div key={i} className="flex items-center gap-2">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-bc-blue/50 shrink-0" />
-                                  <span className="font-mono text-[13px] text-bc-blue">{item}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-1 space-y-3">
-                        {selected.mech_modello && (
-                          <div>
-                            <div className="font-mono text-bc-muted text-xs">MODELLO</div>
-                            <div className="font-mono text-[13px] text-bc-blue capitalize">{selected.mech_modello}</div>
-                          </div>
-                        )}
-                        {selected.mech_status && (
-                          <div>
-                            <div className="font-mono text-bc-muted text-xs">STATO</div>
-                            <div className="font-mono text-[13px] text-bc-blue capitalize">{selected.mech_status}</div>
-                          </div>
-                        )}
-                        {selected.mech_moduli && (
-                          <div>
-                            <div className="font-mono text-bc-muted text-xs mb-1">MODULI</div>
-                            <div className="space-y-1">
-                              {splitMechItems(selected.mech_moduli).map((item, i) => (
-                                <div key={i} className="flex items-center gap-2">
-                                  <span className="w-1.5 h-1.5 rounded-full bg-bc-blue/50 shrink-0" />
-                                  <span className="font-mono text-[13px] text-bc-blue">{item}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </div>
                     {selected.mech_info && (
                       <div>
