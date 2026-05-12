@@ -27,6 +27,7 @@ interface OSStore {
   setMissions: (missions: Mission[]) => void
   addMission: (mission: Mission) => void
   updateMission: (mission: Mission) => void
+  removeMission: (id: string) => void
 
   tradeOffers: TradeOffer[]
   setTradeOffers: (offers: TradeOffer[]) => void
@@ -67,6 +68,8 @@ export const useOSStore = create<OSStore>((set) => ({
     set((state) => ({ missions: [mission, ...state.missions] })),
   updateMission: (mission) =>
     set((state) => ({ missions: state.missions.map((m) => (m.id === mission.id ? mission : m)) })),
+  removeMission: (id) =>
+    set((state) => ({ missions: state.missions.filter((m) => m.id !== id) })),
 
   tradeOffers: [],
   setTradeOffers: (offers) => set({ tradeOffers: offers }),

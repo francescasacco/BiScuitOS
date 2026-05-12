@@ -182,7 +182,10 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
           <ChevronRight size={12} /> Evento REGISTRAZIONE PILOTA inviato.
         </div>
         {generatedKey && (
-          <div className="mt-4 border border-bc-amber/40 bg-bc-amber/5 rounded-lg px-6 py-4 text-center space-y-2">
+          <div
+            className="mt-4 border border-bc-amber/40 bg-bc-amber/5 rounded-lg px-6 py-4 text-center space-y-2"
+            onClick={e => e.stopPropagation()}
+          >
             <p className="font-mono text-xs text-bc-amber/70 uppercase tracking-widest">Chiave di accesso personale</p>
             <p className="font-display text-2xl font-bold text-bc-amber tracking-[0.3em]">{generatedKey}</p>
             <p className="font-mono text-xs text-bc-text/80">Conservala —<br className="sm:hidden" /> serve per modificare i tuoi dati</p>
