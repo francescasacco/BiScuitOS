@@ -6,7 +6,7 @@ export function AlertFeed() {
 
   return (
     <div className="bc-panel border border-bc-border p-3">
-      <div className="bc-section-header">// FEED ALERT</div>
+      <div className="bc-section-header">FEED ALERT</div>
       <div className="space-y-2">
         {alerts.length === 0 ? (
           <p className="font-mono text-bc-muted text-xs">NESSUN ALERT ATTIVO — SISTEMI NOMINALI</p>

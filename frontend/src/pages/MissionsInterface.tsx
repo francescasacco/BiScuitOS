@@ -47,7 +47,8 @@ export function MissionsInterface() {
   useEffect(() => { setPan({ x: 0, y: 0 }) }, [zoomCenter.x, zoomCenter.y])
   useEffect(() => { if (zoomStep === 0) setPan({ x: 0, y: 0 }) }, [zoomStep])
 
-  const isPanning = useRef(false)
+  const isPanningRef = useRef(false)
+  const [isPanning, setIsPanning] = useState(false)
 
   const zoomStyle = isZoomed
     ? {
@@ -157,7 +158,8 @@ export function MissionsInterface() {
     const dy = e.clientY - dragStart.current.clientY
     if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
       hasDragged.current = true
-      isPanning.current = true
+      isPanningRef.current = true
+      setIsPanning(true)
       setPan(clampPan(dragStart.current.panX + dx, dragStart.current.panY + dy))
     }
   }
@@ -177,7 +179,8 @@ export function MissionsInterface() {
     activePointers.current.delete(e.pointerId)
     if (activePointers.current.size < 2) pinchRef.current = null
     dragStart.current = null
-    isPanning.current = false
+    isPanningRef.current = false
+    setIsPanning(false)
   }
 
   return (
@@ -207,7 +210,7 @@ export function MissionsInterface() {
           <MissionMapOverlay
             mapContainerRef={mapContainerRef}
             zoomStyle={zoomStyle}
-            isPanning={isPanning.current}
+            isPanning={isPanning}
             zoomLevel={zoomLevel}
             zoomStep={zoomStep}
             setZoomStep={setZoomStep}

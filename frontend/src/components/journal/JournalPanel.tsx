@@ -95,7 +95,7 @@ export function JournalPanel() {
             style={{ ...panelStyle, zIndex: 99999 }}
           >
             <div className="flex items-center justify-between px-3 py-2 border-b border-bc-border shrink-0">
-              <span className="font-mono text-xs text-bc-accent tracking-widest">// ARCHIVIO LOG</span>
+              <span className="font-mono text-xs text-bc-accent tracking-widest">ARCHIVIO LOG</span>
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs text-bc-muted">{visible.length} voci</span>
                 <button onClick={() => setOpen(false)} className="text-bc-muted hover:text-bc-red transition-colors">

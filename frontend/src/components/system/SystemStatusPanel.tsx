@@ -10,7 +10,7 @@ export function SystemStatusPanel() {
 
   return (
     <div className="bc-panel border border-bc-border p-3 border-glow">
-      <div className="bc-section-header">// STATO CRAWLER</div>
+      <div className="bc-section-header">STATO CRAWLER</div>
 
       <div className="grid grid-cols-2 gap-4">
         <div>

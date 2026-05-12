@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { pilotService } from '@/services/pilotService'
 import { MechItemList } from '@/components/crew/MechItemList'
+import { CorePilotField } from '@/components/core/CoreField'
 import { ChevronLeft, Check } from 'lucide-react'
 import type { Pilot } from '@/types/pilot'
 
@@ -87,9 +88,6 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
     }
   }
 
-  const inp = 'bc-input text-sm'
-  const ta = 'bc-textarea text-sm'
-
   if (step === 'done') {
     return (
       <div className="flex flex-col items-center justify-center py-12 space-y-3 font-mono text-sm">
@@ -102,17 +100,17 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
   if (step === 'auth') {
     return (
       <div className="space-y-4">
-        <div className="bc-section-header">// ACCESSO MODIFICA DATI</div>
+        <div className="bc-section-header">ACCESSO MODIFICA DATI</div>
         <p className="font-mono text-xs text-bc-muted">Inserisci il tuo identificativo e la chiave personale ricevuta alla registrazione.</p>
         <div>
           <label className="font-mono text-xs text-bc-muted block mb-1">IDENTIFICATIVO</label>
-          <input className={inp} placeholder="es. Ghost, Mantis..." value={identificativo}
+          <input className="bc-input text-sm" placeholder="es. Ghost, Mantis..." value={identificativo}
             onChange={e => setIdentificativo(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && handleAuth()} />
         </div>
         <div>
           <label className="font-mono text-xs text-bc-muted block mb-1">CHIAVE PERSONALE</label>
-          <input className={inp} placeholder="es. AB3X7K" value={accessKey}
+          <input className="bc-input text-sm" placeholder="es. AB3X7K" value={accessKey}
             onChange={e => setAccessKey(e.target.value.toUpperCase())}
             onKeyDown={e => e.key === 'Enter' && handleAuth()} />
         </div>
@@ -128,30 +126,18 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <div className="bc-section-header !mb-0 !pb-0 !border-0">// MODIFICA DATI — {form.identificativo}</div>
-        <button className="bc-btn border-bc-muted text-bc-muted text-xs flex items-center gap-1" onClick={() => setStep('auth')}>
+        <div className="bc-section-header !mb-0 !pb-0 !border-0">MODIFICA DATI — {form.identificativo}</div>
+        <button className="bc-btn bc-btn-back text-xs flex items-center gap-1" onClick={() => setStep('auth')}>
           <ChevronLeft size={12} /> INDIETRO
         </button>
       </div>
 
       <div className="space-y-3">
-        <p className="font-mono text-[10px] text-bc-accent/60 uppercase tracking-widest">// PROFILO</p>
-        <div>
-          <label className="font-mono text-xs text-bc-muted block mb-1">MOTTO</label>
-          <input className={inp} value={form.motto_attivato ?? ''} onChange={e => setForm(f => ({ ...f, motto_attivato: e.target.value }))} />
-        </div>
-        <div>
-          <label className="font-mono text-xs text-bc-muted block mb-1">ASPETTO</label>
-          <textarea className={ta} rows={2} value={form.aspetto ?? ''} onChange={e => setForm(f => ({ ...f, aspetto: e.target.value }))} />
-        </div>
-        <div>
-          <label className="font-mono text-xs text-bc-muted block mb-1">BACKGROUND</label>
-          <textarea className={ta} rows={2} value={form.background ?? ''} onChange={e => setForm(f => ({ ...f, background: e.target.value }))} />
-        </div>
-        <div>
-          <label className="font-mono text-xs text-bc-muted block mb-1">CIMELIO</label>
-          <input className={inp} value={form.cimelio ?? ''} onChange={e => setForm(f => ({ ...f, cimelio: e.target.value }))} />
-        </div>
+        <p className="font-mono text-[10px] text-bc-accent/60 uppercase tracking-widest">PROFILO</p>
+        <CorePilotField label="MOTTO"      value={form.motto_attivato ?? ''} onChange={v => setForm(f => ({ ...f, motto_attivato: v }))} />
+        <CorePilotField label="ASPETTO"    value={form.aspetto ?? ''}        onChange={v => setForm(f => ({ ...f, aspetto: v }))}        rows={2} />
+        <CorePilotField label="BACKGROUND" value={form.background ?? ''}     onChange={v => setForm(f => ({ ...f, background: v }))}     rows={2} />
+        <CorePilotField label="CIMELIO"    value={form.cimelio ?? ''}        onChange={v => setForm(f => ({ ...f, cimelio: v }))} />
         <div>
           <label className="font-mono text-xs text-bc-muted block mb-1">ABILITÀ</label>
           <MechItemList items={abilitaList} onChange={setAbilitaList} placeholder="es. Hacking, Primo soccorso..." pendingRef={pendingAbilita} />
@@ -163,16 +149,10 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
       </div>
 
       <div className="space-y-3 pt-2 border-t border-bc-border">
-        <p className="font-mono text-[10px] text-bc-accent/60 uppercase tracking-widest pt-2">// UNITÀ MECH</p>
+        <p className="font-mono text-[10px] text-bc-accent/60 uppercase tracking-widest pt-2">UNITÀ MECH</p>
         <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="font-mono text-xs text-bc-muted block mb-1">NOME MECH</label>
-            <input className={inp} value={form.mech_nome ?? ''} onChange={e => setForm(f => ({ ...f, mech_nome: e.target.value }))} />
-          </div>
-          <div>
-            <label className="font-mono text-xs text-bc-muted block mb-1">STATO</label>
-            <input className={inp} value={form.mech_status ?? ''} onChange={e => setForm(f => ({ ...f, mech_status: e.target.value }))} />
-          </div>
+          <CorePilotField label="NOME MECH" value={form.mech_nome ?? ''}    onChange={v => setForm(f => ({ ...f, mech_nome: v }))} />
+          <CorePilotField label="STATO"     value={form.mech_status ?? ''}  onChange={v => setForm(f => ({ ...f, mech_status: v }))} />
         </div>
         <div>
           <label className="font-mono text-xs text-bc-muted block mb-1">SISTEMI</label>
@@ -182,10 +162,7 @@ export function PilotSelfEdit({ onClose }: PilotSelfEditProps) {
           <label className="font-mono text-xs text-bc-muted block mb-1">MODULI</label>
           <MechItemList items={moduliList} onChange={setModuliList} placeholder="es. Modulo comunicazioni..." pendingRef={pendingModuli} />
         </div>
-        <div>
-          <label className="font-mono text-xs text-bc-muted block mb-1">NOTE MECH</label>
-          <textarea className={ta} rows={2} value={form.mech_info ?? ''} onChange={e => setForm(f => ({ ...f, mech_info: e.target.value }))} />
-        </div>
+        <CorePilotField label="NOTE MECH" value={form.mech_info ?? ''} onChange={v => setForm(f => ({ ...f, mech_info: v }))} rows={2} />
       </div>
 
       <div className="flex gap-2 pt-2">

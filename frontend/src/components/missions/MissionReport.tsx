@@ -2,7 +2,7 @@ import { useState } from 'react'
 import * as LucideIcons from 'lucide-react'
 import { AlertTriangle, Radio, Diamond, ChevronUp, ChevronDown } from 'lucide-react'
 import type { MissionReport as MissionReportType, MissionStatus } from '@/types/mission'
-import { ICON_MAP, STATUS_DIVIDER } from './missionConstants'
+import { ICON_MAP, STATUS_DIVIDER, ALIGNMENT_LABELS } from './missionConstants'
 
 interface Props { report: MissionReportType; status?: MissionStatus }
 
@@ -32,9 +32,6 @@ const CHAR_COLOR: Record<string, string> = {
   neutral:  'text-bc-blue/70 border-bc-blue/20 bg-bc-blue/5',
 }
 
-const CHAR_LABEL: Record<string, string> = {
-  ally: 'ALLEATO', contract: 'CONTRATTO', hostile: 'OSTILE', neutral: 'NEUTRO',
-}
 
 function Section({ title, children, dividerClass }: { title: string; children: React.ReactNode; dividerClass: string }) {
   const [open, setOpen] = useState(true)
@@ -122,7 +119,7 @@ export function MissionReport({ report, status }: Props) {
               <div key={i} className={`border rounded p-2 ${CHAR_COLOR[c.alignment]}`}>
                 <div className="flex items-center justify-between mb-0.5">
                   <span className="font-mono text-xs font-bold">{c.name}</span>
-                  <span className="font-mono text-[10px] opacity-70">{CHAR_LABEL[c.alignment]}</span>
+                  <span className="font-mono text-[10px] opacity-70">{ALIGNMENT_LABELS[c.alignment]}</span>
                 </div>
                 <p className="font-mono text-xs opacity-60">{c.role}</p>
                 <p className="font-sans text-xs opacity-80 leading-snug mt-1">{c.description}</p>

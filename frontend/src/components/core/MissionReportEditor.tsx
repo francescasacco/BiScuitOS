@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useOSStore } from '@/store/useOSStore'
 import { missionService } from '@/services/missionService'
@@ -6,10 +6,11 @@ import { CustomSelect } from '@/components/ui/CustomSelect'
 import { X, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import type { MissionReport, MissionSquad, MissionCharacter, MissionContract, MissionAsset } from '@/types/mission'
 import { CoreInp, CoreTextarea, CoreSelect, CoreListEditor, CoreAddBtn, CoreRemoveBtn, CoreLabel } from './CoreField'
+import { ALIGNMENT_LABELS } from '@/components/missions/missionConstants'
+import { useScrollToActiveTab } from '@/hooks/useScrollToActiveTab'
 
 const SQUAD_STATUSES = ['COMPLETATA', 'COMPLETATA CON DANNI', 'CONTRATTO APERTO', 'FALLITA', 'IN CORSO', 'DISPERSA']
 const ALIGNMENTS = ['ally', 'contract', 'hostile', 'neutral']
-const ALIGNMENT_LABELS: Record<string, string> = { ally: 'ALLEATO', contract: 'CONTRATTO', hostile: 'OSTILE', neutral: 'NEUTRO' }
 const PAGES = ['METADATI', 'INTEL', 'SQUADRE', 'SCOPERTE', 'PERSONAGGI', 'CONTRATTI', 'ASSET', 'PRIORITÀ']
 
 export function MissionReportEditor() {
@@ -20,19 +21,15 @@ export function MissionReportEditor() {
   const [report, setReport] = useState<MissionReport>({})
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
-  const tabsRef = useRef<HTMLDivElement>(null)
-  const activeTabRef = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    if (tabsRef.current && activeTabRef.current) {
-      activeTabRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-    }
-  }, [page])
+  const [savedReport, setSavedReport] = useState<MissionReport>({})
+  const { tabsRef, activeTabRef } = useScrollToActiveTab(page)
 
   const selectMission = (id: string) => {
     setSelectedId(id)
     const m = missions.find(m => m.id === id)
-    setReport(m?.report ? { ...m.report } : {})
+    const r = m?.report ? { ...m.report } : {}
+    setReport(r)
+    setSavedReport(r)
   }
 
   const set = <K extends keyof MissionReport>(key: K, value: MissionReport[K]) =>
@@ -62,6 +59,13 @@ export function MissionReportEditor() {
   const removeFrom = <K extends 'squads' | 'discoveries' | 'characters' | 'contracts' | 'assets'>(key: K, i: number) =>
     set(key, ((report[key] ?? []) as unknown[]).filter((_, j) => j !== i) as MissionReport[K])
 
+  const cardActions = (onCancel: () => void, onDelete: () => void) => (
+    <div className="flex gap-2 pt-2 border-t border-bc-border/30 mt-1">
+      <button className="flex-1 font-mono text-xs py-1 border border-bc-muted/30 text-bc-muted hover:border-bc-text hover:text-bc-text transition-all" onClick={onCancel}>ANNULLA</button>
+      <button className="flex-1 font-mono text-xs py-1 border border-bc-red/40 text-bc-red hover:bg-bc-red/10 transition-all" onClick={onDelete}>ELIMINA</button>
+    </div>
+  )
+
   const pages: React.ReactNode[] = [
     <div className="grid grid-cols-2 gap-3">
       <CoreInp label="DATA" value={report.date ?? ''} onChange={v => set('date', v)} placeholder="es. 25.04.2026" />
@@ -73,10 +77,7 @@ export function MissionReportEditor() {
     <div className="space-y-2">
       {(report.squads ?? []).map((sq, i) => (
         <div key={i} className="border border-bc-border/40 rounded p-3 bg-bc-dark/40 space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-xs text-bc-amber/60">SQ.{sq.number}</span>
-            <CoreRemoveBtn onClick={() => removeFrom('squads', i)} />
-          </div>
+          <span className="font-mono text-xs text-bc-amber/60">SQ.{sq.number}</span>
           <div className="grid grid-cols-2 gap-2">
             <CoreInp label="NOME"     value={sq.name}     onChange={v => updateSquad(i, { name: v })} />
             <CoreInp label="LOCATION" value={sq.location} onChange={v => updateSquad(i, { location: v })} />
@@ -84,6 +85,10 @@ export function MissionReportEditor() {
             <CoreSelect label="STATO" value={Array.isArray(sq.status) ? sq.status[0] : sq.status} onChange={v => updateSquad(i, { status: v })} options={SQUAD_STATUSES} />
           </div>
           <CoreTextarea label="DESCRIZIONE" value={sq.description} onChange={v => updateSquad(i, { description: v })} />
+          {cardActions(
+            () => set('squads', (report.squads ?? []).map((s, j) => j === i ? (savedReport.squads?.[i] ?? s) : s)),
+            () => removeFrom('squads', i)
+          )}
         </div>
       ))}
       <CoreAddBtn label="AGGIUNGI SQUADRA" onClick={() => set('squads', [...(report.squads ?? []), { number: (report.squads?.length ?? 0) + 1, name: '', location: '', type: '', description: '', status: 'IN CORSO' }])} />
@@ -92,12 +97,15 @@ export function MissionReportEditor() {
     <div className="space-y-2">
       {(report.discoveries ?? []).map((d, i) => (
         <div key={i} className="border border-bc-border/40 rounded p-3 bg-bc-dark/40 space-y-2">
-          <div className="flex justify-end"><CoreRemoveBtn onClick={() => removeFrom('discoveries', i)} /></div>
           <div className="grid grid-cols-[60px_1fr] gap-2">
             <CoreInp label="ICONA"  value={d.icon}  onChange={v => updateDisc(i, { icon: v })} />
             <CoreInp label="TITOLO" value={d.title} onChange={v => updateDisc(i, { title: v })} />
           </div>
           <CoreTextarea label="DESCRIZIONE" value={d.description} onChange={v => updateDisc(i, { description: v })} />
+          {cardActions(
+            () => set('discoveries', (report.discoveries ?? []).map((d2, j) => j === i ? (savedReport.discoveries?.[i] ?? d2) : d2)),
+            () => removeFrom('discoveries', i)
+          )}
         </div>
       ))}
       <CoreAddBtn label="AGGIUNGI SCOPERTA" onClick={() => set('discoveries', [...(report.discoveries ?? []), { icon: 'diamond', title: '', description: '' }])} />
@@ -106,13 +114,16 @@ export function MissionReportEditor() {
     <div className="space-y-2">
       {(report.characters ?? []).map((c, i) => (
         <div key={i} className="border border-bc-border/40 rounded p-3 bg-bc-dark/40 space-y-2">
-          <div className="flex justify-end"><CoreRemoveBtn onClick={() => removeFrom('characters', i)} /></div>
           <div className="grid grid-cols-2 gap-2">
             <CoreInp label="NOME" value={c.name} onChange={v => updateChar(i, { name: v })} />
             <CoreSelect label="ALLINEAMENTO" value={c.alignment} onChange={v => updateChar(i, { alignment: v as MissionCharacter['alignment'] })} options={ALIGNMENTS} getLabel={v => ALIGNMENT_LABELS[v]} />
             <div className="col-span-2"><CoreInp label="RUOLO" value={c.role} onChange={v => updateChar(i, { role: v })} /></div>
           </div>
           <CoreTextarea label="DESCRIZIONE" value={c.description} onChange={v => updateChar(i, { description: v })} />
+          {cardActions(
+            () => set('characters', (report.characters ?? []).map((c2, j) => j === i ? (savedReport.characters?.[i] ?? c2) : c2)),
+            () => removeFrom('characters', i)
+          )}
         </div>
       ))}
       <CoreAddBtn label="AGGIUNGI PERSONAGGIO" onClick={() => set('characters', [...(report.characters ?? []), { name: '', role: '', alignment: 'neutral', description: '' }])} />
@@ -129,7 +140,6 @@ export function MissionReportEditor() {
       </div>
       {(report.contracts ?? []).map((ct, i) => (
         <div key={i} className="border border-bc-border/40 rounded p-3 bg-bc-dark/40 space-y-2">
-          <div className="flex justify-end"><CoreRemoveBtn onClick={() => removeFrom('contracts', i)} /></div>
           <div className="grid grid-cols-2 gap-2">
             <CoreInp label="NOME"       value={ct.name}      onChange={v => updateContract(i, { name: v })} />
             <CoreInp label="CLIENTE"    value={ct.client}    onChange={v => updateContract(i, { client: v })} />
@@ -137,6 +147,10 @@ export function MissionReportEditor() {
             <CoreInp label="RICOMPENSA" value={ct.reward}    onChange={v => updateContract(i, { reward: v })} />
           </div>
           <CoreTextarea label="CONSEGUENZA" value={ct.consequence} onChange={v => updateContract(i, { consequence: v })} />
+          {cardActions(
+            () => set('contracts', (report.contracts ?? []).map((c2, j) => j === i ? (savedReport.contracts?.[i] ?? c2) : c2)),
+            () => removeFrom('contracts', i)
+          )}
         </div>
       ))}
       <CoreAddBtn label="AGGIUNGI CONTRATTO" onClick={() => set('contracts', [...(report.contracts ?? []), { name: '', client: '', objective: '', reward: '', consequence: '' }])} />
@@ -145,11 +159,14 @@ export function MissionReportEditor() {
     <div className="space-y-2">
       {(report.assets ?? []).map((a, i) => (
         <div key={i} className="border border-bc-border/40 rounded p-3 bg-bc-dark/40 space-y-2">
-          <div className="flex justify-end"><CoreRemoveBtn onClick={() => removeFrom('assets', i)} /></div>
           <div className="grid grid-cols-2 gap-2">
             <CoreInp label="NOME" value={a.name} onChange={v => updateAsset(i, { name: v })} />
             <CoreInp label="CATEGORIA" value={a.category} onChange={v => updateAsset(i, { category: v })} />
           </div>
+          {cardActions(
+            () => set('assets', (report.assets ?? []).map((a2, j) => j === i ? (savedReport.assets?.[i] ?? a2) : a2)),
+            () => removeFrom('assets', i)
+          )}
         </div>
       ))}
       <CoreAddBtn label="AGGIUNGI ASSET" onClick={() => set('assets', [...(report.assets ?? []), { name: '', category: '' }])} />

@@ -15,7 +15,7 @@ export function MissionFeed() {
 
   return (
     <div className="bc-panel border !border-bc-green/40 p-3">
-      <div className="bc-section-header" style={{ borderBottomColor: 'color-mix(in srgb, var(--bc-green) 20%, transparent)' }}>// NUCLEO MISSIONI — ATTIVE</div>
+      <div className="bc-section-header" style={{ borderBottomColor: 'color-mix(in srgb, var(--bc-green) 20%, transparent)' }}>NUCLEO MISSIONI — ATTIVE</div>
       {active.length === 0 ? (
         <p className="font-mono text-bc-muted text-xs">NESSUNA MISSIONE ATTIVA</p>
       ) : (

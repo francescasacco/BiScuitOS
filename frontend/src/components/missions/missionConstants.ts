@@ -80,6 +80,10 @@ export const STATUS_DIVIDER: Record<MissionStatus, string> = {
   classified: 'border-bc-blue/25',
 }
 
+export const ALIGNMENT_LABELS: Record<string, string> = {
+  ally: 'ALLEATO', contract: 'CONTRATTO', hostile: 'OSTILE', neutral: 'NEUTRO',
+}
+
 export const ZOOM_STEPS = [1, 1.5, 2, 2.5]
 
 export const EMPTY_FORM: MissionFormData = { title: '', status: 'pending', summary: '', reward: '' }

@@ -6,7 +6,7 @@ import type { MissionStatus } from '@/types/mission'
 import type { JournalEntry, JournalEntryType } from '@/types/journal'
 import type { CrawlerSection, HangarItem } from '@/types/system'
 import { StatChip, CombinedBarChip, Ticker } from '@/components/ui/FeedWidgets'
-import { STATUS_DOT as MISSION_STATUS_DOT, STATUS_BORDER_IDLE, STATUS_DIVIDER, STATUS_COLOR_VAR, STATUS_GLOW } from '@/components/missions/missionConstants'
+import { STATUS_DOT as MISSION_STATUS_DOT, STATUS_BORDER_IDLE, STATUS_DIVIDER, STATUS_COLOR_VAR, STATUS_GLOW, STATUS_LABELS, STATUS_COLORS } from '@/components/missions/missionConstants'
 import { TaskBoardWidget } from '@/components/ui/TaskBoardWidget'
 
 
@@ -40,17 +40,6 @@ const MISSION_TEXT: Record<MissionStatus, string> = {
   active: 'text-bc-green', pending: 'text-bc-amber',
   completed: 'text-cyan-400', failed: 'text-bc-red', classified: 'text-bc-blue',
 }
-const MISSION_STATUS_LABEL: Record<MissionStatus, string> = {
-  active: 'ATTIVA', pending: 'IN ATTESA',
-  completed: 'COMPLETATA', failed: 'FALLITA', classified: 'CLASSIFICATA',
-}
-const MISSION_STATUS_COLOR: Record<MissionStatus, string> = {
-  active:     'text-bc-green border-bc-green',
-  pending:    'text-bc-amber border-bc-amber',
-  completed:  'text-cyan-400 border-cyan-400',
-  failed:     'text-bc-red border-bc-red',
-  classified: 'text-bc-blue border-bc-blue',
-}
 
 const LOG_COLOR: Partial<Record<JournalEntryType, string>> = {
   alert:              'bg-bc-red',
@@ -75,9 +64,14 @@ const LOG_TYPE_LABEL: Partial<Record<JournalEntryType, string>> = {
 
 
 const LOG_TITLE_COLOR: Partial<Record<JournalEntryType, string>> = {
-  alert: 'text-bc-red', event: 'text-bc-orange', mission: 'text-bc-blue',
-  system: 'text-bc-muted', override: 'text-bc-amber',
-  pilot_registration: 'text-bc-green', trade: 'text-bc-orange',
+  alert:              'text-bc-red',
+  event:              'text-bc-orange',
+  mission:            'text-bc-blue',
+  system:             'text-bc-muted',
+  override:           'text-bc-amber',
+  pilot_registration: 'text-bc-green',
+  pilot_note:         'text-bc-amber',
+  trade:              'text-bc-orange',
 }
 
 const INV_STATUS_DOT: Record<HangarItem['status'], string> = {
@@ -91,6 +85,38 @@ const INV_CAT_COLOR: Record<HangarItem['category'], string> = {
   Mech:      'text-yellow-200',
   Telaio:    'text-bc-red',
   Altro:     'text-bc-green',
+}
+
+function LogTimeline({ entries, ticker = false }: { entries: JournalEntry[]; ticker?: boolean }) {
+  if (entries.length === 0) return <p className="font-sans text-bc-muted text-sm">Nessuna voce nel log.</p>
+  return (
+    <div className="space-y-0">
+      {entries.map((entry, i) => (
+        <div key={entry.id} className="flex gap-3">
+          <div className="flex flex-col items-center">
+            <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${LOG_COLOR[entry.type] ?? 'bg-bc-muted'}`} />
+            {i < entries.length - 1 && <div className="flex-1 w-px bg-bc-track mt-1" />}
+          </div>
+          <div className="pb-4 min-w-0 flex-1 overflow-hidden">
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="font-mono text-bc-muted text-xs shrink-0">
+                {new Date(entry.created_at).toLocaleString('it-IT', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
+              </span>
+              <span className="font-sans text-xs text-bc-muted/60 uppercase tracking-wider shrink-0">{LOG_TYPE_LABEL[entry.type] ?? entry.type}</span>
+            </div>
+            {ticker && i === 0 ? (
+              <Ticker text={entry.title} colorClass={LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'} />
+            ) : (
+              <div className={`font-sans text-sm font-semibold truncate ${LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'}`}>{entry.title}</div>
+            )}
+            {entry.content && (
+              <div className="font-sans text-xs text-bc-muted mt-0.5 leading-relaxed line-clamp-2">{entry.content}</div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 export function OSMainPage() {
@@ -189,36 +215,7 @@ export function OSMainPage() {
             <p className="bc-section-header !border-0 !pb-0 !mb-0">Archivio log recente</p>
           </div>
           <div className="p-4 overflow-y-auto flex-1 min-h-0">
-            {recentLog.length === 0 ? (
-              <p className="font-sans text-bc-muted text-sm">Nessuna voce nel log.</p>
-            ) : (
-              <div className="space-y-0">
-                {recentLog.map((entry: JournalEntry, i) => (
-                  <div key={entry.id} className="flex gap-3">
-                    <div className="flex flex-col items-center">
-                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${LOG_COLOR[entry.type] ?? 'bg-bc-muted'}`} />
-                      {i < recentLog.length - 1 && <div className="flex-1 w-px bg-bc-track mt-1" />}
-                    </div>
-                    <div className="pb-4 min-w-0 flex-1 overflow-hidden">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="font-mono text-bc-muted text-xs shrink-0">
-                          {new Date(entry.created_at).toLocaleString('it-IT', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
-                        </span>
-                        <span className="font-sans text-xs text-bc-muted/60 uppercase tracking-wider shrink-0">{LOG_TYPE_LABEL[entry.type] ?? entry.type}</span>
-                      </div>
-                      {i === 0 ? (
-                        <Ticker text={entry.title} colorClass={LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'} />
-                      ) : (
-                        <div className={`font-sans text-sm font-semibold truncate ${LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'}`}>{entry.title}</div>
-                      )}
-                      {entry.content && (
-                        <div className="font-sans text-xs text-bc-muted mt-0.5 leading-relaxed line-clamp-2">{entry.content}</div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <LogTimeline entries={recentLog} ticker />
           </div>
         </div>
         </div>
@@ -241,14 +238,15 @@ export function OSMainPage() {
                 missions.map((m) => {
                   const isExpanded = expanded.has(m.id)
                   const isPinned = m.id === pinnedId
-                  const statusColor = MISSION_STATUS_COLOR[m.status]
+                  const statusColor = STATUS_COLORS[m.status]
                   return (
                     <div
                       key={m.id}
-                      className={`rounded-lg border bg-bc-dark/40 overflow-hidden transition-all ${
+                      className={`rounded-lg border bg-bc-dark/40 overflow-hidden transition-all cursor-pointer hover:border-bc-accent/40 ${
                         isPinned ? 'border-bc-accent/40' : STATUS_BORDER_IDLE[m.status]
                       }`}
                       style={{ '--mission-color': STATUS_COLOR_VAR[m.status] } as React.CSSProperties}
+                      onClick={() => navigate('/missions')}
                     >
                     <div
                       className={`px-3 py-2.5 flex items-center gap-2 border-b ${STATUS_DIVIDER[m.status]} bg-gradient-to-r ${STATUS_GLOW[m.status]}`}>
@@ -259,7 +257,7 @@ export function OSMainPage() {
                           </span>
                           {isPinned && <Diamond size={13} strokeWidth={1.5} className="shrink-0" style={{ color: 'var(--mission-color)' }} />}
                         </div>
-                        <span className={`bc-tag text-xs shrink-0 ${statusColor}`}>{MISSION_STATUS_LABEL[m.status]}</span>
+                        <span className={`bc-tag text-xs shrink-0 ${statusColor}`}>{STATUS_LABELS[m.status]}</span>
                         {m.report && (
                           <button
                             className="shrink-0 w-8 h-8 flex items-center justify-center rounded transition-colors"
@@ -398,32 +396,7 @@ export function OSMainPage() {
             <p className="bc-section-header !border-0 !pb-0 !mb-0">Archivio log recente</p>
           </div>
           <div className="p-4">
-            {recentLog.length === 0 ? (
-              <p className="font-sans text-bc-muted text-sm">Nessuna voce nel log.</p>
-            ) : (
-              <div className="space-y-0">
-                {recentLog.map((entry: JournalEntry, i) => (
-                  <div key={entry.id} className="flex gap-3">
-                    <div className="flex flex-col items-center">
-                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${LOG_COLOR[entry.type] ?? 'bg-bc-muted'}`} />
-                      {i < recentLog.length - 1 && <div className="flex-1 w-px bg-bc-track mt-1" />}
-                    </div>
-                    <div className="pb-4 min-w-0 flex-1 overflow-hidden">
-                      <div className="flex items-center gap-2 mb-0.5">
-                        <span className="font-mono text-bc-muted text-xs shrink-0">
-                          {new Date(entry.created_at).toLocaleString('it-IT', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}
-                        </span>
-                        <span className="font-sans text-xs text-bc-muted/60 uppercase tracking-wider shrink-0">{LOG_TYPE_LABEL[entry.type] ?? entry.type}</span>
-                      </div>
-                      <div className={`font-sans text-sm font-semibold truncate ${LOG_TITLE_COLOR[entry.type] ?? 'text-bc-text'}`}>{entry.title}</div>
-                      {entry.content && (
-                        <div className="font-sans text-xs text-bc-muted mt-0.5 leading-relaxed line-clamp-2">{entry.content}</div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+            <LogTimeline entries={recentLog} />
           </div>
         </div>
 

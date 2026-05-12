@@ -60,7 +60,6 @@ export const EMPTY_FORM: PilotFormData = {
   abilita: "",
   equipaggiamento: "",
   sesso: undefined,
-  access_key: '',
 };
 
 export function validateField(

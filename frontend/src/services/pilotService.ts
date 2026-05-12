@@ -11,7 +11,7 @@ export const pilotService = {
     return data ?? []
   },
 
-  async create(formData: PilotFormData): Promise<Pilot> {
+  async create(formData: PilotFormData & { access_key: string }): Promise<Pilot> {
     const { data, error } = await supabase
       .from('pilots')
       .insert({ ...formData, role: 'pilot' })

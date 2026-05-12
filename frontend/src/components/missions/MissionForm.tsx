@@ -12,7 +12,7 @@ interface MissionFormProps {
 export function MissionForm({ form, setForm, onSubmit, loading }: MissionFormProps) {
   return (
     <div className="shrink-0 p-4 space-y-2 border-b border-bc-amber/20 bg-bc-dark">
-      <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>// NUOVA MISSIONE</div>
+      <div className="bc-section-header" style={{ color: 'var(--bc-amber)' }}>NUOVA MISSIONE</div>
       <input
         className="bc-input"
         placeholder="TITOLO MISSIONE..."

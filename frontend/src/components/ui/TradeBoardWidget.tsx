@@ -146,7 +146,7 @@ export function TradeBoardWidget() {
       {showForm && (
         <div className={`px-4 py-3 border-b ${TYPE_STYLE[formType].border} bg-bc-dark/60`}>
           <p className="font-mono text-xs tracking-widest mb-3" style={{ color: formType === 'offerta' ? 'var(--bc-green)' : 'var(--bc-accent)' }}>
-            // NUOVA {formType.toUpperCase()}
+            NUOVA {formType.toUpperCase()}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>

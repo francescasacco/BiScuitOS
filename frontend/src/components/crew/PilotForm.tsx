@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type { PilotFormData } from "@/types/pilot";
 import { CLASSI_PILOTA } from "@/types/pilot";
 import { pilotService } from "@/services/pilotService";
@@ -13,6 +13,7 @@ import {
   validateField,
 } from "@/components/crew/pilotFormValidation";
 import { Check, ChevronLeft, ChevronRight, AlertTriangle } from "lucide-react";
+import { useScrollToActiveTab } from "@/hooks/useScrollToActiveTab";
 
 interface PilotFormProps {
   onClose: () => void;
@@ -30,10 +31,19 @@ export function PilotForm({ onClose }: PilotFormProps) {
   const [loading, setLoading] = useState(false);
   const [registering, setRegistering] = useState(false);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
+  const [showClosePrompt, setShowClosePrompt] = useState(false);
 
-  const generateKey = () => {
+  useEffect(() => {
+    if (!generatedKey) return
+    const t = setTimeout(() => setShowClosePrompt(true), 2500)
+    return () => clearTimeout(t)
+  }, [generatedKey])
+
+  const generateKey = (identificativo: string) => {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
-    return Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+    const prefix = identificativo.trim().toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3).padEnd(3, 'X')
+    const suffix = Array.from({ length: 3 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+    return prefix + suffix
   }
   const [errors, setErrors] = useState<
     Partial<Record<keyof PilotFormData, string>>
@@ -41,18 +51,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
   const [touched, setTouched] = useState<
     Partial<Record<keyof PilotFormData, boolean>>
   >({});
-  const tabsRef = useRef<HTMLDivElement>(null);
-  const activeTabRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (tabsRef.current && activeTabRef.current) {
-      activeTabRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  }, [step]);
+  const { tabsRef, activeTabRef } = useScrollToActiveTab(step);
   const update = (field: keyof PilotFormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
     if (touched[field])
@@ -139,7 +138,7 @@ export function PilotForm({ onClose }: PilotFormProps) {
     setLoading(true);
     setRegistering(true);
     try {
-      const key = generateKey()
+      const key = generateKey(form.identificativo)
       const pilot = await pilotService.create({ ...form, access_key: key });
       addPilot(pilot);
       const entry = await journalService.create({
@@ -154,7 +153,6 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
       });
       addJournalEntry(entry);
       setGeneratedKey(key);
-      setTimeout(() => onClose(), 4000);
     } catch (err: unknown) {
       console.error("[CRAWLER//OS] Registrazione pilota fallita:", err);
       const msg = (err as { message?: string })?.message ?? ''
@@ -170,7 +168,10 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
 
   if (registering && !loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 space-y-3 font-mono text-sm">
+      <div
+        className={`flex flex-col items-center justify-center py-16 space-y-3 font-mono text-sm ${showClosePrompt ? 'cursor-pointer' : ''}`}
+        onClick={showClosePrompt ? onClose : undefined}
+      >
         <div className="text-bc-green text-glow animate-pulse flex items-center gap-1.5">
           <ChevronRight size={12} /> Registrazione pilota nel nodo sistema...
         </div>
@@ -184,12 +185,17 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
           <div className="mt-4 border border-bc-amber/40 bg-bc-amber/5 rounded-lg px-6 py-4 text-center space-y-2">
             <p className="font-mono text-xs text-bc-amber/70 uppercase tracking-widest">Chiave di accesso personale</p>
             <p className="font-display text-2xl font-bold text-bc-amber tracking-[0.3em]">{generatedKey}</p>
-            <p className="font-mono text-xs text-bc-muted/60">Conservala — serve per modificare i tuoi dati</p>
+            <p className="font-mono text-xs text-bc-text/80">Conservala —<br className="sm:hidden" /> serve per modificare i tuoi dati</p>
           </div>
         )}
         <div className="text-bc-amber mt-2">
           Sincronizzazione nodo completata.
         </div>
+        {showClosePrompt && (
+          <p className="animate-pulse font-mono text-xs text-bc-red tracking-widest uppercase mt-3 flex items-center gap-1.5 justify-center">
+            <ChevronRight size={10} strokeWidth={2.5} /> tocca per chiudere
+          </p>
+        )}
       </div>
     );
   }
@@ -228,7 +234,7 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
 
       {step === 0 && (
         <div className="space-y-4 animate-boot-in">
-          <div className="bc-section-header">// IDENTITÀ PILOTA</div>
+          <div className="bc-section-header">IDENTITÀ PILOTA</div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">
               IDENTIFICATIVO *
@@ -289,7 +295,7 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
 
       {step === 1 && (
         <div className="space-y-4 animate-boot-in">
-          <div className="bc-section-header">// PROFILO PILOTA</div>
+          <div className="bc-section-header">PROFILO PILOTA</div>
           <div>
             <label className="font-mono text-xs text-bc-muted block mb-1">
               ASPETTO
@@ -356,7 +362,7 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
 
       {step === 2 && (
         <div className="space-y-4 animate-boot-in">
-          <div className="bc-section-header">// REGISTRAZIONE UNITÀ MECH</div>
+          <div className="bc-section-header">REGISTRAZIONE UNITÀ MECH</div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="font-mono text-xs text-bc-muted block mb-1">
@@ -438,7 +444,7 @@ Sincronizzazione sistema completata. Nodo assegnato.`,
       {step === 3 && (
         <div className="space-y-4 animate-boot-in">
           <div className="bc-section-header">
-            // CONFERMA // REGISTRAZIONE PILOTA
+            CONFERMA REGISTRAZIONE PILOTA
           </div>
           <div className="bc-panel border border-bc-border p-4 font-mono text-xs space-y-2">
             <div className="text-bc-muted">

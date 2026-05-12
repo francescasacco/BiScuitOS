@@ -137,7 +137,7 @@ export function CrewInterface() {
 
             <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>// DATI PILOTA</div>
+                <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>DATI PILOTA</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 items-start">
                   {[
                     ['IDENTIFICATIVO', selected.identificativo],
@@ -207,7 +207,7 @@ export function CrewInterface() {
               </div>
 
               <div className="space-y-3">
-                <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>// UNITÀ MECH</div>
+                <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>UNITÀ MECH</div>
                 {(selected.mech_telaio || selected.mech_modello || selected.mech_nome) ? (
                   <div className="space-y-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 items-start">
@@ -283,7 +283,7 @@ export function CrewInterface() {
               if (notes.length === 0) return null
               return (
                 <div className={`mt-6 pt-4 border-t ${selected.sesso === 'F' ? '!border-bc-rose/20' : '!border-bc-green/20'}`}>
-                  <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>// NOTE</div>
+                  <div className="bc-section-header" style={{ borderBottomColor: `color-mix(in srgb, var(${selected.sesso === 'F' ? '--bc-rose' : '--bc-green'}) 20%, transparent)` }}>NOTE</div>
                   <div className="space-y-3">
                     {notes.map((note) => (
                       <div key={note.id} className="border-l-2 border-bc-amber/50 pl-3 py-1">

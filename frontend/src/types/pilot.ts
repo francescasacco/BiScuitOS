@@ -22,7 +22,7 @@ export interface Pilot {
   updated_at: string
 }
 
-export type PilotFormData = Omit<Pilot, 'id' | 'created_at' | 'updated_at' | 'role'>
+export type PilotFormData = Omit<Pilot, 'id' | 'created_at' | 'updated_at' | 'role' | 'access_key'>
 
 export const CLASSI_PILOTA = [
   'Ingegnere',

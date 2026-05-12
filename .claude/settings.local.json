@@ -4,7 +4,9 @@
       "Bash(npx tsc *)",
       "Bash(grep -n \"return\\\\|</div>\\\\s*$\\\\|^}\" \"c:\\\\Users\\\\Francesca Saccco\\\\Documents\\\\Programming\\\\BiScuitOS\\\\frontend\\\\src\\\\pages\\\\OSMainPage.tsx\")",
       "Bash(npm install *)",
-      "Bash(npm list *)"
+      "Bash(npm list *)",
+      "Bash(grep -o '\"text\":\"[^\"]*[Mm]edia\\\\|[Bb]assa[^\"]*\"' \"C:\\\\Users\\\\Francesca Saccco\\\\.claude\\\\projects\\\\c--Users-Francesca-Saccco-Documents-Programming-BiScuitOS\\\\ebb64f78-4fed-4557-8d01-cff5e0abea53.jsonl\" 2>/dev/null | head -20)",
+      "Read(//c/Users/Francesca Saccco/.claude/projects/c--Users-Francesca-Saccco-Documents-Programming-BiScuitOS/**)"
     ]
   }
 }

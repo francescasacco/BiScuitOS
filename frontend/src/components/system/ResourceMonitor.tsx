@@ -29,7 +29,7 @@ export function ResourceMonitor() {
 
   return (
     <div className="bc-panel border border-bc-border p-3">
-      <div className="bc-section-header">// MONITOR RISORSE</div>
+      <div className="bc-section-header">MONITOR RISORSE</div>
       <div className="space-y-4">
         <ResourceBar label="CARBURANTE" value={sys?.fuel ?? 0} max={100} color="var(--bc-green)" />
         <div className="flex justify-between font-mono text-xs">
