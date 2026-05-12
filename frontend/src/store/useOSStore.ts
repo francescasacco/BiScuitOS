@@ -46,7 +46,9 @@ export const useOSStore = create<OSStore>((set) => ({
 
   pilots: [],
   setPilots: (pilots) => set({ pilots }),
-  addPilot: (pilot) => set((state) => ({ pilots: [...state.pilots, pilot] })),
+  addPilot: (pilot) => set((state) => ({
+    pilots: state.pilots.some(p => p.id === pilot.id) ? state.pilots : [...state.pilots, pilot],
+  })),
   updatePilot: (pilot) =>
     set((state) => ({ pilots: state.pilots.map((p) => (p.id === pilot.id ? pilot : p)) })),
   removePilot: (id) =>
@@ -57,15 +59,17 @@ export const useOSStore = create<OSStore>((set) => ({
 
   journalEntries: [],
   setJournalEntries: (entries) => set({ journalEntries: entries }),
-  addJournalEntry: (entry) =>
-    set((state) => ({ journalEntries: [entry, ...state.journalEntries] })),
+  addJournalEntry: (entry) => set((state) => ({
+    journalEntries: state.journalEntries.some(e => e.id === entry.id) ? state.journalEntries : [entry, ...state.journalEntries],
+  })),
   removeJournalEntry: (id) =>
     set((state) => ({ journalEntries: state.journalEntries.filter((e) => e.id !== id) })),
 
   missions: [],
   setMissions: (missions) => set({ missions }),
-  addMission: (mission) =>
-    set((state) => ({ missions: [mission, ...state.missions] })),
+  addMission: (mission) => set((state) => ({
+    missions: state.missions.some(m => m.id === mission.id) ? state.missions : [mission, ...state.missions],
+  })),
   updateMission: (mission) =>
     set((state) => ({ missions: state.missions.map((m) => (m.id === mission.id ? mission : m)) })),
   removeMission: (id) =>
@@ -73,7 +77,9 @@ export const useOSStore = create<OSStore>((set) => ({
 
   tradeOffers: [],
   setTradeOffers: (offers) => set({ tradeOffers: offers }),
-  addTradeOffer: (offer) => set((state) => ({ tradeOffers: [offer, ...state.tradeOffers] })),
+  addTradeOffer: (offer) => set((state) => ({
+    tradeOffers: state.tradeOffers.some(o => o.id === offer.id) ? state.tradeOffers : [offer, ...state.tradeOffers],
+  })),
   removeTradeOffer: (id) => set((state) => ({ tradeOffers: state.tradeOffers.filter((o) => o.id !== id) })),
 
   isBooting: true,
