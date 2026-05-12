@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useOSStore } from '@/store/useOSStore'
 import { BOOT_MESSAGES, OS_NAME, OS_SUBTITLE } from '@/config'
 
@@ -61,6 +61,13 @@ export function BootScreen() {
   const setIsBooting = useOSStore((s) => s.setIsBooting)
   const [visibleLines, setVisibleLines] = useState<string[]>([])
   const [done, setDone] = useState(false)
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    }
+  }, [visibleLines])
 
   useEffect(() => {
     let i = 0
@@ -95,7 +102,7 @@ export function BootScreen() {
         <CrawlerMech />
       </div>
 
-      <div className="w-full max-w-xl flex-1 overflow-y-auto font-mono text-sm space-y-0.5 py-2">
+      <div ref={scrollRef} className="w-full max-w-xl flex-1 overflow-y-auto font-mono text-sm space-y-0.5 py-2">
         {visibleLines.map((line, i) => (
           <p
             key={i}
