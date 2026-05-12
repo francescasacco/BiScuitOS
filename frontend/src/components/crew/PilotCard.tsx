@@ -16,14 +16,16 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
   const hasAntenna = pilot.mech_moduli?.toLowerCase().includes('antenna')
   return (
     <div
-      className={`bc-panel border p-4 cursor-pointer transition-all duration-150 ${
+      className={`bc-panel border overflow-hidden cursor-pointer transition-all duration-150 ${
         selected ? borderSelected : borderIdle
       }`}
       onClick={() => onSelect?.(pilot)}
     >
-      <div className="flex items-start justify-between">
+      <div className={`px-4 py-3 border-b border-bc-border bg-gradient-to-r ${
+        isFemale ? 'from-bc-rose/10' : 'from-bc-green/10'
+      } to-transparent flex items-start justify-between`}>
         <div>
-          <div className={`font-display text-sm font-bold ${nameColor}`}>
+          <div className={`font-display text-base font-bold ${nameColor}`}>
             {pilot.identificativo}
           </div>
           <div className="font-mono text-bc-muted text-xs mt-0.5">
@@ -43,8 +45,9 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
         </div>
       </div>
 
+      <div className="p-4">
       {pilot.mech_nome && (
-        <div className="mt-3 border-t border-bc-border pt-3">
+        <div className="border-b border-bc-border pb-3 mb-2">
           <div className="font-mono text-bc-muted text-xs">UNITÀ MECH</div>
           <div className="font-mono text-xs text-bc-blue mt-1">{pilot.mech_nome}</div>
           {pilot.mech_telaio && (
@@ -62,9 +65,10 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
         ID NODO: {pilot.id.slice(0, 8).toUpperCase()}
       </div>
 
-      <p className="sm:hidden font-mono text-[10px] text-bc-amber uppercase tracking-[0.2em] text-center pt-1 border-t border-bc-amber/20 mt-2">
+      <p className="font-mono text-[10px] text-bc-amber uppercase tracking-[0.2em] text-center pt-1 border-t border-bc-amber/20 mt-4">
         TOCCA PER ULTERIORI DETTAGLI
       </p>
+      </div>
     </div>
   )
 }

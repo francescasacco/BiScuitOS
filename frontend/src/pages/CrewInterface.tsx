@@ -107,10 +107,12 @@ export function CrewInterface() {
 
         <div className="flex-1 overflow-y-auto mt-3">
         {selected ? (
-          <div className={`bc-panel border p-6 ${
+          <div className={`bc-panel border overflow-hidden ${
             selected.sesso === 'F' ? 'border-bc-rose/40 border-glow-rose' : 'border-bc-green/40 border-glow'
           }`}>
-            <div className="flex items-center justify-between mb-4">
+            <div className={`px-6 py-3 border-b border-bc-border bg-gradient-to-r ${
+              selected.sesso === 'F' ? 'from-bc-rose/10' : 'from-bc-green/10'
+            } to-transparent flex items-center justify-between`}>
               <div className="flex items-center gap-3 min-w-0 flex-wrap">
                 <h2 className={`font-display text-sm font-bold ${
                   selected.sesso === 'F' ? 'text-bc-rose text-glow-rose' : 'text-bc-green text-glow'
@@ -126,14 +128,14 @@ export function CrewInterface() {
                 )}
               </div>
               <button
-                className="bc-btn border-bc-muted text-bc-muted text-xs flex items-center gap-1 shrink-0"
+                className="bc-btn bc-btn-back text-xs flex items-center gap-1 shrink-0"
                 onClick={() => setSelectedId(null)}
               >
                 <ChevronLeft size={13} /> INDIETRO
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
                 <div className="bc-section-header">// DATI PILOTA</div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 items-start">

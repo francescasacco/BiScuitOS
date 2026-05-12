@@ -182,7 +182,7 @@ export function MissionsInterface() {
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-3 py-3 border-b border-bc-border shrink-0">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 px-3 py-3 border-b border-bc-border shrink-0 bg-gradient-to-r from-[#f5e6c8]/8 to-transparent">
         <div>
           <h1 className="font-display text-lg font-bold text-bc-green text-glow tracking-widest">
             NUCLEO MISSIONI // ESPLORAZIONI
@@ -233,7 +233,7 @@ export function MissionsInterface() {
             <div className="relative h-full flex flex-col bg-bc-panel/95 border border-bc-border/60 rounded-xl overflow-hidden shadow-[0_0_30px_rgba(82,82,200,0.15)] mx-3 mb-4 md:mx-0 md:mb-0 max-h-[80vh] md:max-h-none">
               {selected && (
                 <>
-                  <div className="shrink-0 px-4 py-2.5 border-b border-bc-border bg-gradient-to-r from-bc-border/20 to-transparent flex items-center justify-between gap-3">
+                  <div className="shrink-0 px-4 py-2.5 border-b border-bc-border bg-gradient-to-r from-[#f5e6c8]/10 to-transparent flex items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
                       <span className={`bc-tag ${STATUS_COLORS[selected.status]}`}>{STATUS_LABELS[selected.status]}</span>
                       <span className="font-display text-sm font-bold text-bc-text tracking-wider md:truncate break-words">{selected.title}</span>

@@ -14,11 +14,11 @@ interface MissionListProps {
 }
 
 const STATUS_GLOW: Record<MissionStatus, string> = {
-  active:     'from-bc-green/10 to-transparent',
-  pending:    'from-bc-amber/10 to-transparent',
-  completed:  'from-cyan-400/8 to-transparent',
-  failed:     'from-bc-red/10 to-transparent',
-  classified: 'from-bc-blue/10 to-transparent',
+  active:     'from-bc-green/20 to-transparent',
+  pending:    'from-bc-amber/20 to-transparent',
+  completed:  'from-cyan-400/15 to-transparent',
+  failed:     'from-bc-red/20 to-transparent',
+  classified: 'from-bc-blue/20 to-transparent',
 }
 
 export function MissionList({
@@ -107,7 +107,7 @@ export function MissionList({
                 </div>
               )}
               {hasReport && (
-                <p className="sm:hidden font-mono text-[10px] text-bc-amber uppercase tracking-[0.2em] text-center pt-1 border-t border-bc-amber/20 mt-1">
+                <p className="font-mono text-[10px] text-bc-amber uppercase tracking-[0.2em] text-center pt-1 border-t border-bc-amber/20 mt-1">
                   TOCCA PER ULTERIORI DETTAGLI
                 </p>
               )}

@@ -91,7 +91,7 @@ export function MissionMapOverlay({
       <div
         ref={mapContainerRef}
         className={`relative aspect-[4/3] md:aspect-auto overflow-hidden rounded-lg md:flex-1 md:min-h-0${cursorClass}`}
-        style={{ touchAction: 'none' }}
+        style={{ touchAction: 'none', background: 'radial-gradient(ellipse at center, #d6d9d6 0%, #d6d9d6 90%, #f0f2f0 100%)' }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}

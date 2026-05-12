@@ -132,10 +132,10 @@ export function TradeBoardWidget() {
 
   return (
     <div className="bg-bc-panel border border-bc-border rounded-xl overflow-hidden">
-      <div className="px-4 py-2.5 border-b border-bc-border flex items-center justify-between">
+      <div className="px-4 py-2.5 bg-gradient-to-r from-bc-amber/20 via-bc-amber/8 to-transparent border-b border-bc-border flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <ArrowLeftRight size={13} strokeWidth={1.5} className="text-bc-accent" />
-          <span className="font-mono text-xs text-bc-accent tracking-widest uppercase">Bacheca Scambi</span>
+          <ArrowLeftRight size={13} strokeWidth={1.5} className="text-bc-amber" />
+          <span className="font-mono text-xs font-bold text-bc-amber tracking-widest uppercase">Bacheca Scambi</span>
         </div>
         <div className="flex gap-2">
           <button className="font-mono text-xs px-1.5 py-0.5 border border-bc-green/50 text-bc-green hover:bg-bc-green/10 transition-colors flex items-center gap-1" onClick={() => openForm('offerta')}><Plus size={11} strokeWidth={2.5} /> OFFERTA</button>
