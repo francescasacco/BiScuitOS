@@ -47,7 +47,7 @@ export function PilotCard({ pilot, onSelect, selected }: PilotCardProps) {
       </div>
 
       <div className="p-4">
-      {pilot.mech_nome && (
+      {(pilot.mech_nome || pilot.mech_telaio) && (
         <div className={`border-b ${dividerColor} pb-3 mb-2`}>
           <div className="font-mono text-bc-muted text-xs">UNITÀ MECH</div>
           <div className="font-mono text-xs text-bc-blue mt-1">{pilot.mech_nome}</div>
