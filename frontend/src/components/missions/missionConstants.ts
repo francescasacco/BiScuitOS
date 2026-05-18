@@ -94,6 +94,7 @@ export const ICON_MAP: Record<string, string> = {
   diamond:          'Diamond',
   'alert-triangle': 'AlertTriangle',
   sword:            'Sword',
+  swords:           'Swords',
   wrench:           'Wrench',
   star:             'Star',
   eye:              'Eye',
@@ -109,4 +110,6 @@ export const ICON_MAP: Record<string, string> = {
   flag:             'Flag',
   lock:             'Lock',
   radio:            'Radio',
+  building:         'Building',
+  scroll:           'Scroll',
 }
